@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>QuickWash — The Reset</title>
+<style>
+  :root{
+    --blue:#1b3fd6; --navy:#0c1d7a; --orange:#ff6a13; --cream:#f4ecdd;
+    --ink:#0b0e16; --tan:#c99a62;
+  }
+  html,body{margin:0;background:#000;overflow:hidden}
+  body.preview{display:grid;place-items:center;height:100vh}
+  body.preview #stage{transform-origin:center;transform:scale(var(--fit,0.5))}
+  #stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--ink);
+    font-family:'Inter Display','Inter',sans-serif;color:#fff}
+  .scene,.layer{position:absolute;inset:0;will-change:transform,opacity}
+  .scene{display:none}
+  svg{display:block}
+  .cam{position:absolute;inset:0;transform-origin:50% 50%}
+
+  /* editorial headline: white heavy type */
+  .hl{position:absolute;font-weight:900;letter-spacing:-0.02em;line-height:.9;text-transform:uppercase;
+      text-shadow:0 8px 40px rgba(0,0,0,.55)}
+  .hl .ln{display:block;overflow:hidden;padding:0 .04em .06em}
+  .hl .ln > span{display:inline-block;will-change:transform}
+  .uline{position:absolute;overflow:visible}
+  .uline path{fill:none;stroke:var(--orange);stroke-linecap:round}
+
+  /* blue block headline */
+  .bl{position:absolute;font-weight:900;text-transform:uppercase;letter-spacing:-0.02em;line-height:1}
+  .bl .ln{display:table;background:var(--blue);padding:.06em .18em .1em;margin-bottom:.06em;
+          transform-origin:0 50%;box-shadow:0 18px 40px rgba(5,10,40,.35)}
+  .bl .ln > span{display:inline-block}
+
+  /* caption (voiceover) */
+  #cap{position:absolute;left:0;right:0;bottom:64px;text-align:center;pointer-events:none;z-index:50}
+  #cap span{display:inline-block;max-width:1400px;font:600 40px/1.25 'Inter',sans-serif;letter-spacing:-.005em;
+            color:#fff;padding:12px 26px;border-radius:12px;background:rgba(8,10,18,.42);
+            -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+  #grain{position:absolute;inset:0;width:100%;height:100%;mix-blend-mode:overlay;opacity:.16;z-index:40;pointer-events:none;image-rendering:pixelated}
+  #vig{position:absolute;inset:0;z-index:39;pointer-events:none;
+       background:radial-gradient(ellipse at 50% 50%,rgba(0,0,0,0) 55%,rgba(0,0,0,.45) 100%)}
+  #flash{position:absolute;inset:0;background:#fff;opacity:0;z-index:45;pointer-events:none}
+  #black{position:absolute;inset:0;background:#000;opacity:0;z-index:44;pointer-events:none}
+
+  .serif{font-family:'Caladea','Liberation Serif',serif}
+  .photo{position:absolute;background:#f7f2e7;padding:22px 22px 60px;box-shadow:0 30px 60px rgba(40,25,5,.35)}
+  .photo svg{filter:grayscale(1) sepia(.35) contrast(1.15)}
+  .chip{position:absolute;font:700 30px/1 'Inter',sans-serif;letter-spacing:.08em;text-transform:uppercase;
+        padding:16px 24px;border-radius:999px;background:rgba(10,12,20,.72);color:#fff}
+  .chip b{color:var(--orange)}
+  .cta{position:absolute;background:var(--orange);color:#fff;font:700 50px/1 'Inter',sans-serif;letter-spacing:-.01em;
+       padding:30px 54px;border-radius:999px;box-shadow:0 20px 50px rgba(255,106,19,.45)}
+  .logo-card{position:absolute;background:#fff;border-radius:40px;box-shadow:0 30px 80px rgba(0,0,0,.35);
+             display:flex;flex-direction:column;align-items:center;justify-content:center}
+  .wordmark{font-weight:900;color:var(--orange);letter-spacing:-.01em}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- ============ shared defs ============ -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <filter id="leatherTex" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -1.4 1.05" result="a"/>
+      <feComposite in="SourceGraphic" in2="a" operator="in"/>
+    </filter>
+<linearGradient id="streakG" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".16"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+<linearGradient id="doorG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2d3f6e"/><stop offset=".5" stop-color="#151f3c"/><stop offset="1" stop-color="#070b17"/></linearGradient>
+    <filter id="soft"><feGaussianBlur stdDeviation="18"/></filter>
+    <filter id="softer"><feGaussianBlur stdDeviation="40"/></filter>
+    <filter id="blur6"><feGaussianBlur stdDeviation="6"/></filter>
+    <filter id="blur2"><feGaussianBlur stdDeviation="2"/></filter>
+    <linearGradient id="leather" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e3b67c"/><stop offset=".55" stop-color="#c18b4f"/><stop offset="1" stop-color="#8d5c2c"/>
+    </linearGradient>
+    <linearGradient id="leatherSide" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#9a6630"/><stop offset=".35" stop-color="#d9a96d"/><stop offset=".7" stop-color="#e8c08a"/><stop offset="1" stop-color="#a36d35"/>
+    </linearGradient>
+    <linearGradient id="paint" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2b3a5c"/><stop offset=".45" stop-color="#121a2c"/><stop offset="1" stop-color="#05070d"/>
+    </linearGradient>
+    <symbol id="logoIcon" viewBox="0 0 200 170">
+      <g fill="none" stroke="#1b3fd6" stroke-width="7">
+        <circle cx="62" cy="30" r="9"/><circle cx="86" cy="16" r="7"/><circle cx="112" cy="12" r="6"/><circle cx="136" cy="20" r="8"/>
+      </g>
+      <path d="M152 6 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z" fill="#ff6a13"/>
+      <path d="M40 92 L58 58 Q63 48 76 48 H124 Q137 48 142 58 L160 92 Q178 96 178 114 V138 Q178 146 170 146 H30 Q22 146 22 138 V114 Q22 96 40 92 Z" fill="#1b3fd6"/>
+      <path d="M58 90 L70 64 Q73 58 80 58 H120 Q127 58 130 64 L142 90 Z" fill="#fff"/>
+      <circle cx="54" cy="116" r="12" fill="#fff"/><circle cx="146" cy="116" r="12" fill="#fff"/>
+      <rect x="84" y="110" width="32" height="10" rx="5" fill="#fff"/>
+      <rect x="32" y="140" width="34" height="26" rx="8" fill="#1b3fd6"/><rect x="134" y="140" width="34" height="26" rx="8" fill="#1b3fd6"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ============ SCENE 1 · 0–4s · "You know that feeling?" ============ -->
+<div class="scene" id="s1">
+  <!-- 1a: coffee in cupholder -->
+  <div class="layer" id="s1a"><div class="cam">
+    <svg viewBox="0 0 1920 1080" width="1920" height="1080">
+      <defs>
+        <radialGradient id="consoleG" cx=".6" cy=".35" r=".9"><stop offset="0" stop-color="#2a2d35"/><stop offset="1" stop-color="#07080b"/></radialGradient>
+        <linearGradient id="cupG" x1="0" x2="1"><stop offset="0" stop-color="#c9bfae"/><stop offset=".35" stop-color="#f6f1e8"/><stop offset=".7" stop-color="#ebe3d6"/><stop offset="1" stop-color="#a99f8e"/></linearGradient>
+        <linearGradient id="sleeveG" x1="0" x2="1"><stop offset="0" stop-color="#7a5532"/><stop offset=".4" stop-color="#b88b5a"/><stop offset="1" stop-color="#6a4626"/></linearGradient>
+      </defs>
+      <rect width="1920" height="1080" fill="url(#consoleG)"/>
+      <g opacity=".25" stroke="#3a3e48" stroke-width="2">
+        <path d="M0 900 Q900 820 1920 940"/><path d="M0 960 Q900 880 1920 1000"/>
+      </g>
+      <g fill="none" stroke="#6b4422" stroke-width="10" opacity=".55">
+        <ellipse cx="520" cy="820" rx="150" ry="58"/><ellipse cx="560" cy="790" rx="140" ry="52" opacity=".5"/>
+        <ellipse cx="1650" cy="300" rx="120" ry="46" opacity=".6"/>
+      </g>
+      <ellipse cx="1390" cy="910" rx="420" ry="140" fill="#050608" stroke="#30343d" stroke-width="16"/>
+      <ellipse cx="1390" cy="905" rx="370" ry="112" fill="#020203"/>
+      <!-- cup -->
+      <g transform="translate(330 60) scale(.92)">
+      <path d="M915 920 L1385 920 L1440 330 L860 330 Z" fill="url(#cupG)"/>
+      <path d="M893 560 L1407 560 L1395 720 L905 720 Z" fill="url(#sleeveG)"/>
+      <path d="M1180 560 l-12 160" stroke="#5c3b1c" stroke-width="3" opacity=".5"/>
+      <rect x="845" y="285" width="610" height="60" rx="24" fill="#efe9df"/>
+      <path d="M865 285 Q1150 200 1435 285 Z" fill="#f8f4ed"/>
+      <rect x="1240" y="246" width="110" height="24" rx="12" fill="#d8d0c2"/>
+      <!-- drip -->
+      <path id="drip" d="M1300 345 C1302 400 1296 430 1300 470 C1303 500 1312 505 1312 530 C1312 552 1288 552 1288 530 C1288 505 1296 500 1296 470" fill="#6b3d17" opacity=".92"/>
+      <path d="M1040 345 C1042 370 1036 380 1040 400 C1042 410 1046 412 1046 420 C1046 430 1034 430 1034 420" fill="#6b3d17" opacity=".8"/>
+      <ellipse cx="1150" cy="285" rx="300" ry="8" fill="#fff" opacity=".7"/>
+      </g>
+      <g id="s1aCrumbs"></g>
+    </svg>
+  </div></div>
+  <!-- 1b: crumbs in seat seam -->
+  <div class="layer" id="s1b"><div class="cam">
+    <svg viewBox="0 0 1920 1080" width="1920" height="1080">
+      <rect width="1920" height="1080" fill="url(#leather)"/>
+      <rect width="1920" height="1080" fill="#3b2410" filter="url(#leatherTex)" opacity=".35"/>
+      <path d="M-20 600 C500 560 1300 640 1940 590 L1940 700 C1300 750 500 670 -20 710 Z" fill="#3a2410" opacity=".9"/>
+      <path d="M-20 600 C500 560 1300 640 1940 590" stroke="#f1c98e" stroke-width="6" fill="none" opacity=".5"/>
+      <path d="M-20 560 C500 520 1300 600 1940 550" stroke="#f3dcb4" stroke-width="5" stroke-dasharray="26 18" fill="none" opacity=".8"/>
+      <path d="M-20 750 C500 715 1300 790 1940 740" stroke="#f3dcb4" stroke-width="5" stroke-dasharray="26 18" fill="none" opacity=".7"/>
+      <g id="s1bCrumbs"></g>
+    </svg>
+  </div></div>
+  <!-- 1c: fingerprints on screen -->
+  <div class="layer" id="s1c"><div class="cam">
+    <svg viewBox="0 0 1920 1080" width="1920" height="1080">
+      <defs>
+        <linearGradient id="glassG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#121a26"/><stop offset="1" stop-color="#05070b"/></linearGradient>
+      </defs>
+      <rect width="1920" height="1080" fill="#020305"/>
+      <rect x="80" y="70" width="1760" height="940" rx="40" fill="url(#glassG)" stroke="#1e2533" stroke-width="6"/>
+      <g opacity=".22" fill="#3c6bff">
+        <rect x="200" y="200" width="300" height="190" rx="28"/><rect x="560" y="200" width="300" height="190" rx="28"/>
+        <rect x="920" y="200" width="300" height="190" rx="28"/><rect x="200" y="450" width="660" height="420" rx="28"/>
+        <rect x="920" y="450" width="760" height="120" rx="28"/><rect x="920" y="620" width="760" height="250" rx="28"/>
+      </g>
+      <g id="prints" fill="none" stroke="#d8e2f0"></g>
+      <rect id="streak" x="-600" y="-200" width="420" height="1600" fill="url(#streakG)" transform="rotate(24)"/>
+    </svg>
+  </div></div>
+  <div class="hl" id="s1h" style="left:160px;top:250px;font-size:168px">
+    <span class="ln"><span>You know</span></span><span class="ln"><span>that</span></span><span class="ln"><span>feeling?</span></span>
+  </div>
+  <svg class="uline" id="s1u" style="left:170px;top:770px" width="760" height="60"><path d="M10 40 Q380 6 740 30" stroke-width="20"/></svg>
+</div>
+
+<!-- ============ SCENE 2 · 4–9s · door opens, clean interior ============ -->
+<div class="scene" id="s2">
+  <div class="cam" id="s2cam">
+    <svg viewBox="0 0 1920 1080" width="1920" height="1080" id="interior">
+      <defs>
+        <linearGradient id="skyWarm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe9b8"/><stop offset=".6" stop-color="#cfe0a0"/><stop offset="1" stop-color="#7fa65c"/></linearGradient>
+        <radialGradient id="sun" cx=".5" cy=".5" r=".5"><stop offset="0" stop-color="#fffbe8"/><stop offset=".3" stop-color="#fff0b8" stop-opacity=".9"/><stop offset="1" stop-color="#ffd27a" stop-opacity="0"/></radialGradient>
+        <linearGradient id="dash" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3a3530"/><stop offset=".12" stop-color="#1c1a19"/><stop offset="1" stop-color="#0b0a0a"/></linearGradient>
+        <linearGradient id="ray" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff3c4" stop-opacity=".55"/><stop offset="1" stop-color="#fff3c4" stop-opacity="0"/></linearGradient>
+        <linearGradient id="mat" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2622"/><stop offset="1" stop-color="#121010"/></linearGradient>
+      </defs>
+      <rect width="1920" height="1080" fill="url(#skyWarm)"/>
+      <g filter="url(#softer)" opacity=".9">
+        <circle cx="200" cy="380" r="220" fill="#5d8a3e"/><circle cx="560" cy="300" r="180" fill="#7aa452"/>
+        <circle cx="900" cy="420" r="210" fill="#4e7a33"/><circle cx="1700" cy="420" r="260" fill="#5f8c40"/>
+        <circle cx="1280" cy="460" r="160" fill="#86ad5c"/>
+      </g>
+      <circle id="sunDisc" cx="1430" cy="190" r="380" fill="url(#sun)"/>
+      <!-- roof / pillars -->
+      <path d="M0 0 H1920 V90 Q960 150 0 110 Z" fill="#1a1715"/>
+      <path d="M0 0 L380 0 L120 640 L0 700 Z" fill="#171412"/>
+      <path d="M1920 0 L1640 0 L1880 600 L1920 620 Z" fill="#171412"/>
+      <!-- dashboard -->
+      <path d="M0 560 Q500 470 1100 500 Q1600 520 1920 560 V1080 H0 Z" fill="url(#dash)"/>
+      <path d="M0 560 Q500 470 1100 500 Q1600 520 1920 560" stroke="#fff3d0" stroke-opacity=".35" stroke-width="5" fill="none"/>
+      <rect x="760" y="580" width="420" height="190" rx="22" fill="#05070a" stroke="#2b2f36" stroke-width="5"/>
+      <rect x="784" y="600" width="372" height="150" rx="12" fill="#13305f" opacity=".75"/>
+      <rect x="800" y="616" width="160" height="56" rx="10" fill="#2f63c8" opacity=".55"/>
+      <!-- steering wheel -->
+      <g transform="translate(470 700) rotate(-8)">
+        <ellipse rx="300" ry="250" fill="none" stroke="#0d0c0c" stroke-width="56"/>
+        <ellipse rx="300" ry="250" fill="none" stroke="#5a524a" stroke-width="8" stroke-dasharray="420 1400" stroke-dashoffset="900" opacity=".8"/>
+        <path d="M-240 40 Q0 120 240 40 L120 120 Q0 160 -120 120 Z" fill="#141313"/>
+        <ellipse rx="95" ry="70" cy="70" fill="#1d1b1a"/>
+        <ellipse rx="40" ry="28" cy="66" fill="#2c2926"/>
+      </g>
+      <!-- seat (driver, right side, seen from passenger) -->
+      <g id="seat">
+        <path d="M1290 470 Q1300 420 1370 412 L1600 400 Q1680 400 1690 470 L1720 900 Q1720 960 1650 965 L1300 975 Q1240 975 1240 915 Z" fill="url(#leatherSide)"/>
+        <path d="M1290 470 Q1300 420 1370 412 L1600 400 Q1680 400 1690 470 L1720 900 Q1720 960 1650 965 L1300 975 Q1240 975 1240 915 Z" fill="#3b2410" filter="url(#leatherTex)" opacity=".18"/>
+        <g stroke="#7a4d22" stroke-width="5" opacity=".6"><path d="M1400 430 L1380 950"/><path d="M1560 420 L1580 950"/></g>
+        <g stroke="#f6dcae" stroke-width="3" stroke-dasharray="14 10" opacity=".7"><path d="M1410 430 L1390 950"/><path d="M1550 420 L1570 950"/></g>
+        <path d="M1360 250 Q1370 190 1450 186 L1560 184 Q1640 186 1640 250 L1630 370 Q1620 400 1560 402 L1420 404 Q1360 400 1356 360 Z" fill="url(#leatherSide)"/>
+        <rect x="1440" y="400" width="18" height="40" fill="#8a8f96"/><rect x="1540" y="400" width="18" height="40" fill="#8a8f96"/>
+        <path d="M1100 930 Q1130 860 1260 850 L1760 840 Q1880 846 1900 920 L1920 1080 H1060 Z" fill="url(#leather)"/>
+        <path d="M1100 930 Q1130 860 1260 850 L1760 840 Q1880 846 1900 920" fill="none" stroke="#f6dcae" stroke-width="4" stroke-dasharray="14 10" opacity=".7"/>
+        <ellipse id="glint" cx="1500" cy="560" rx="16" ry="16" fill="#fff" opacity="0"/>
+      </g>
+      <!-- center console -->
+      <path d="M840 1080 L900 800 Q920 770 960 770 H1120 Q1160 770 1170 800 L1220 1080 Z" fill="#0c0b0b"/>
+      <path d="M905 800 Q920 778 960 778 H1120 Q1155 778 1166 800" stroke="#e8d5b5" stroke-opacity=".35" stroke-width="4" fill="none"/>
+      <ellipse cx="1030" cy="900" rx="60" ry="24" fill="#1d1b1a" stroke="#45403a" stroke-width="4"/>
+      <!-- floor mat -->
+      <path d="M0 1000 Q400 960 840 990 L840 1080 H0 Z" fill="url(#mat)"/>
+      <g stroke="#3a352f" stroke-width="3" opacity=".7"><path d="M60 1040 H780"/><path d="M60 1060 H780"/></g>
+      <!-- light rays -->
+      <g id="rays" style="mix-blend-mode:screen">
+        <polygon points="1430,190 1980,700 1700,900" fill="url(#ray)" opacity=".5"/>
+        <polygon points="1430,190 1500,1080 1200,1080" fill="url(#ray)" opacity=".35"/>
+        <polygon points="1430,190 900,1080 700,1080" fill="url(#ray)" opacity=".25"/>
+      </g>
+      <g id="motes" fill="#fff8de"></g>
+    </svg>
+  </div>
+  <!-- door panel that swings open -->
+  <div id="door" style="position:absolute;inset:0;transform-origin:0% 50%;">
+    <svg viewBox="0 0 1920 1080" width="1920" height="1080">
+      <defs>
+        <linearGradient id="doorHi" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
+      </defs>
+      <rect width="1920" height="1080" fill="url(#doorG)"/>
+      <path d="M0 0 H1920 V430 H0 Z" fill="#0a0f1d" opacity=".9"/>
+      <path d="M0 430 H1920" stroke="#9fb3e0" stroke-width="5" opacity=".6"/>
+      <rect id="doorSweep" x="-600" y="0" width="500" height="1080" fill="url(#doorHi)"/>
+      <rect x="1500" y="520" width="260" height="56" rx="28" fill="#0a0e1a" stroke="#c9d3ea" stroke-width="5"/>
+      <path d="M0 980 H1920" stroke="#0a0f1d" stroke-width="10"/>
+    </svg>
+  </div>
+  <div class="hl" id="s2h" style="left:140px;top:150px;font-size:150px">
+    <span class="ln"><span>Same car.</span></span><span class="ln"><span>New</span></span><span class="ln"><span>feeling.</span></span>
+  </div>
+  <svg class="uline" id="s2u" style="left:150px;top:578px" width="720" height="60"><path d="M10 40 Q360 6 700 30" stroke-width="20"/></svg>
+</div>
+
+<!-- ============ SCENE 3 · 9–15s · archival collage ============ -->
+<div class="scene" id="s3" style="background:#ece2cc">
+  <div class="cam" id="s3cam">
+    <svg viewBox="0 0 1920 1080" width="1920" height="1080" style="position:absolute;inset:0">
+      <rect width="1920" height="1080" fill="#ece2cc"/>
+      <rect width="1920" height="1080" fill="#6b5232" filter="url(#leatherTex)" opacity=".18"/>
+      <g fill="#b9ab90" opacity=".55" id="newsCols"></g>
+    </svg>
+    <!-- photo A: family washing a vintage car -->
+    <div class="photo" id="phA" style="left:120px;top:110px;width:840px;height:520px">
+      <svg viewBox="0 0 840 520" width="840" height="520">
+        <rect width="840" height="520" fill="#9aa3a8"/>
+        <rect y="0" width="840" height="220" fill="#d4d8d8"/>
+        <path d="M40 220 L240 120 L440 220 Z" fill="#7d8589"/><rect x="70" y="220" width="340" height="150" fill="#b8bec0"/>
+        <rect x="120" y="260" width="70" height="60" fill="#5b6266"/><rect x="290" y="250" width="60" height="120" fill="#4c5356"/>
+        <circle cx="620" cy="190" r="90" fill="#6a7276"/><circle cx="740" cy="170" r="110" fill="#5d6568"/>
+        <rect y="370" width="840" height="150" fill="#858d91"/>
+        <!-- vintage car -->
+        <g transform="translate(250 270)">
+          <path d="M0 150 Q0 110 40 104 L130 96 Q170 40 260 34 L380 34 Q450 40 490 96 L560 104 Q600 110 600 150 L600 175 H0 Z" fill="#2c3134"/>
+          <path d="M150 96 Q185 52 260 48 H300 V96 Z M318 96 V48 H375 Q430 52 465 96 Z" fill="#c7cdd0"/>
+          <rect x="0" y="160" width="600" height="14" fill="#e3e6e7"/>
+          <circle cx="130" cy="180" r="42" fill="#151718"/><circle cx="130" cy="180" r="18" fill="#cfd4d6"/>
+          <circle cx="470" cy="180" r="42" fill="#151718"/><circle cx="470" cy="180" r="18" fill="#cfd4d6"/>
+          <g fill="#fff" opacity=".85" id="phAfoam"></g>
+        </g>
+        <!-- people silhouettes -->
+        <g fill="#222628">
+          <circle cx="210" cy="250" r="22"/><path d="M190 272 H232 L250 360 L270 450 H240 L222 380 L205 450 H175 L188 360 Z"/>
+          <path d="M232 290 L300 330 L295 342 L228 310 Z"/>
+          <circle cx="630" cy="300" r="16"/><path d="M616 316 H646 L656 380 H608 Z"/>
+          <circle cx="700" cy="250" r="20"/><path d="M682 270 H720 L732 360 L740 450 H712 L702 380 L690 450 H664 L670 360 Z"/>
+        </g>
+      </svg>
+    </div>
+    <!-- photo B: hand polishing a hood -->
+    <div class="photo" id="phB" style="left:1080px;top:520px;width:640px;height:400px">
+      <svg viewBox="0 0 640 400" width="640" height="400">
+        <rect width="640" height="400" fill="#a7adb0"/>
+        <path d="M0 230 Q320 150 640 200 V400 H0 Z" fill="#2a2e31"/>
+        <path d="M0 250 Q320 175 640 222" stroke="#e8ecee" stroke-width="10" fill="none" opacity=".7"/>
+        <ellipse cx="300" cy="300" rx="180" ry="30" fill="#fff" opacity=".18"/>
+        <g id="phBhand"><path d="M210 140 Q260 120 330 160 L380 210 Q390 240 360 250 L280 250 Q230 240 220 210 Z" fill="#cdd2d4"/>
+        <path d="M330 160 L520 60 L560 110 L380 210 Z" fill="#3c4144"/></g>
+        <path id="phBstar" d="M470 270 l8 22 22 8 -22 8 -8 22 -8 -22 -22 -8 22 -8z" fill="#fff"/>
+      </svg>
+    </div>
+    <!-- photo C: classic car ad -->
+    <div class="photo" id="phC" style="left:300px;top:640px;width:560px;height:330px;padding-bottom:30px">
+      <svg viewBox="0 0 560 330" width="560" height="330">
+        <rect width="560" height="330" fill="#e6e1d6"/>
+        <text x="30" y="70" font-family="Caladea,serif" font-style="italic" font-size="44" fill="#2b2b2b">Feel it again —</text>
+        <text x="30" y="110" font-family="Caladea,serif" font-size="24" fill="#4b4b4b" letter-spacing="3">THE SATURDAY SHINE</text>
+        <g transform="translate(60 160) scale(.72)">
+          <path d="M0 150 Q0 110 40 104 L130 96 Q170 40 260 34 L380 34 Q450 40 490 96 L560 104 Q600 110 600 150 L600 175 H0 Z" fill="#3a3a3a"/>
+          <path d="M150 96 Q185 52 260 48 H300 V96 Z M318 96 V48 H375 Q430 52 465 96 Z" fill="#cfcfcf"/>
+          <circle cx="130" cy="180" r="42" fill="#151515"/><circle cx="470" cy="180" r="42" fill="#151515"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+  <div id="s3type" style="position:absolute;right:120px;top:120px;width:640px;transform-origin:0 0">
+    <div class="serif" id="s3t1" style="font-size:78px;line-height:1;font-weight:700;color:#1a1a1a;font-style:italic">The enduring<br>appeal of</div>
+    <div class="bl" id="s3t2" style="position:relative;margin-top:26px;font-size:112px;transform:rotate(-5deg);transform-origin:0 0">
+      <span class="ln"><span>The</span></span><span class="ln"><span>New-car</span></span><span class="ln"><span>feeling</span></span>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SCENE 4 · 15–21s · then life happens ============ -->
+<div class="scene" id="s4">
+  <div class="layer" id="p1" style="clip-path:polygon(0 0,36% 0,30% 100%,0 100%)">
+    <svg viewBox="0 0 1920 1080" width="1920" height="1080">
+      <rect width="1920" height="1080" fill="#c58f55"/>
+      <rect width="1920" height="1080" fill="url(#leather)"/>
+      <!-- gym bag -->
+      <g transform="translate(40 330)">
+        <path d="M30 250 Q20 120 120 100 L460 100 Q560 120 550 250 L540 560 Q540 600 500 600 H80 Q40 600 40 560 Z" fill="#17181b"/>
+        <path d="M120 100 Q290 -40 460 100" stroke="#0c0c0e" stroke-width="34" fill="none"/>
+        <path d="M60 230 H520" stroke="#2f3136" stroke-width="10"/>
+        <rect x="230" y="300" width="120" height="40" rx="8" fill="#2a2c31"/>
+      </g>
+      <!-- towel -->
+      <path d="M220 360 Q330 290 470 340 Q500 420 440 470 Q330 430 240 470 Q190 420 220 360 Z" fill="#f2efe9"/>
+      <path d="M240 400 Q330 360 450 390" stroke="#d9d4cb" stroke-width="8" fill="none"/>
+      <!-- shaker -->
+      <g transform="translate(150 660)"><rect width="200" height="380" rx="30" fill="#1f62d6"/><rect y="-60" width="200" height="80" rx="22" fill="#0f1a33"/><rect x="20" y="40" width="40" height="300" rx="20" fill="#fff" opacity=".22"/></g>
+    </svg>
+  </div>
+  <div class="layer" id="p2" style="clip-path:polygon(36% 0,68% 0,62% 100%,30% 100%)">
+    <svg viewBox="0 0 1920 1080" width="1920" height="1080">
+      <rect width="1920" height="1080" fill="#151619"/>
+      <path d="M560 1080 L700 620 Q720 580 780 580 H1180 Q1240 580 1260 620 L1340 1080 Z" fill="#c69157"/>
+      <ellipse cx="960" cy="760" rx="260" ry="80" fill="#08090b" stroke="#2c2f36" stroke-width="10"/>
+      <g id="cups"></g>
+      <g id="wrappers"></g>
+    </svg>
+  </div>
+  <div class="layer" id="p3" style="clip-path:polygon(68% 0,100% 0,100% 100%,62% 100%)">
+    <svg viewBox="0 0 1920 1080" width="1920" height="1080">
+      <rect width="1920" height="1080" fill="#1c1d21"/>
+      <rect width="1920" height="1080" fill="#000" filter="url(#leatherTex)" opacity=".25"/>
+      <!-- receipts -->
+      <g id="receipts"></g>
+      <!-- sunglasses -->
+      <g transform="translate(1340 520) rotate(-10)">
+        <ellipse cx="0" cy="0" rx="120" ry="84" fill="#231a12" stroke="#7a5a2a" stroke-width="12"/>
+        <ellipse cx="270" cy="0" rx="120" ry="84" fill="#231a12" stroke="#7a5a2a" stroke-width="12"/>
+        <path d="M118 -10 Q135 -36 152 -10" stroke="#7a5a2a" stroke-width="12" fill="none"/>
+        <path d="M-120 -20 L-300 -60" stroke="#7a5a2a" stroke-width="12"/>
+        <ellipse cx="-30" cy="-30" rx="40" ry="18" fill="#fff" opacity=".18"/>
+      </g>
+      <!-- phone -->
+      <g transform="translate(1500 760) rotate(14)"><rect width="240" height="440" rx="34" fill="#0b0c0e" stroke="#3a3e46" stroke-width="6"/><rect x="16" y="18" width="208" height="404" rx="22" fill="#182339"/></g>
+    </svg>
+  </div>
+  <svg class="layer" viewBox="0 0 1920 1080" width="1920" height="1080" style="pointer-events:none"><g id="dust4" fill="#e9dccb"></g></svg>
+  <div class="chip" id="day" style="left:50%;top:70px;transform:translateX(-50%)"><b id="dayName">MON</b> · <span id="dayWhat">7:42 commute</span></div>
+  <div class="hl" id="s4h" style="left:0;right:0;text-align:center;top:420px;font-size:170px">
+    <span class="ln"><span>Then life</span></span><span class="ln"><span>happens.</span></span>
+  </div>
+</div>
+
+<!-- ============ SCENE 5 · 21–29s · satisfying macro cleaning ============ -->
+<div class="scene" id="s5">
+  <!-- 5a foam on paint -->
+  <div class="layer" id="s5a"><div class="cam">
+    <svg viewBox="0 0 1920 1080" width="1920" height="1080">
+      <defs>
+        <linearGradient id="reflSky" x1="0" y1="0" x2="1" y2=".3"><stop offset="0" stop-color="#8fb0d8" stop-opacity="0"/><stop offset=".5" stop-color="#d9ecff" stop-opacity=".5"/><stop offset="1" stop-color="#8fb0d8" stop-opacity="0"/></linearGradient>
+        <clipPath id="rinseClip"><rect id="rinseRect" x="0" y="0" width="1920" height="0"/></clipPath>
+      </defs>
+      <rect width="1920" height="1080" fill="url(#paint)"/>
+      <path d="M0 140 Q960 40 1920 200 L1920 330 Q960 190 0 280 Z" fill="url(#reflSky)"/>
+      <g opacity=".35" fill="#0a1220"><circle cx="300" cy="170" r="90"/><circle cx="420" cy="140" r="70"/><circle cx="1500" cy="200" r="110"/></g>
+      <g id="foam"></g>
+      <g id="beads"></g>
+      <g clip-path="url(#rinseClip)">
+        <rect width="1920" height="1080" fill="url(#paint)"/>
+        <path d="M0 140 Q960 40 1920 200 L1920 330 Q960 190 0 280 Z" fill="url(#reflSky)" opacity="1.6"/>
+        <g id="beads2"></g>
+      </g>
+      <rect id="sheen" x="-800" y="0" width="600" height="1080" fill="url(#streakG)" transform="skewX(-20)"/>
+    </svg>
+  </div></div>
+  <!-- 5b split: brush seam | microfiber -->
+  <div class="layer" id="s5b">
+    <div class="layer" style="clip-path:polygon(0 0,54% 0,46% 100%,0 100%)"><div class="cam" id="brushCam">
+      <svg viewBox="0 0 1920 1080" width="1920" height="1080">
+        <rect width="1920" height="1080" fill="url(#leather)"/>
+        <rect width="1920" height="1080" fill="#3b2410" filter="url(#leatherTex)" opacity=".3"/>
+        <path d="M200 -20 C320 300 360 700 300 1100" stroke="#5c3a18" stroke-width="40" fill="none"/>
+        <path d="M250 -20 C370 300 410 700 350 1100" stroke="#f3dcb4" stroke-width="5" stroke-dasharray="26 16" fill="none"/>
+        <path d="M150 -20 C270 300 310 700 250 1100" stroke="#f3dcb4" stroke-width="5" stroke-dasharray="26 16" fill="none"/>
+        <g id="seamDust" fill="#4a3624"></g>
+        <g id="brush">
+          <path d="M-70 0 Q-80 -60 -40 -80 L40 -80 Q80 -60 70 0 L50 160 H-50 Z" fill="#f2e6cc"/>
+          <g stroke="#d9c7a3" stroke-width="3" opacity=".8"><path d="M-40 -60 L-30 150"/><path d="M-10 -70 L-5 150"/><path d="M20 -70 L18 150"/><path d="M45 -60 L35 150"/></g>
+          <rect x="-58" y="150" width="116" height="70" rx="10" fill="#9ba3ad"/>
+          <rect x="-48" y="214" width="96" height="900" rx="40" fill="#121316"/>
+          <rect x="-30" y="230" width="20" height="860" rx="10" fill="#fff" opacity=".12"/>
+        </g>
+      </svg>
+    </div></div>
+    <div class="layer" style="clip-path:polygon(54% 0,100% 0,100% 100%,46% 100%)"><div class="cam" id="clothCam">
+      <svg viewBox="0 0 1920 1080" width="1920" height="1080">
+        <defs>
+          <clipPath id="wipeClip"><path id="wipePath" d="M0 0"/></clipPath>
+          <linearGradient id="clearPaint" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#344a78"/><stop offset=".5" stop-color="#101a33"/><stop offset="1" stop-color="#03050b"/></linearGradient>
+        </defs>
+        <!-- hazy, dull -->
+        <rect width="1920" height="1080" fill="#3d4352"/>
+        <rect width="1920" height="1080" fill="#b9bcc4" filter="url(#leatherTex)" opacity=".35"/>
+        <!-- crisp reflection revealed -->
+        <g clip-path="url(#wipeClip)">
+          <rect width="1920" height="1080" fill="url(#clearPaint)"/>
+          <path d="M800 0 H1920 V420 Q1500 360 800 460 Z" fill="#9cc4ee" opacity=".55"/>
+          <g fill="#0c1730"><circle cx="1150" cy="380" r="120"/><circle cx="1320" cy="340" r="150"/><circle cx="1560" cy="380" r="130"/><rect x="1430" y="380" width="30" height="200"/></g>
+          <path d="M800 470 Q1400 380 1920 450" stroke="#fff" stroke-width="6" opacity=".55" fill="none"/>
+        </g>
+        <g id="cloth">
+          <path d="M-160 -110 Q0 -150 160 -110 Q200 0 160 110 Q0 150 -160 110 Q-200 0 -160 -110 Z" fill="#2a5fe0"/>
+          <path d="M-160 -110 Q0 -150 160 -110 Q200 0 160 110 Q0 150 -160 110 Q-200 0 -160 -110 Z" fill="#0b2a8a" filter="url(#leatherTex)" opacity=".6"/>
+          <path d="M-120 -60 Q0 -90 120 -60 M-130 0 Q0 -20 130 0 M-120 60 Q0 40 120 60" stroke="#6f97ff" stroke-width="8" fill="none" opacity=".6"/>
+          <path d="M60 100 Q160 140 260 120 L300 220 Q170 250 40 200 Z" fill="#e8b48c"/>
+        </g>
+      </svg>
+    </div></div>
+    <svg class="layer" viewBox="0 0 1920 1080" width="1920" height="1080"><path d="M1037 0 L883 1080" stroke="#fff" stroke-width="10"/></svg>
+  </div>
+  <div class="bl" id="s5h" style="left:900px;top:600px;font-size:132px">
+    <span class="ln"><span>Wash away</span></span><span class="ln"><span>the week.</span></span>
+  </div>
+  <svg class="uline" id="s5u" style="left:960px;top:900px" width="640" height="60"><path d="M10 34 Q320 6 620 26" stroke-width="20"/></svg>
+  <div class="chip" id="s5chip" style="left:80px;top:80px">Every detail. <b>A fresh start.</b></div>
+</div>
+
+<!-- ============ SCENE 6 · 29–35s · detailer in the driveway ============ -->
+<div class="scene" id="s6">
+  <div class="cam" id="s6cam">
+    <svg viewBox="0 0 1920 1080" width="1920" height="1080">
+      <defs>
+        <linearGradient id="morn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe0ff"/><stop offset=".7" stop-color="#ffe8c2"/><stop offset="1" stop-color="#ffd59a"/></linearGradient>
+        <linearGradient id="drive" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#cfc6b8"/><stop offset="1" stop-color="#9a9184"/></linearGradient>
+        <linearGradient id="wall" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#efe6d6"/><stop offset="1" stop-color="#d8cbb4"/></linearGradient>
+        <radialGradient id="warmIn" cx=".5" cy=".5" r=".6"><stop offset="0" stop-color="#ffe2a6"/><stop offset="1" stop-color="#d08a3a"/></radialGradient>
+        <linearGradient id="carBody6" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a6680"/><stop offset=".45" stop-color="#1e2638"/><stop offset="1" stop-color="#0a0e18"/></linearGradient>
+      </defs>
+      <rect width="1920" height="1080" fill="url(#morn)"/>
+      <g filter="url(#soft)"><circle cx="160" cy="420" r="200" fill="#6f9a52"/><circle cx="420" cy="380" r="170" fill="#86ad62"/><circle cx="700" cy="440" r="150" fill="#5f8c46"/></g>
+      <!-- house -->
+      <path d="M1000 300 L1460 120 L1940 300 Z" fill="#5a5048"/>
+      <rect x="1040" y="300" width="900" height="460" fill="url(#wall)"/>
+      <rect x="1080" y="360" width="190" height="220" fill="#2f3f52"/><rect x="1080" y="360" width="190" height="220" fill="#ffe0a0" opacity=".25"/>
+      <path d="M1175 360 V580 M1080 470 H1270" stroke="#efe6d6" stroke-width="10"/>
+      <!-- door -->
+      <rect x="1480" y="390" width="220" height="370" fill="#3b2a1e"/>
+      <rect id="doorway" x="1490" y="400" width="200" height="360" fill="url(#warmIn)"/>
+      <rect id="frontDoor" x="1490" y="400" width="200" height="360" fill="#5a3a24" style="transform-box:fill-box;transform-origin:100% 50%"/>
+      <rect x="1440" y="760" width="300" height="30" fill="#bfb3a0"/><rect x="1420" y="790" width="340" height="30" fill="#a99e8c"/>
+      <circle cx="1460" cy="460" r="22" fill="#ffd27a"/><rect x="1450" y="420" width="20" height="40" fill="#2a2a2a"/>
+      <g fill="#4f7d3a"><circle cx="1790" cy="740" r="70"/><circle cx="1380" cy="740" r="60"/><circle cx="1880" cy="700" r="90"/></g>
+      <!-- customer -->
+      <g id="customer" transform="translate(1590 520)">
+        <circle cx="0" cy="0" r="34" fill="#c99872"/><path d="M-36 -8 Q-30 -46 0 -46 Q34 -46 36 -6 Q20 -26 -36 -8Z" fill="#3a2a1c"/>
+        <path d="M-50 40 Q0 24 50 40 L58 170 H-58 Z" fill="#6b6f74"/>
+        <path d="M-46 170 H-6 L-10 290 H-40 Z M6 170 H46 L40 290 H10 Z" fill="#c9b694"/>
+        <g id="mugArm"><path d="M40 60 L80 110 L70 120 L32 80 Z" fill="#6b6f74"/><rect x="66" y="96" width="30" height="34" rx="5" fill="#fff"/></g>
+      </g>
+      <!-- driveway -->
+      <path d="M0 760 H1920 V1080 H0 Z" fill="url(#drive)"/>
+      <g stroke="#b3a996" stroke-width="4" opacity=".6"><path d="M0 860 H1920"/><path d="M640 760 L380 1080"/><path d="M1280 760 L1500 1080"/></g>
+      <!-- car -->
+      <g transform="translate(120 560)">
+        <ellipse cx="560" cy="300" rx="560" ry="40" fill="#000" opacity=".3"/>
+        <use href="#sedan"/>
+        <g id="sparkles6" fill="#fff"></g>
+      </g>
+      <!-- detailer -->
+      <g id="detailer" transform="translate(470 520)">
+        <path d="M-40 230 H40 L44 500 H8 L0 300 L-8 500 H-44 Z" fill="#1e2433"/>
+        <path d="M-70 60 Q0 30 70 60 L76 240 H-76 Z" fill="#1f45d2"/>
+        <use href="#logoIcon" x="16" y="96" width="40" height="34"/>
+        <circle cx="0" cy="0" r="40" fill="#c08a64"/>
+        <path d="M-44 -6 Q-40 -54 0 -54 Q40 -54 44 -10 Z" fill="#14257a"/><path d="M30 -16 L96 -6 L92 6 L30 0 Z" fill="#14257a"/>
+        <g id="detArm" style="transform-origin:60px 80px"><path d="M56 70 L170 170 L150 190 L44 100 Z" fill="#c08a64"/><path d="M50 64 L100 110 L80 130 L40 96 Z" fill="#1f45d2"/>
+        <path d="M140 160 Q180 150 210 180 Q200 214 160 206 Q132 190 140 160Z" fill="#3a74ff"/></g>
+      </g>
+    </svg>
+  </div>
+  <div class="bl" id="s6h" style="left:100px;top:100px;font-size:112px">
+    <span class="ln"><span>Mobile detailing,</span></span><span class="ln"><span>delivered.</span></span>
+  </div>
+</div>
+
+<!-- sedan symbol (side profile) used in 6 and 7 -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <linearGradient id="bodyG" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#6c7890"/><stop offset=".35" stop-color="#2b3448"/><stop offset=".62" stop-color="#151b28"/><stop offset="1" stop-color="#07090f"/>
+    </linearGradient>
+    <linearGradient id="glassG2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#9fb7d4"/><stop offset=".5" stop-color="#2a3550"/><stop offset="1" stop-color="#0d1220"/></linearGradient>
+    <linearGradient id="sweepG" x1="0" x2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="rimG" cx=".4" cy=".35" r=".7"><stop offset="0" stop-color="#e9edf2"/><stop offset="1" stop-color="#6e7682"/></radialGradient>
+    <clipPath id="bodyClip"><path id="bodyPathClip" d="M40 230 C40 200 70 186 130 180 L330 160 C390 112 470 76 590 70 C700 66 780 74 850 116 L950 164 C1020 172 1066 186 1078 210 L1082 244 C1082 262 1070 270 1046 270 L960 270 C950 220 910 192 870 192 C830 192 790 220 780 270 L360 270 C350 220 310 192 270 192 C230 192 190 220 180 270 L84 270 C56 270 40 256 40 230 Z"/></clipPath>
+    <g id="sedan">
+      <path d="M40 230 C40 200 70 186 130 180 L330 160 C390 112 470 76 590 70 C700 66 780 74 850 116 L950 164 C1020 172 1066 186 1078 210 L1082 244 C1082 262 1070 270 1046 270 L960 270 C950 220 910 192 870 192 C830 192 790 220 780 270 L360 270 C350 220 310 192 270 192 C230 192 190 220 180 270 L84 270 C56 270 40 256 40 230 Z" fill="url(#bodyG)"/>
+      <path d="M368 160 C420 120 480 94 580 90 L600 90 L608 164 Z" fill="url(#glassG2)"/>
+      <path d="M628 164 L622 90 C700 90 760 98 812 124 L880 164 Z" fill="url(#glassG2)"/>
+      <path d="M362 162 C420 116 482 88 590 84 C700 82 770 92 830 122 L890 166" stroke="#c9d1dc" stroke-width="5" fill="none"/>
+      <path d="M60 206 C300 196 800 196 1070 206" stroke="#a8b4c8" stroke-width="3" fill="none" opacity=".6"/>
+      <path d="M520 214 H560" stroke="#c9d1dc" stroke-width="7" stroke-linecap="round"/><path d="M800 214 H840" stroke="#c9d1dc" stroke-width="7" stroke-linecap="round"/>
+      <path d="M46 214 L110 206 L114 222 L52 230 Z" fill="#f1f6ff"/>
+      <path d="M1050 196 L1078 200 L1080 226 L1056 226 Z" fill="#c8202a"/>
+      <g clip-path="url(#bodyClip)"><rect class="sweep" x="-300" y="0" width="300" height="300" fill="url(#sweepG)" transform="skewX(-25)"/></g>
+      <g><circle cx="270" cy="270" r="76" fill="#0a0b0d"/><circle cx="270" cy="270" r="50" fill="url(#rimG)"/>
+        <g class="spokes" transform="translate(270 270)" stroke="#5a616c" stroke-width="9"><path d="M0 -46 V46 M-46 0 H46 M-32 -32 L32 32 M-32 32 L32 -32"/></g><circle cx="270" cy="270" r="12" fill="#2a2e35"/></g>
+      <g><circle cx="870" cy="270" r="76" fill="#0a0b0d"/><circle cx="870" cy="270" r="50" fill="url(#rimG)"/>
+        <g class="spokes" transform="translate(870 270)" stroke="#5a616c" stroke-width="9"><path d="M0 -46 V46 M-46 0 H46 M-32 -32 L32 32 M-32 32 L32 -32"/></g><circle cx="870" cy="270" r="12" fill="#2a2e35"/></g>
+    </g>
+  </defs>
+</svg>
+
+<!-- ============ SCENE 7 · 35–40s · door shuts, quiet, hero + CTA ============ -->
+<div class="scene" id="s7">
+  <div class="cam" id="s7cam">
+    <svg viewBox="0 0 1920 1080" width="1920" height="1080">
+      <defs>
+        <linearGradient id="heroSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fd0ff"/><stop offset=".65" stop-color="#fff1d6"/><stop offset="1" stop-color="#ffd9a3"/></linearGradient>
+        <linearGradient id="heroGround" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9d0c2"/><stop offset="1" stop-color="#8e8578"/></linearGradient>
+      </defs>
+      <rect width="1920" height="1080" fill="url(#heroSky)"/>
+      <g filter="url(#softer)"><circle cx="150" cy="520" r="260" fill="#6a9550"/><circle cx="520" cy="560" r="200" fill="#83ab60"/><circle cx="1800" cy="500" r="260" fill="#5d8a45"/></g>
+      <path d="M1100 380 L1500 240 L1920 380 Z" fill="#6b625a"/><rect x="1130" y="380" width="790" height="330" fill="#eee5d4"/>
+      <rect x="1180" y="440" width="170" height="180" fill="#3b4b5e"/><rect x="1440" y="460" width="300" height="250" fill="#cfc4b2"/>
+      <path d="M0 700 H1920 V1080 H0 Z" fill="url(#heroGround)"/>
+      <g transform="translate(250 560) scale(1.3)">
+        <ellipse cx="560" cy="300" rx="600" ry="44" fill="#000" opacity=".35"/>
+        <use href="#sedan"/>
+        <g transform="translate(0 610) scale(1 -1)" opacity=".18"><use href="#sedan"/></g>
+      </g>
+      <g id="heroSparks" fill="#fff"></g>
+    </svg>
+  </div>
+  <div class="bl" id="s7h" style="left:90px;top:90px;font-size:138px">
+    <span class="ln"><span>Your car.</span></span><span class="ln"><span>Reset.</span></span>
+  </div>
+  <svg class="uline" id="s7u" style="left:100px;top:420px" width="520" height="60"><path d="M10 34 Q260 6 500 26" stroke-width="20"/></svg>
+  <div id="s7sub" style="position:absolute;left:104px;top:500px;font:600 44px/1.2 'Inter',sans-serif;color:#0b1a5c">Mobile detailing, delivered.</div>
+  <div class="logo-card" id="logoCard" style="right:110px;top:110px;width:400px;height:360px">
+    <svg width="230" height="196"><use href="#logoIcon" width="230" height="196"/></svg>
+    <div class="wordmark" style="font-size:62px;margin-top:6px">QUICKWASH</div>
+  </div>
+  <div class="cta" id="cta" style="right:110px;top:520px">Book in the QuickWash app.</div>
+  <!-- door shut panel (transition into quiet) -->
+  <div id="shut" style="position:absolute;inset:0;transform-origin:0 50%">
+    <svg viewBox="0 0 1920 1080" width="1920" height="1080"><rect width="1920" height="1080" fill="url(#doorG)"/><path d="M0 430 H1920" stroke="#9fb3e0" stroke-width="5" opacity=".6"/></svg>
+  </div>
+</div>
+
+<div id="black"></div>
+<div id="flash"></div>
+<div id="vig"></div>
+<canvas id="grain" width="480" height="270"></canvas>
+<div id="cap"><span id="capText"></span></div>
+</div>
+
+<script>
+/* ===================== motion engine ===================== */
+const FPS = 30, DUR = 40;
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, k) => a + (b - a) * k;
+const E = {
+  lin: t => t,
+  inQ: t => t * t,
+  outQ: t => 1 - (1 - t) * (1 - t),
+  outC: t => 1 - Math.pow(1 - t, 3),
+  inOutC: t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
+  outExpo: t => t >= 1 ? 1 : 1 - Math.pow(2, -10 * t),
+  inOutS: t => -(Math.cos(Math.PI * t) - 1) / 2,
+  outBack: t => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); },
+};
+// progress of t through [a,b] with easing
+const P = (t, a, b, e = E.outC) => e(clamp((t - a) / (b - a)));
+const $ = id => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+function mk(tag, attrs, parent) { const el = document.createElementNS(NS, tag); for (const k in attrs) el.setAttribute(k, attrs[k]); parent && parent.appendChild(el); return el; }
+function rng(seed) { let s = seed >>> 0; return () => { s = (s + 0x6D2B79F5) >>> 0; let t = s; t = Math.imul(t ^ t >>> 15, t | 1); t ^= t + Math.imul(t ^ t >>> 7, t | 61); return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+function tf(el, { x = 0, y = 0, s = 1, r = 0, o } = {}) { el.style.transform = `translate(${x}px,${y}px) rotate(${r}deg) scale(${s})`; if (o !== undefined) el.style.opacity = o; }
+
+// line-by-line masked reveal for .hl / .bl headlines
+function revealLines(root, t, start, stagger = .12, dur = .55) {
+  root.querySelectorAll('.ln').forEach((ln, i) => {
+    const k = P(t, start + i * stagger, start + i * stagger + dur, E.outExpo);
+    const inner = ln.firstElementChild;
+    if (root.classList.contains('bl')) {
+      ln.style.transform = `scaleX(${k})`; ln.style.opacity = k > 0 ? 1 : 0;
+      inner.style.transform = `translateY(${(1 - P(t, start + i * stagger + .1, start + i * stagger + dur + .1, E.outExpo)) * 110}%)`;
+      inner.style.opacity = P(t, start + i * stagger + .1, start + i * stagger + .3);
+    } else {
+      inner.style.transform = `translateY(${(1 - k) * 115}%)`;
+    }
+  });
+}
+function drawLine(svg, t, a, b) {
+  const p = svg.querySelector('path'); const len = p.getTotalLength();
+  p.style.strokeDasharray = len; p.style.strokeDashoffset = len * (1 - P(t, a, b, E.inOutC));
+}
+function fadeOut(el, t, a, b) { el.style.opacity = 1 - P(t, a, b, E.inOutS); }
+
+/* ===================== procedural content ===================== */
+(function build() {
+  // crumbs in seat seam
+  let R = rng(11); const g = $('s1bCrumbs');
+  for (let i = 0; i < 90; i++) {
+    const x = R() * 1920, base = 640 + Math.sin(x / 300) * 20 + (R() - .5) * 120, sz = 4 + R() * 22;
+    const pts = []; const n = 5 + (R() * 3 | 0);
+    for (let k = 0; k < n; k++) { const a = k / n * Math.PI * 2, rr = sz * (.6 + R() * .6); pts.push((x + Math.cos(a) * rr).toFixed(1) + ',' + (base + Math.sin(a) * rr * .8).toFixed(1)); }
+    mk('polygon', { points: pts.join(' '), fill: ['#e4b766', '#c98d3c', '#f3d08e', '#a8702c'][i % 4], opacity: .95 }, g);
+  }
+  R = rng(3); const g2 = $('s1aCrumbs');
+  for (let i = 0; i < 40; i++) mk('circle', { cx: 300 + R() * 1400, cy: 920 + R() * 140, r: 2 + R() * 7, fill: '#d6a75c', opacity: .8 }, g2);
+
+  // fingerprints
+  R = rng(7); const pr = $('prints');
+  [[420, 330, -20], [700, 640, 15], [1150, 300, 40], [1420, 700, -35], [1000, 560, 5], [300, 760, 25]].forEach(([cx, cy, rot], idx) => {
+    const fg = mk('g', { transform: `translate(${cx} ${cy}) rotate(${rot})`, opacity: .0, class: 'fp' }, pr);
+    for (let k = 1; k <= 13; k++) mk('ellipse', { rx: k * 7.5, ry: k * 10, 'stroke-width': 3, 'stroke-dasharray': `${20 + R() * 60} ${6 + R() * 14}`, 'stroke-opacity': .16 }, fg);
+    mk('ellipse', { rx: 120, ry: 150, fill: '#fff', opacity: .03, filter: 'url(#blur6)' }, fg);
+  });
+
+  // dust motes in interior
+  R = rng(5); const m = $('motes');
+  for (let i = 0; i < 60; i++) mk('circle', { cx: 900 + R() * 1000, cy: 150 + R() * 800, r: 1.5 + R() * 3.5, opacity: .2 + R() * .6, 'data-v': R() }, m);
+
+  // newspaper columns texture
+  R = rng(9); const nc = $('newsCols');
+  for (let c = 0; c < 6; c++) for (let l = 0; l < 40; l++) mk('rect', { x: 40 + c * 320, y: 30 + l * 26, width: 200 + R() * 80, height: 9 }, nc);
+
+  // foam on vintage car
+  R = rng(21); const vf = $('phAfoam');
+  for (let i = 0; i < 40; i++) mk('circle', { cx: 120 + R() * 380, cy: 60 + R() * 90, r: 6 + R() * 18 }, vf);
+
+  // coffee cups accumulating
+  const cups = $('cups');
+  [[960, 700], [780, 520], [1140, 540], [880, 360], [1060, 330]].forEach(([x, y], i) => {
+    const c = mk('g', { class: 'cup', opacity: 0 }, mk('g', { transform: `translate(${x} ${y})` }, cups));
+    mk('path', { d: 'M-90 120 L90 120 L110 -110 L-110 -110 Z', fill: '#efe7da' }, c);
+    mk('path', { d: 'M-102 -10 L102 -10 L96 50 L-96 50 Z', fill: '#b5875a' }, c);
+    mk('rect', { x: -120, y: -136, width: 240, height: 34, rx: 14, fill: '#fbf8f2' }, c);
+    mk('path', { d: 'M40 -100 C42 -70 38 -60 42 -40 C44 -30 50 -28 50 -18 C50 -8 34 -8 34 -18', fill: '#6b3d17' }, c);
+  });
+  // wrappers + receipts
+  R = rng(33); const wr = $('wrappers');
+  for (let i = 0; i < 7; i++) mk('rect', { x: 620 + R() * 600, y: 860 + R() * 160, width: 80 + R() * 80, height: 40 + R() * 40, rx: 8, fill: ['#e44', '#ffcc33', '#fff', '#3b82f6'][i % 4], transform: `rotate(${R() * 60 - 30} 900 900)`, opacity: 0, class: 'wrap' }, wr);
+  const rc = $('receipts');
+  for (let i = 0; i < 6; i++) {
+    const g3 = mk('g', { transform: `translate(${1260 + R() * 500} ${120 + R() * 360}) rotate(${R() * 70 - 35})`, opacity: 0, class: 'rcp' }, rc);
+    mk('rect', { width: 150, height: 240, fill: '#f6f3ea' }, g3);
+    for (let l = 0; l < 8; l++) mk('rect', { x: 18, y: 24 + l * 24, width: 70 + R() * 50, height: 6, fill: '#b9b4a8' }, g3);
+  }
+  // dust falling over "life happens"
+  R = rng(41); const d4 = $('dust4');
+  for (let i = 0; i < 140; i++) mk('circle', { cx: R() * 1920, cy: 0, r: 1.5 + R() * 4, 'data-y0': -R() * 600, 'data-sp': 120 + R() * 240, 'data-ph': R() * 6, opacity: .5 }, d4);
+
+  // foam bubbles on paint
+  R = rng(55); const fo = $('foam');
+  for (let i = 0; i < 900; i++) {
+    const cx = -40 + R() * 2000, cy = 120 + Math.pow(R(), 1.6) * 380 + Math.sin(cx / 180) * 40, r = 5 + Math.pow(R(), 2.6) * 40;
+    const c = mk('circle', { cx, cy, r: r * .8, fill: R() < .15 ? '#cfdcf2' : '#ffffff', 'fill-opacity': .86 + R() * .14, stroke: '#9fb6dc', 'stroke-width': 2, 'data-cy': cy, 'data-sp': 40 + R() * 160, 'data-dl': R() * .8 }, fo);
+  }
+  // water beads
+  ['beads', 'beads2'].forEach((id, j) => {
+    const R2 = rng(60 + j), b = $(id);
+    for (let i = 0; i < 160; i++) {
+      const x = R2() * 1920, y = R2() * 1080, r = 3 + R2() * (j ? 16 : 9);
+      mk('circle', { cx: x, cy: y, r, fill: '#0a1222', stroke: '#cfe3ff', 'stroke-opacity': .5, 'stroke-width': 2 }, b);
+      mk('circle', { cx: x - r * .35, cy: y - r * .35, r: Math.max(1, r * .25), fill: '#fff', opacity: .85 }, b);
+    }
+  });
+  // dust along seam
+  R = rng(71); const sd = $('seamDust');
+  for (let i = 0; i < 120; i++) { const y = R() * 1080; const x = 300 + Math.sin(y / 340) * 60 + (R() - .5) * 60; mk('circle', { cx: x, cy: y, r: 2 + R() * 5, 'data-y': y, opacity: .8 }, sd); }
+
+  // sparkles
+  [['sparkles6', 8, 81], ['heroSparks', 10, 91]].forEach(([id, n, seed]) => {
+    const R3 = rng(seed), g4 = $(id);
+    for (let i = 0; i < n; i++) mk('path', { d: 'M0 -22 L5 -5 L22 0 L5 5 L0 22 L-5 5 L-22 0 L-5 -5 Z', 'data-x': id === 'heroSparks' ? 420 + R3() * 1100 : 60 + R3() * 1000, 'data-y': id === 'heroSparks' ? 700 + R3() * 220 : 80 + R3() * 160, 'data-ph': R3(), opacity: 0 }, g4);
+  });
+})();
+
+/* ===================== voiceover captions ===================== */
+const CAPS = [
+  [0.25, 3.9, 'You know that first drive after your car gets detailed?'],
+  [4.3, 8.85, 'Same car. Same seat. Somehow, a completely different feeling.'],
+  [9.35, 14.75, 'We’ve spent generations chasing that new-car feeling.'],
+  [15.3, 17.5, 'Then life happens.'],
+  [17.7, 20.9, 'And the place you spend part of every day starts collecting all of it.'],
+  [21.4, 25.0, 'Sometimes, a reset is clean seats. Clear windows.'],
+  [25.25, 28.85, 'And a car that feels like yours again.'],
+  [29.4, 34.6, 'With QuickWash, that feeling comes to you.'],
+  [37.3, 39.95, 'Book in the QuickWash app. Get back to that fresh-car feeling.'],
+];
+
+/* ===================== scenes ===================== */
+const DAYS = [['MON', '7:42 commute'], ['TUE', 'gym, then groceries'], ['WED', 'coffee run #3'], ['THU', 'school pickup'], ['FRI', 'road snacks']];
+const scenes = [
+  { id: 's1', a: 0, b: 4.0, draw(t) {
+      const shots = [['s1a', 0, 1.35], ['s1b', 1.35, 2.7], ['s1c', 2.7, 4.0]];
+      shots.forEach(([id, a, b]) => {
+        const on = t >= a && t < b, el = $(id); el.style.display = on ? 'block' : 'none';
+        if (on) { const k = (t - a) / (b - a); tf(el.firstElementChild, { s: 1.04 + k * .09, x: (id === 's1b' ? -40 : 30) * k }); }
+      });
+      // rack focus on crumbs
+      $('s1b').style.filter = `blur(${(1 - P(t, 1.35, 1.9, E.outC)) * 8}px)`;
+      $('drip').setAttribute('transform', `translate(0 ${P(t, 0, 1.3, E.inQ) * 60})`);
+      $('prints').querySelectorAll('.fp').forEach((f, i) => f.setAttribute('opacity', P(t, 2.75 + i * .08, 3.1 + i * .08)));
+      $('streak').setAttribute('x', lerp(-300, 1500, P(t, 2.7, 4, E.inOutS)));
+      revealLines($('s1h'), t, .3, .14);
+      drawLine($('s1u'), t, 1.0, 1.5);
+  }},
+  { id: 's2', a: 4.0, b: 9.0, draw(t) {
+      const lt = t - 4;
+      const open = P(lt, .15, 1.3, E.inOutC);
+      const door = $('door');
+      door.style.transform = `perspective(1600px) rotateY(${open * 100}deg)`;
+      door.style.display = open >= .999 ? 'none' : 'block';
+      $('doorSweep').setAttribute('x', lerp(-600, 2200, P(lt, 0, 1, E.inOutS)));
+      tf($('s2cam'), { s: lerp(1.14, 1.02, P(lt, .2, 2.0, E.outC)) + lt * .006, x: -lt * 6 });
+      $('rays').style.opacity = .6 + .4 * Math.sin(lt * 1.3);
+      $('motes').querySelectorAll('circle').forEach((c, i) => { const v = +c.dataset.v; c.setAttribute('transform', `translate(${Math.sin(lt * .7 + i) * 20} ${-lt * (8 + v * 22)})`); });
+      const gl = P(lt, 2.9, 3.2) * (1 - P(lt, 3.3, 3.8)); const glint = $('glint');
+      glint.setAttribute('opacity', gl); glint.setAttribute('rx', 4 + gl * 60); glint.setAttribute('ry', 2 + gl * 8);
+      revealLines($('s2h'), lt, 1.15, .14);
+      drawLine($('s2u'), lt, 1.75, 2.3);
+      fadeOut($('s2h'), lt, 4.55, 4.95); fadeOut($('s2u'), lt, 4.55, 4.95);
+  }},
+  { id: 's3', a: 9.0, b: 15.0, draw(t) {
+      const lt = t - 9;
+      tf($('s3cam'), { s: 1.0 + lt * .012, x: -lt * 8, y: -lt * 3 });
+      const drop = (el, at, rot, dx, dy) => { const k = P(lt, at, at + .55, E.outBack); el.style.transform = `translate(${(1 - k) * dx}px,${(1 - k) * dy}px) rotate(${rot + (1 - k) * 8}deg) scale(${lerp(1.25, 1, k)})`; el.style.opacity = P(lt, at, at + .15); };
+      drop($('phA'), .1, -3, -200, -120); drop($('phB'), 1.0, 4, 260, 160); drop($('phC'), 1.9, -2, -120, 260);
+      // film flicker
+      const fl = .9 + .1 * Math.sin(lt * 47) * Math.sin(lt * 13);
+      ['phA', 'phB', 'phC'].forEach(id => $(id).querySelector('svg').style.filter = `grayscale(1) sepia(.35) contrast(1.15) brightness(${fl})`);
+      $('phBhand').setAttribute('transform', `translate(${Math.sin(lt * 4) * 30} ${Math.cos(lt * 4) * 10})`);
+      const sk = Math.max(0, Math.sin(lt * 3)); $('phBstar').setAttribute('transform', `translate(470 270) scale(${sk}) translate(-470 -270)`);
+      $('s3t1').style.opacity = P(lt, 2.7, 3.2); $('s3t1').style.transform = `translateY(${(1 - P(lt, 2.7, 3.3)) * 30}px)`;
+      revealLines($('s3t2'), lt, 3.3, .16);
+      tf($('s3type'), { s: 1 + lt * .01 });
+  }},
+  { id: 's4', a: 15.0, b: 21.0, draw(t) {
+      const lt = t - 15;
+      [['p1', .0, -1], ['p2', .45, 1], ['p3', .9, -1]].forEach(([id, at, dir]) => {
+        const k = P(lt, at, at + .6, E.outExpo); const el = $(id);
+        el.style.transform = `translateY(${(1 - k) * 1100 * dir}px) scale(${1.06 - lt * .006})`;
+      });
+      $('cups').querySelectorAll('.cup').forEach((c, i) => { const k = P(lt, 1.6 + i * .55, 1.9 + i * .55, E.outBack); c.setAttribute('opacity', P(lt, 1.6 + i * .55, 1.7 + i * .55)); c.setAttribute('transform', `translate(0 120) scale(${k}) translate(0 -120)`); });
+      $('wrappers').querySelectorAll('.wrap').forEach((w, i) => w.setAttribute('opacity', P(lt, 2.3 + i * .35, 2.5 + i * .35)));
+      $('receipts').querySelectorAll('.rcp').forEach((w, i) => w.setAttribute('opacity', P(lt, 2.0 + i * .45, 2.2 + i * .45)));
+      $('dust4').querySelectorAll('circle').forEach(c => {
+        const y = +c.dataset.y0 + Math.max(0, lt - 2.6) * +c.dataset.sp; c.setAttribute('cy', y); c.setAttribute('transform', `translate(${Math.sin(lt * 2 + +c.dataset.ph) * 14} 0)`);
+        c.setAttribute('opacity', lt > 2.6 ? .55 : 0);
+      });
+      const di = clamp(Math.floor((lt - .4) / 1.05), 0, 4); $('dayName').textContent = DAYS[di][0]; $('dayWhat').textContent = DAYS[di][1];
+      const chipK = P(lt, .4, .8, E.outBack); $('day').style.transform = `translateX(-50%) scale(${chipK})`;
+      const tick = (lt - .4) % 1.05; $('day').style.opacity = lt < .4 ? 0 : 1; $('dayName').style.opacity = tick < .12 ? tick / .12 : 1;
+      revealLines($('s4h'), lt, .5, .16);
+      $('s4h').style.opacity = 1 - P(lt, 2.4, 2.9);
+      $('s4h').style.transform = `scale(${1 + lt * .01})`;
+  }},
+  { id: 's5', a: 21.0, b: 29.0, draw(t) {
+      const lt = t - 21;
+      const onA = lt < 4, onB = lt >= 4;
+      $('s5a').style.display = onA ? 'block' : 'none'; $('s5b').style.display = onB ? 'block' : 'none';
+      if (onA) {
+        tf($('s5a').firstElementChild, { s: 1.06 + lt * .02, y: -lt * 6 });
+        $('foam').querySelectorAll('circle').forEach(c => {
+          const k = Math.max(0, lt - +c.dataset.dl); const y = +c.dataset.cy + k * k * +c.dataset.sp * .5;
+          c.setAttribute('cy', y);
+        });
+        $('rinseRect').setAttribute('height', P(lt, 2.0, 3.6, E.inOutC) * 1080);
+        $('sheen').setAttribute('x', lerp(-900, 2400, P(lt, 3.0, 3.95, E.inOutS)));
+      }
+      if (onB) {
+        const bt = lt - 4;
+        tf($('brushCam'), { s: 1.08 - bt * .01 });
+        const by = lerp(-200, 1000, P(bt, 0, 3.6, E.inOutS));
+        const bx = 300 + Math.sin(by / 340) * 60 + Math.sin(bt * 22) * 10;
+        $('brush').setAttribute('transform', `translate(${bx} ${by}) rotate(${168 + Math.sin(bt * 22) * 6})`);
+        $('seamDust').querySelectorAll('circle').forEach(c => { const cleared = +c.dataset.y < by + 60; c.setAttribute('opacity', cleared ? 0 : .8); });
+        // microfiber wipe: reveal arc swath
+        const k = P(bt, .3, 3.4, E.inOutS);
+        const cx = lerp(800, 1950, k), cy = 520 + Math.sin(k * Math.PI * 2) * 160;
+        $('cloth').setAttribute('transform', `translate(${cx} ${cy}) rotate(${Math.sin(bt * 3) * 10})`);
+        $('wipePath').setAttribute('d', `M700 ${cy - 330} H${cx + 40} Q${cx + 160} ${cy} ${cx + 40} ${cy + 330} H700 Z`);
+        tf($('clothCam'), { s: 1.05 + bt * .01 });
+      }
+      revealLines($('s5h'), lt, .5, .14);
+      drawLine($('s5u'), lt, 1.1, 1.6);
+      const hide = P(lt, 3.6, 3.95);
+      $('s5h').style.opacity = 1 - hide; $('s5u').style.opacity = 1 - hide;
+      const ck = P(lt, 4.5, 4.9, E.outBack); $('s5chip').style.transform = `scale(${ck})`; $('s5chip').style.opacity = onB ? 1 : 0;
+  }},
+  { id: 's6', a: 29.0, b: 35.0, draw(t) {
+      const lt = t - 29;
+      tf($('s6cam'), { s: lerp(1.12, 1.0, P(lt, 0, 6, E.outC)), x: lerp(80, 0, P(lt, 0, 6, E.outC)) });
+      $('detArm').style.transform = `rotate(${Math.sin(lt * 5.5) * 14}deg)`;
+      const doorOpen = P(lt, 2.6, 3.4, E.inOutC);
+      $('frontDoor').style.transform = `scaleX(${1 - doorOpen * .85})`;
+      const walk = P(lt, 3.4, 5.6, E.inOutS);
+      const cust = $('customer');
+      cust.setAttribute('transform', `translate(${lerp(1590, 1300, walk)} ${520 + walk * 120 + Math.abs(Math.sin(walk * 18)) * -8}) scale(${1 + walk * .18})`);
+      cust.setAttribute('opacity', P(lt, 1.2, 1.8) * (lt < 2.6 ? .55 + .45 * doorOpen : 1));
+      $('mugArm').setAttribute('transform', `rotate(${lt < 2.4 ? -40 * Math.max(0, Math.sin(lt * 2.2)) : 0} 40 60)`);
+      $('sparkles6').querySelectorAll('path').forEach((s, i) => {
+        const ph = +s.dataset.ph, k = Math.max(0, Math.sin((lt * 1.6 + ph * 6) * Math.PI)) * P(lt, 1, 2);
+        s.setAttribute('transform', `translate(${s.dataset.x} ${s.dataset.y}) scale(${k}) rotate(${lt * 40})`); s.setAttribute('opacity', k);
+      });
+      document.querySelectorAll('#s6 .sweep').forEach(r => r.setAttribute('x', lerp(-400, 1500, P(lt, 1.0, 2.6, E.inOutS))));
+      revealLines($('s6h'), lt, .5, .15);
+  }},
+  { id: 's7', a: 35.0, b: 40.0, draw(t) {
+      const lt = t - 35;
+      // door shuts (0–0.5) → quiet black (0.5–1.6) → hero
+      const sh = P(lt, -.05, .45, E.inQ);
+      $('shut').style.transform = `perspective(1600px) rotateY(${(1 - sh) * 100}deg)`;
+      $('shut').style.display = lt < 1.0 ? 'block' : 'none';
+      const hero = lt >= 1.0 ? 'visible' : 'hidden';
+      ['s7cam', 's7h', 's7u', 's7sub', 'logoCard', 'cta'].forEach(id => $(id).style.visibility = hero);
+      tf($('s7cam'), { s: lerp(1.1, 1.0, P(lt, 1.2, 5, E.outC)) });
+      document.querySelectorAll('#s7 .sweep').forEach(r => r.setAttribute('x', lerp(-400, 1500, P(lt, 1.8, 3.2, E.inOutS))));
+      document.querySelectorAll('#s7 .spokes').forEach(s => { const b = s.getAttribute('transform').split(' rotate')[0]; s.setAttribute('transform', `${b} rotate(${lt * 4})`); });
+      $('heroSparks').querySelectorAll('path').forEach(s => {
+        const ph = +s.dataset.ph, k = Math.max(0, Math.sin((lt * 1.2 + ph * 5) * Math.PI)) * P(lt, 2.2, 2.8);
+        s.setAttribute('transform', `translate(${s.dataset.x} ${s.dataset.y}) scale(${k * 1.2}) rotate(${lt * 30})`); s.setAttribute('opacity', k);
+      });
+      revealLines($('s7h'), lt, 1.75, .15);
+      drawLine($('s7u'), lt, 2.3, 2.8);
+      $('s7sub').style.opacity = P(lt, 2.6, 3.1); $('s7sub').style.transform = `translateY(${(1 - P(lt, 2.6, 3.1)) * 20}px)`;
+      const lk = P(lt, 2.1, 2.7, E.outBack); $('logoCard').style.transform = `scale(${lk})`; $('logoCard').style.opacity = P(lt, 2.1, 2.3);
+      const ck = P(lt, 2.7, 3.2, E.outBack); $('cta').style.transform = `translateY(${(1 - ck) * 60}px) scale(${.9 + ck * .1 + Math.max(0, Math.sin((lt - 3.4) * 3)) * .02 * (lt > 3.4)})`; $('cta').style.opacity = P(lt, 2.7, 2.9);
+  }},
+];
+
+/* ===================== global layers ===================== */
+const grain = $('grain'), gx = grain.getContext('2d'), gimg = gx.createImageData(480, 270);
+function drawGrain(frame) {
+  const R = rng(1000 + frame), d = gimg.data;
+  for (let i = 0; i < d.length; i += 4) { const v = R() * 255; d[i] = d[i + 1] = d[i + 2] = v; d[i + 3] = 255; }
+  gx.putImageData(gimg, 0, 0);
+}
+
+function seek(t) {
+  for (const s of scenes) {
+    const el = $(s.id), on = t >= s.a && t < s.b + (s.id === 's7' ? 1 : 0);
+    const replay = s.id === 's2' && t >= 35 && t < 36;   // back inside the car as the door shuts
+    el.style.display = on || replay ? 'block' : 'none';
+    if (on) s.draw(t); else if (replay) s.draw(9.2 + (t - 35));
+  }
+  // hard-cut flashes on the fast opening cuts + scene boundaries
+  const cuts = [1.35, 2.7, 15.0, 21.0, 25.0, 29.0];
+  let f = 0; for (const c of cuts) if (t >= c && t < c + .1) f = Math.max(f, .35 * (1 - (t - c) / .1));
+  $('flash').style.opacity = f;
+  // quiet beat after the door shuts, then fade to hero; dip-to-black transitions elsewhere
+  let blk = 0;
+  blk = Math.max(blk, P(t, 35.35, 35.5) * (1 - P(t, 36.05, 36.5, E.inOutS)));
+  blk = Math.max(blk, P(t, 8.75, 9.0) * (1 - P(t, 9.0, 9.25)));
+  blk = Math.max(blk, P(t, 14.8, 15.0) * (1 - P(t, 15.0, 15.1)));
+  blk = Math.max(blk, P(t, 39.6, 40.0) * 0);
+  $('black').style.opacity = blk;
+  // grain stronger on archival section
+  $('grain').style.opacity = (t >= 9 && t < 15) ? .32 : .14;
+  drawGrain(Math.floor(t * 12));   // grain refreshes at 12 fps: filmic, and much kinder to the encoder
+  // caption
+  const c = CAPS.find(([a, b]) => t >= a && t < b), ct = $('capText');
+  if (c) { ct.textContent = c[2]; ct.parentElement.style.opacity = Math.min(P(t, c[0], c[0] + .2), 1 - P(t, c[1] - .2, c[1])); }
+  else ct.parentElement.style.opacity = 0;
+  ct.style.display = c ? 'inline-block' : 'none';
+}
+window.seek = seek; window.DURATION = DUR; window.FPS = FPS;
+
+/* ===================== preview mode ===================== */
+const qs = new URLSearchParams(location.search);
+if (qs.has('t')) { document.fonts.ready.then(() => { seek(+qs.get('t')); window.__ready = true; }); }
+else if (!qs.has('render')) {
+  document.body.classList.add('preview');
+  const fit = () => document.body.style.setProperty('--fit', Math.min(innerWidth / 1920, innerHeight / 1080));
+  fit(); addEventListener('resize', fit);
+  let t0 = null; const loop = ts => { if (t0 === null) t0 = ts; seek(((ts - t0) / 1000) % DUR); requestAnimationFrame(loop); };
+  document.fonts.ready.then(() => requestAnimationFrame(loop));
+} else document.fonts.ready.then(() => { seek(0); window.__ready = true; });
+</script>
+</body>
+</html>
