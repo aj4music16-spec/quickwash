@@ -43,6 +43,8 @@
   #flash{position:absolute;inset:0;background:#fff;opacity:0;z-index:45;pointer-events:none}
   #black{position:absolute;inset:0;background:#000;opacity:0;z-index:44;pointer-events:none}
 
+  .plate{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .plate + svg{display:none}  /* photo plate present → hide the coded fallback */
   .serif{font-family:'Caladea','Liberation Serif',serif}
   .photo{position:absolute;background:#f7f2e7;padding:22px 22px 60px;box-shadow:0 30px 60px rgba(40,25,5,.35)}
   .photo svg{filter:grayscale(1) sepia(.35) contrast(1.15)}
@@ -100,6 +102,7 @@
 <div class="scene" id="s1">
   <!-- 1a: coffee in cupholder -->
   <div class="layer" id="s1a"><div class="cam">
+    <img class="plate" data-src="shots/01a_coffee.jpg" alt="">
     <svg viewBox="0 0 1920 1080" width="1920" height="1080">
       <defs>
         <radialGradient id="consoleG" cx=".6" cy=".35" r=".9"><stop offset="0" stop-color="#2a2d35"/><stop offset="1" stop-color="#07080b"/></radialGradient>
@@ -134,6 +137,7 @@
   </div></div>
   <!-- 1b: crumbs in seat seam -->
   <div class="layer" id="s1b"><div class="cam">
+    <img class="plate" data-src="shots/01b_crumbs.jpg" alt="">
     <svg viewBox="0 0 1920 1080" width="1920" height="1080">
       <rect width="1920" height="1080" fill="url(#leather)"/>
       <rect width="1920" height="1080" fill="#3b2410" filter="url(#leatherTex)" opacity=".35"/>
@@ -146,6 +150,7 @@
   </div></div>
   <!-- 1c: fingerprints on screen -->
   <div class="layer" id="s1c"><div class="cam">
+    <img class="plate" data-src="shots/01c_fingerprints.jpg" alt="">
     <svg viewBox="0 0 1920 1080" width="1920" height="1080">
       <defs>
         <linearGradient id="glassG" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#121a26"/><stop offset="1" stop-color="#05070b"/></linearGradient>
@@ -161,6 +166,8 @@
       <rect id="streak" x="-600" y="-200" width="420" height="1600" fill="url(#streakG)" transform="rotate(24)"/>
     </svg>
   </div></div>
+  <div id="s1shade" style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,7,10,.72) 0%,rgba(6,7,10,.35) 38%,rgba(6,7,10,0) 60%)"></div>
+  <div id="s1sweep" style="position:absolute;top:-20%;bottom:-20%;width:520px;left:0;mix-blend-mode:screen;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,240,215,.16),rgba(255,255,255,0));transform:skewX(-22deg)"></div>
   <div class="hl" id="s1h" style="left:160px;top:250px;font-size:168px">
     <span class="ln"><span>You know</span></span><span class="ln"><span>that</span></span><span class="ln"><span>feeling?</span></span>
   </div>
@@ -731,6 +738,8 @@ const scenes = [
       $('drip').setAttribute('transform', `translate(0 ${P(t, 0, 1.3, E.inQ) * 60})`);
       $('prints').querySelectorAll('.fp').forEach((f, i) => f.setAttribute('opacity', P(t, 2.75 + i * .08, 3.1 + i * .08)));
       $('streak').setAttribute('x', lerp(-300, 1500, P(t, 2.7, 4, E.inOutS)));
+      const sw = $('s1sweep'); sw.style.display = t >= 2.7 ? 'block' : 'none'; sw.style.left = lerp(-600, 2000, P(t, 2.7, 4, E.inOutS)) + 'px';
+      $('s1shade').style.opacity = t < 1.35 ? .55 : t < 2.7 ? 1 : .5;
       revealLines($('s1h'), t, .3, .14);
       drawLine($('s1u'), t, 1.0, 1.5);
   }},
@@ -896,15 +905,18 @@ function seek(t) {
 window.seek = seek; window.DURATION = DUR; window.FPS = FPS;
 
 /* ===================== preview mode ===================== */
+const platesReady = Promise.all([...document.querySelectorAll('img.plate')].map(img => new Promise(res => {
+  img.onload = () => res(); img.onerror = () => { img.remove(); res(); }; img.src = img.dataset.src;
+})));
 const qs = new URLSearchParams(location.search);
-if (qs.has('t')) { document.fonts.ready.then(() => { seek(+qs.get('t')); window.__ready = true; }); }
+if (qs.has('t')) { Promise.all([document.fonts.ready, platesReady]).then(() => { seek(+qs.get('t')); window.__ready = true; }); }
 else if (!qs.has('render')) {
   document.body.classList.add('preview');
   const fit = () => document.body.style.setProperty('--fit', Math.min(innerWidth / 1920, innerHeight / 1080));
   fit(); addEventListener('resize', fit);
   let t0 = null; const loop = ts => { if (t0 === null) t0 = ts; seek(((ts - t0) / 1000) % DUR); requestAnimationFrame(loop); };
-  document.fonts.ready.then(() => requestAnimationFrame(loop));
-} else document.fonts.ready.then(() => { seek(0); window.__ready = true; });
+  Promise.all([document.fonts.ready, platesReady]).then(() => requestAnimationFrame(loop));
+} else Promise.all([document.fonts.ready, platesReady]).then(() => { seek(0); window.__ready = true; });
 </script>
 </body>
 </html>
