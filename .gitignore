@@ -1,3 +1,6 @@
 dist/soundtrack.wav
 node_modules/
 dist/preview-*.mp4
+
+reel/.hyperframes/
+reel/renders/

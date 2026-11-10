@@ -1,0 +1,56 @@
+<!doctype html>
+<html
+  lang="en"
+  data-composition-variables='[
+    {"id":"brandBlue","type":"color","label":"Brand blue","default":"#1b3fd6"},
+    {"id":"accent","type":"color","label":"Accent","default":"#ff6a13"},
+    {"id":"cta","type":"string","label":"CTA","default":"Book in the QuickWash app"}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #05060a; }
+      #root { width: 100%; height: 100%; font-family: Inter, sans-serif; }
+      #ground { position: absolute; inset: 0; background: #05060a; }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="main"
+      data-start="0"
+      data-duration="16.6"
+      data-width="1080"
+      data-height="1920"
+      data-motion-blur="on"
+    >
+      <div id="ground"></div>
+      <div id="hook" data-composition-id="hook" data-composition-src="compositions/hook.html"
+        data-start="0" data-duration="3" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920" style="z-index:1"></div>
+      <div id="week" data-composition-id="week" data-composition-src="compositions/week.html"
+        data-start="3" data-duration="3.2" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920" style="z-index:2"></div>
+      <div id="reset" data-composition-id="reset" data-composition-src="compositions/reset.html"
+        data-start="6.2" data-duration="3.4" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920" style="z-index:3"></div>
+      <div id="drive" data-composition-id="drive" data-composition-src="compositions/drive.html"
+        data-start="9.6" data-duration="2.8" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920" style="z-index:4"></div>
+      <div id="feel" data-composition-id="feel" data-composition-src="compositions/feel.html"
+        data-start="12.4" data-duration="1.8" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920" style="z-index:5"></div>
+      <div id="end" data-composition-id="end" data-composition-src="compositions/end.html"
+        data-start="13.8" data-duration="2.8" data-track-index="1" data-track-kind="graphics"
+        data-width="1080" data-height="1920" style="z-index:6"></div>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,49 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #05060a; font-family: Inter, sans-serif; }
+    .plate { position: absolute; inset: 0; overflow: hidden; }
+    .cam { position: absolute; left: 0; top: 0; width: 3413px; height: 1920px; }
+    .cam img { width: 100%; height: 100%; display: block; }
+    .scrim { position: absolute; left: 0; right: 0; top: 0; height: 1150px;
+      background: linear-gradient(180deg, rgba(5,6,10,.72) 0%, rgba(5,6,10,.45) 45%, rgba(5,6,10,0) 100%); }
+    .t { position: absolute; left: 96px; width: 820px; color: #fff; font-weight: 900; font-size: 136px;
+      line-height: .95; letter-spacing: -0.035em; text-shadow: 0 8px 36px rgba(0,0,0,.45); }
+    .t .w { display: inline-block; margin-right: .18em; }
+    .acc { color: var(--accent, #ff6a13); }
+    #hook-strike { position: absolute; left: 0; top: 52%; height: 22px; width: 100%; background: var(--accent, #ff6a13);
+      border-radius: 11px; transform-origin: 0 50%; }
+    .dirty { position: relative; }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div id="hook-p1" class="clip plate" data-start="0" data-duration="1.6">
+      <div id="hook-c1" class="cam"><img src="assets/shots/01b_crumbs.jpg" alt="" /></div>
+      <div class="scrim"></div>
+    </div>
+    <div id="hook-p2" class="clip plate" data-start="1.6" data-duration="1.4">
+      <div id="hook-c2" class="cam"><img src="assets/shots/01a_coffee.jpg" alt="" /></div>
+      <div class="scrim"></div>
+    </div>
+    <div id="hook-t1" class="clip t" data-start="0" data-duration="1.6" style="top: 300px">
+      <span class="w">Your</span><span class="w">car</span><span class="w">isn't</span><span class="w dirty">dirty.<i id="hook-strike"></i></span>
+    </div>
+    <div id="hook-t2" class="clip t" data-start="1.6" data-duration="1.4" style="top: 300px">
+      <span class="w">It's</span><span class="w">full</span><span class="w">of</span><span class="w">your</span><span class="w acc">week.</span>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const W = 3413, cx = (f) => Math.min(0, Math.max(1080 - W, 540 - W * f));
+      const tl = gsap.timeline({ paused: true });
+      // crumbs: frame 0 already composed (thumbnail), settles from a slight punch
+      tl.fromTo("#hook-c1", { x: cx(0.53), scale: 1.14, transformOrigin: "53% 50%" },
+        { x: cx(0.53) - 40, scale: 1.0, duration: 1.6, ease: "expo.out" }, 0);
+      tl.fromTo("#hook-strike", { scaleX: 0 }, { scaleX: 1, duration: 0.28, ease: "power3.out" }, 0.72);
+      // coffee: push toward the drip
+      tl.fromTo("#hook-c2", { x: cx(0.8), scale: 1.0, transformOrigin: "80% 60%" },
+        { x: cx(0.8), scale: 1.12, duration: 1.4, ease: "power2.out" }, 1.6);
+      tl.fromTo("#hook-t2 .w", { opacity: 0, filter: "blur(8px)" },
+        { opacity: 1, filter: "blur(0px)", duration: 0.14, ease: "power4.out", stagger: 0.08 }, 1.66);
+      window.__timelines["hook"] = tl;
+    })();
+  </script>
+</template>
