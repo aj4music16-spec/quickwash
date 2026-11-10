@@ -1,0 +1,67 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "League Gothic", Inter, sans-serif; }
+    #hook-clip { position: absolute; inset: 0; }
+    #hook-strip { position: absolute; inset: 0; filter: url(#hook-f); }
+    #hook-cam { position: absolute; inset: 0; transform-origin: 540px 760px; }
+    .lg { position: absolute; font-family: "League Gothic", Inter, sans-serif; line-height: 1; white-space: nowrap; }
+
+    /* the gas-station pylon: painted steel, white frame, no glow */
+    .pylon { position: absolute; left: 110px; top: 205px; width: 860px; height: 1076px; }
+    .pylon-ext { position: absolute; left: 14px; top: 14px; width: 860px; height: 1076px; border-radius: 34px; background: #00005c; }
+    .pylon-body { position: absolute; inset: 0; border: 12px solid #fff; border-radius: 30px; overflow: hidden; background: var(--navy, #000099); }
+    .pylon-head { position: absolute; left: 0; top: 0; width: 836px; height: 164px; background: var(--accent, #f8630a); border-bottom: 10px solid #fff; }
+    .pylon-head .njb { position: absolute; left: 100px; top: 20px; width: 61px; height: 116px; fill: #fff; }
+    .pylon-head .lg { left: 190px; top: 3px; font-size: 150px; color: #fff; letter-spacing: 0.01em; }
+    .pylon-face { position: absolute; left: 0; top: 164px; width: 836px; height: 888px; }
+    .pylon-face .lg { left: 48px; color: #fff; }
+    #hook-slab { position: absolute; left: 491px; top: 638px; width: 307px; height: 223px; background: var(--accent, #f8630a); transform-origin: 0 50%; }
+    .pylon-base { position: absolute; left: 230px; top: 1281px; width: 620px; height: 178px; background: #cfc8ba; border-top: 16px solid #b3ab9b;
+      background-image: repeating-linear-gradient(0deg, transparent 0 38px, #b9b1a2 38px 42px); }
+    .pylon-base-ext { position: absolute; left: 244px; top: 1295px; width: 620px; height: 164px; background: #9a9283; }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <svg width="0" height="0" style="position: absolute"><filter id="hook-f" x="-15%" y="-5%" width="130%" height="110%"><feGaussianBlur id="hook-fe" stdDeviation="0 0" /></filter></svg>
+    <div id="hook-clip" class="clip" data-start="0" data-duration="1.9334" data-layout-allow-overflow>
+      <div id="hook-strip">
+        <div id="hook-cam">
+          <div class="pylon-base-ext"></div>
+          <div class="pylon-base"></div>
+          <div class="pylon">
+            <div class="pylon-ext"></div>
+            <div class="pylon-body">
+              <div class="pylon-face">
+                <div class="lg" style="top: -6.3px; font-size: 385.6px">JERSEY</div>
+                <div class="lg" style="top: 328.9px; font-size: 325.6px">DOESN'T</div>
+                <div id="hook-slab"></div>
+                <div class="lg" style="top: 619.2px; font-size: 265.2px">PUMP GAS</div>
+              </div>
+              <div class="pylon-head">
+                <svg class="njb" viewBox="0 0 524 1000"><path d="M45.2,644.5L64.4,629.0L91.5,625.1L109.5,618.4L132.1,608.9L135.5,580.0L157.0,566.6L184.1,543.0L220.2,528.9L233.7,510.8L245.0,513.7L263.1,501.3L248.4,474.8L225.8,460.2L217.9,441.8L194.2,422.7L186.3,398.6L158.1,391.8L153.6,375.8L155.8,342.1L144.5,328.9L125.3,330.7L116.3,319.3L114.0,312.2L112.9,296.2L120.8,285.5L111.8,277.6L122.0,242.0L134.4,243.8L160.3,203.4L145.7,181.2L138.9,162.6L134.4,154.0L168.3,132.9L186.3,110.0L178.4,111.0L201.0,91.7L213.4,74.1L229.2,29.5L254.1,4.7L272.1,0L374.9,64.4L416.7,89.9L424.6,93.8L520.6,150.5L523.9,150.8L517.2,183.7L511.5,198.8L495.7,233.0L487.8,247.3L483.3,270.5L476.5,278.3L468.6,290.5L440.4,297.2L426.8,302.9L426.8,318.6L422.3,332.8L412.2,338.5L408.8,356.3L408.8,371.6L420.1,376.5L448.3,375.1L475.4,390.8L491.2,393.9L495.7,378.3L500.2,410.3L496.8,448.2L481.0,512.6L481.0,521.8L466.4,599.8L460.7,660.7L415.5,745.3L393.0,768.0L396.3,776.4L385.1,795.7L346.7,831.0L320.7,849.2L290.2,881.3L266.5,922.4L241.6,974.3L219.1,995.1L197.6,1000L185.2,995.1L192.0,964.5L208.9,930.8L212.3,906.7L203.3,899.1L168.3,892.4L161.5,883.7L141.2,884.8L133.2,897.3L123.1,889.0L120.8,872.6L100.5,859.6L97.1,849.2L85.8,853.4L68.9,829.6L61.0,832.4L48.6,816.0L40.7,812.1L29.4,792.5L7.9,783.8L14.7,734.7L1.1,724.6L0,714.7L15.8,691.9L26.0,680.7L31.6,659.2L46.3,647.6Z" /></svg>
+                <div class="lg">FULL SERVICE</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const F = (f) => f / 30, WH = 16 / 30;
+      const tl = gsap.timeline({ paused: true });
+      const fe = document.querySelector("#hook-fe"), blur = { b: 0 };
+      const setBlur = () => fe.setAttribute("stdDeviation", blur.b.toFixed(2) + " 0");
+      // frame 0 is the thumbnail: the sign is already there, the camera just settles
+      tl.fromTo("#hook-cam", { scale: 1.045 }, { scale: 1, duration: 0.6, ease: "expo.out" }, 0);
+      // beat 2: the punchline gets painted
+      tl.fromTo("#hook-slab", { scaleX: 0 }, { scaleX: 1, duration: 0.14, ease: "power4.out" }, F(25));
+      // drive on: whip left, centred on beat 4 (frame 50)
+      tl.fromTo("#hook-strip", { x: 0 }, { x: -1080, duration: WH, ease: "power3.inOut" }, F(42));
+      tl.fromTo(blur, { b: 0 }, { b: 26, duration: WH / 2, ease: "power3.in", onUpdate: setBlur }, F(42));
+      tl.to(blur, { b: 0, duration: WH / 2, ease: "power3.out", onUpdate: setBlur }, F(42) + WH / 2);
+      setBlur();
+      window.__timelines["hook"] = tl;
+    })();
+  </script>
+</template>

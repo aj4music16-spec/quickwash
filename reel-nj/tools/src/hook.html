@@ -1,0 +1,67 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "League Gothic", Inter, sans-serif; }
+    #hook-clip { position: absolute; inset: 0; }
+    #hook-strip { position: absolute; inset: 0; filter: url(#hook-f); }
+    #hook-cam { position: absolute; inset: 0; transform-origin: 540px 760px; }
+    .lg { position: absolute; font-family: "League Gothic", Inter, sans-serif; line-height: 1; white-space: nowrap; }
+
+    /* the gas-station pylon: painted steel, white frame, no glow */
+    .pylon { position: absolute; left: 110px; top: 205px; width: 860px; height: 1076px; }
+    .pylon-ext { position: absolute; left: 14px; top: 14px; width: 860px; height: 1076px; border-radius: 34px; background: #00005c; }
+    .pylon-body { position: absolute; inset: 0; border: 12px solid #fff; border-radius: 30px; overflow: hidden; background: var(--navy, #000099); }
+    .pylon-head { position: absolute; left: 0; top: 0; width: 836px; height: 164px; background: var(--accent, #f8630a); border-bottom: 10px solid #fff; }
+    .pylon-head .njb { position: absolute; left: 100px; top: 20px; width: 61px; height: 116px; fill: #fff; }
+    .pylon-head .lg { left: 190px; top: 3px; font-size: 150px; color: #fff; letter-spacing: 0.01em; }
+    .pylon-face { position: absolute; left: 0; top: 164px; width: 836px; height: 888px; }
+    .pylon-face .lg { left: 48px; color: #fff; }
+    #hook-slab { position: absolute; left: 491px; top: 638px; width: 307px; height: 223px; background: var(--accent, #f8630a); transform-origin: 0 50%; }
+    .pylon-base { position: absolute; left: 230px; top: 1281px; width: 620px; height: 178px; background: #cfc8ba; border-top: 16px solid #b3ab9b;
+      background-image: repeating-linear-gradient(0deg, transparent 0 38px, #b9b1a2 38px 42px); }
+    .pylon-base-ext { position: absolute; left: 244px; top: 1295px; width: 620px; height: 164px; background: #9a9283; }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <svg width="0" height="0" style="position: absolute"><filter id="hook-f" x="-15%" y="-5%" width="130%" height="110%"><feGaussianBlur id="hook-fe" stdDeviation="0 0" /></filter></svg>
+    <div id="hook-clip" class="clip" data-start="0" data-duration="1.9334" data-layout-allow-overflow>
+      <div id="hook-strip">
+        <div id="hook-cam">
+          <div class="pylon-base-ext"></div>
+          <div class="pylon-base"></div>
+          <div class="pylon">
+            <div class="pylon-ext"></div>
+            <div class="pylon-body">
+              <div class="pylon-face">
+                <div class="lg" style="top: -6.3px; font-size: 385.6px">JERSEY</div>
+                <div class="lg" style="top: 328.9px; font-size: 325.6px">DOESN'T</div>
+                <div id="hook-slab"></div>
+                <div class="lg" style="top: 619.2px; font-size: 265.2px">PUMP GAS</div>
+              </div>
+              <div class="pylon-head">
+                <svg class="njb" viewBox="0 0 524 1000"><path d="@@NJ_OUTLINE@@" /></svg>
+                <div class="lg">FULL SERVICE</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const F = (f) => f / 30, WH = 16 / 30;
+      const tl = gsap.timeline({ paused: true });
+      const fe = document.querySelector("#hook-fe"), blur = { b: 0 };
+      const setBlur = () => fe.setAttribute("stdDeviation", blur.b.toFixed(2) + " 0");
+      // frame 0 is the thumbnail: the sign is already there, the camera just settles
+      tl.fromTo("#hook-cam", { scale: 1.045 }, { scale: 1, duration: 0.6, ease: "expo.out" }, 0);
+      // beat 2: the punchline gets painted
+      tl.fromTo("#hook-slab", { scaleX: 0 }, { scaleX: 1, duration: 0.14, ease: "power4.out" }, F(25));
+      // drive on: whip left, centred on beat 4 (frame 50)
+      tl.fromTo("#hook-strip", { x: 0 }, { x: -1080, duration: WH, ease: "power3.inOut" }, F(42));
+      tl.fromTo(blur, { b: 0 }, { b: 26, duration: WH / 2, ease: "power3.in", onUpdate: setBlur }, F(42));
+      tl.to(blur, { b: 0, duration: WH / 2, ease: "power3.out", onUpdate: setBlur }, F(42) + WH / 2);
+      setBlur();
+      window.__timelines["hook"] = tl;
+    })();
+  </script>
+</template>

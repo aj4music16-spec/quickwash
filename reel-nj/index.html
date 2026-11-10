@@ -1,0 +1,137 @@
+<!doctype html>
+<html
+  lang="en"
+  data-composition-variables='[
+    {"id":"navy","type":"color","label":"Brand navy","default":"#000099"},
+    {"id":"accent","type":"color","label":"Brand orange","default":"#f8630a"}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #7ccdf4; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #7ccdf4; font-family: Inter, sans-serif; }
+
+      /* The road world. Colours are variables so the black-and-white twin reuses the same drawing. */
+      .bg { position: absolute; inset: 0; overflow: hidden;
+        --sky1: #5fbdf0; --sky2: #b9e4fb; --cloud: #ffffff; --hillA: #a4dcc6; --hillB: #5fb87b;
+        --grass: #6cc257; --lip: #57a947; --curb: #e1e5ea; --road: #474c56; --line: #f6f1e2; }
+      .bg.old { --sky1: #bdbdb6; --sky2: #deded9; --cloud: #f2f2ee; --hillA: #b4b4ae; --hillB: #8d8d87;
+        --grass: #9b9b95; --lip: #84847e; --curb: #d6d6d1; --road: #4b4b4b; --line: #e7e7e1; }
+      .bg .sky { position: absolute; inset: 0; background: linear-gradient(180deg, var(--sky1) 0%, var(--sky2) 64%); }
+      .bg .clouds { position: absolute; left: 0; top: 0; width: 1700px; height: 1300px; }
+      .bg .cloud { position: absolute; fill: var(--cloud); }
+      .bg .land { position: absolute; inset: 0; }
+      .bg .hills { position: absolute; }
+      .bg .hillsA { fill: var(--hillA); }
+      .bg .hillsB { fill: var(--hillB); filter: url(#bg-f); }
+      .bg .grass { position: absolute; left: 0; right: 0; top: 1440px; height: 130px; background: var(--grass); }
+      .bg .lip { position: absolute; left: 0; right: 0; top: 1558px; height: 14px; background: var(--lip); }
+      .bg .curb { position: absolute; left: 0; right: 0; top: 1572px; height: 20px; background: var(--curb); }
+      .bg .road { position: absolute; left: 0; right: 0; top: 1592px; height: 600px; background: var(--road); }
+      .bg .edge { position: absolute; left: 0; right: 0; top: 1610px; height: 9px; background: var(--line); }
+      .bg .dashes { position: absolute; left: 0; top: 1748px; width: 2160px; height: 14px; filter: url(#bg-f);
+        background: repeating-linear-gradient(90deg, var(--line) 0 108px, transparent 108px 216px); }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="19.1667" data-width="1080" data-height="1920">
+      <svg width="0" height="0" style="position: absolute"><filter id="bg-f" x="-10%" y="-20%" width="120%" height="140%"><feGaussianBlur id="bg-fe" stdDeviation="0 0" /></filter></svg>
+
+      <!-- the road, in colour -->
+      <div id="bg" class="bg" data-layout-ignore>
+        <div class="sky"></div>
+        <div class="clouds">
+          <svg class="cloud" style="left: 640px; top: 22px" width="380" height="142" viewBox="0 0 320 120"><path d="M40 110a34 34 0 0 1 4-68a52 52 0 0 1 96-22a62 62 0 0 1 112 30a32 32 0 0 1 22 60z" /></svg>
+          <svg class="cloud" style="left: 150px; top: 58px" width="290" height="109" viewBox="0 0 320 120"><path d="M40 110a34 34 0 0 1 4-68a52 52 0 0 1 96-22a62 62 0 0 1 112 30a32 32 0 0 1 22 60z" /></svg>
+          <svg class="cloud" style="left: 1120px; top: 40px" width="340" height="128" viewBox="0 0 320 120"><path d="M40 110a34 34 0 0 1 4-68a52 52 0 0 1 96-22a62 62 0 0 1 112 30a32 32 0 0 1 22 60z" /></svg>
+          <svg class="cloud" style="left: 1480px; top: 74px" width="300" height="112" viewBox="0 0 320 120"><path d="M40 110a34 34 0 0 1 4-68a52 52 0 0 1 96-22a62 62 0 0 1 112 30a32 32 0 0 1 22 60z" /></svg>
+          <svg class="cloud" style="left: 820px; top: 1196px" width="230" height="86" viewBox="0 0 320 120"><path d="M40 110a34 34 0 0 1 4-68a52 52 0 0 1 96-22a62 62 0 0 1 112 30a32 32 0 0 1 22 60z" /></svg>
+          <svg class="cloud" style="left: 1420px; top: 1214px" width="210" height="79" viewBox="0 0 320 120"><path d="M40 110a34 34 0 0 1 4-68a52 52 0 0 1 96-22a62 62 0 0 1 112 30a32 32 0 0 1 22 60z" /></svg>
+          <svg class="cloud" style="left: 230px; top: 1222px" width="190" height="71" viewBox="0 0 320 120"><path d="M40 110a34 34 0 0 1 4-68a52 52 0 0 1 96-22a62 62 0 0 1 112 30a32 32 0 0 1 22 60z" /></svg>
+        </div>
+        <div class="land">
+          <svg class="hills hillsA" style="left: 0; top: 1308px" width="1458" height="140" viewBox="0 0 1458 140"><path d="M0 140 L0 110 Q81 44 162 110 Q243 44 324 110 Q405 44 486 110 Q567 44 648 110 Q729 44 810 110 Q891 44 972 110 Q1053 44 1134 110 Q1215 44 1296 110 Q1377 44 1458 110 L1458 140 Z" /></svg>
+          <svg class="hills hillsB" style="left: 0; top: 1300px" width="1620" height="150" viewBox="0 0 1620 150"><path d="M0 150 L0 110 Q75 16 162 98 Q246 48 324 110 Q399 16 486 98 Q570 48 648 110 Q723 16 810 98 Q894 48 972 110 Q1047 16 1134 98 Q1218 48 1296 110 Q1371 16 1458 98 Q1542 48 1620 110 L1620 150 Z" /></svg>
+          <div class="grass"></div>
+          <div class="lip"></div>
+          <div class="curb"></div>
+          <div class="road"></div>
+          <div class="edge"></div>
+          <div class="dashes"></div>
+        </div>
+
+      </div>
+      <!-- the same road in black and white: "the old way". The squeegee wipes it off (clip-path, top to bottom). -->
+      <div id="bgold" class="bg old" style="z-index: 1; opacity: 0" data-layout-ignore>
+        <div class="sky"></div>
+        <div class="clouds">
+          <svg class="cloud" style="left: 640px; top: 22px" width="380" height="142" viewBox="0 0 320 120"><path d="M40 110a34 34 0 0 1 4-68a52 52 0 0 1 96-22a62 62 0 0 1 112 30a32 32 0 0 1 22 60z" /></svg>
+          <svg class="cloud" style="left: 150px; top: 58px" width="290" height="109" viewBox="0 0 320 120"><path d="M40 110a34 34 0 0 1 4-68a52 52 0 0 1 96-22a62 62 0 0 1 112 30a32 32 0 0 1 22 60z" /></svg>
+          <svg class="cloud" style="left: 1120px; top: 40px" width="340" height="128" viewBox="0 0 320 120"><path d="M40 110a34 34 0 0 1 4-68a52 52 0 0 1 96-22a62 62 0 0 1 112 30a32 32 0 0 1 22 60z" /></svg>
+          <svg class="cloud" style="left: 1480px; top: 74px" width="300" height="112" viewBox="0 0 320 120"><path d="M40 110a34 34 0 0 1 4-68a52 52 0 0 1 96-22a62 62 0 0 1 112 30a32 32 0 0 1 22 60z" /></svg>
+          <svg class="cloud" style="left: 820px; top: 1196px" width="230" height="86" viewBox="0 0 320 120"><path d="M40 110a34 34 0 0 1 4-68a52 52 0 0 1 96-22a62 62 0 0 1 112 30a32 32 0 0 1 22 60z" /></svg>
+          <svg class="cloud" style="left: 1420px; top: 1214px" width="210" height="79" viewBox="0 0 320 120"><path d="M40 110a34 34 0 0 1 4-68a52 52 0 0 1 96-22a62 62 0 0 1 112 30a32 32 0 0 1 22 60z" /></svg>
+          <svg class="cloud" style="left: 230px; top: 1222px" width="190" height="71" viewBox="0 0 320 120"><path d="M40 110a34 34 0 0 1 4-68a52 52 0 0 1 96-22a62 62 0 0 1 112 30a32 32 0 0 1 22 60z" /></svg>
+        </div>
+        <div class="land">
+          <svg class="hills hillsA" style="left: 0; top: 1308px" width="1458" height="140" viewBox="0 0 1458 140"><path d="M0 140 L0 110 Q81 44 162 110 Q243 44 324 110 Q405 44 486 110 Q567 44 648 110 Q729 44 810 110 Q891 44 972 110 Q1053 44 1134 110 Q1215 44 1296 110 Q1377 44 1458 110 L1458 140 Z" /></svg>
+          <svg class="hills hillsB" style="left: 0; top: 1300px" width="1620" height="150" viewBox="0 0 1620 150"><path d="M0 150 L0 110 Q75 16 162 98 Q246 48 324 110 Q399 16 486 98 Q570 48 648 110 Q723 16 810 98 Q894 48 972 110 Q1047 16 1134 98 Q1218 48 1296 110 Q1371 16 1458 98 Q1542 48 1620 110 L1620 150 Z" /></svg>
+          <div class="grass"></div>
+          <div class="lip"></div>
+          <div class="curb"></div>
+          <div class="road"></div>
+          <div class="edge"></div>
+          <div class="dashes"></div>
+        </div>
+
+      </div>
+
+      <div id="hook" data-composition-id="hook" data-composition-src="compositions/hook.html" data-start="0" data-duration="1.9334"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 10"></div>
+      <div id="bill" data-composition-id="bill" data-composition-src="compositions/bill.html" data-start="1.4" data-duration="4.7"
+        data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 11"></div>
+      <div id="app" data-composition-id="app" data-composition-src="compositions/app.html" data-start="5.5666" data-duration="3.8668"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 12"></div>
+      <div id="map" data-composition-id="map" data-composition-src="compositions/map.html" data-start="8.9" data-duration="3.8667"
+        data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 13"></div>
+      <div id="price" data-composition-id="price" data-composition-src="compositions/price.html" data-start="12.2333" data-duration="3.6667"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 14"></div>
+      <div id="end" data-composition-id="end" data-composition-src="compositions/end.html" data-start="15.5333" data-duration="3.6334"
+        data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 15"></div>
+
+      <audio id="bed" class="clip" data-start="0" data-duration="19.1667" data-track-index="3" data-volume="1" src="assets/audio/bed.m4a"></audio>
+    </div>
+    <script>
+      (function () {
+        // 144 BPM: one beat = 12.5 frames. Whip-pans are 16 frames, centred on frames 50, 175, 275, 375.
+        const F = (f) => f / 30, WH = 16 / 30;
+        const tl = gsap.timeline({ paused: true });
+        const fe = document.querySelector("#bg-fe"), blur = { b: 0 };
+        const setBlur = () => fe.setAttribute("stdDeviation", blur.b.toFixed(2) + " 0");
+        [42, 167, 267, 367].forEach((f, i) => {
+          // the camera drives one frame-width down the road; patterns repeat so each stop looks the same
+          tl.fromTo(".bg .dashes", { x: 0 }, { x: -1080, duration: WH, ease: "power3.inOut" }, F(f));
+          tl.fromTo(".bg .hillsB", { x: 0 }, { x: -324, duration: WH, ease: "power3.inOut" }, F(f));
+          tl.fromTo(".bg .hillsA", { x: 0 }, { x: -162, duration: WH, ease: "power3.inOut" }, F(f));
+          tl.to(".bg .clouds", { x: -(i + 1) * 90, duration: WH, ease: "power3.inOut" }, F(f));
+          tl.fromTo(blur, { b: 0 }, { b: 26, duration: WH / 2, ease: "power3.in", onUpdate: setBlur }, F(f));
+          tl.to(blur, { b: 0, duration: WH / 2, ease: "power3.out", onUpdate: setBlur }, F(f) + WH / 2);
+        });
+        setBlur();
+        // the old way: the world goes black and white mid-whip, then the squeegee (frame 100) wipes it off
+        tl.fromTo("#bgold", { opacity: 0 }, { opacity: 1, duration: F(6), ease: "none" }, F(47));
+        tl.fromTo("#bgold", { clipPath: "inset(-50px 0px 0px 0px)" }, { clipPath: "inset(2050px 0px 0px 0px)", duration: 0.5, ease: "power1.inOut" }, F(100));
+        tl.set("#bgold", { opacity: 0 }, F(116));
+        // the crane up into the clouds (cut at frame 475): the land sinks away
+        tl.fromTo(".bg .land", { y: 0 }, { y: 300, duration: F(8), ease: "power4.in" }, F(467));
+        tl.fromTo(".bg .clouds", { y: 0 }, { y: 110, duration: F(8), ease: "power4.in" }, F(467));
+        window.__timelines = window.__timelines || {};
+        window.__timelines["main"] = tl;
+      })();
+    </script>
+  </body>
+</html>

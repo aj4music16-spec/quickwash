@@ -46,3 +46,13 @@ node video/render.js out.mp4 --fps 24
   To remove the captions, hide `#cap`.
 - Photo plates live in `video/shots/` (AI-generated stills supplied for the project). Any missing shot falls back to its coded illustration, so the film always renders.
 - No third-party footage, podcast audio or music is used.
+
+## Reels
+
+| Reel | File | Project |
+|---|---|---|
+| "Your Week, Reset." (16.6 s) | `dist/quickwash-reel.mp4` | `reel/` |
+| App awareness (18 s) | `dist/quickwash-app-reel.mp4` | `reel-app/` |
+| "Full Service" — New Jersey app downloads (19.2 s) | `dist/quickwash-nj-full-service.mp4` | `reel-nj/` (see `SPEC.md`, `STORYLINES.md`, `REVIEW.md`) |
+
+The reels are HyperFrames projects: `cd <project> && npm run check && npm run render`.

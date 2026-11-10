@@ -1,0 +1,79 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "League Gothic", Inter, sans-serif; }
+    #end-clip { position: absolute; inset: 0; }
+    .lg { position: absolute; font-family: "League Gothic", Inter, sans-serif; line-height: 1; white-space: nowrap; }
+    .w { display: inline-block; position: relative; }
+    #end-logo, #end-tag .tw, #end-slab, #end-rev, #end-cta, #end-ios, #end-and { opacity: 0; }
+
+    /* the cloud deck we rise through; it settles as a floor under the end card */
+    #end-bank { position: absolute; left: -60px; top: 0; width: 1200px; height: 2600px; }
+    #end-bank .body { position: absolute; left: 0; top: 150px; width: 1200px; height: 2300px; background: #fff; }
+    #end-bank svg { position: absolute; left: 0; width: 1200px; height: 190px; fill: #fff; }
+
+    #end-logo { position: absolute; left: 356px; top: 188px; width: 368px; height: 368px; border-radius: 84px; background: #fff; box-shadow: 14px 14px 0 rgba(0, 0, 92, 0.3); }
+    #end-logo img { position: absolute; left: 34px; top: 34px; width: 300px; height: 300px; display: block; }
+    #end-tag .lg { left: 90px; color: var(--navy, #000099); }
+    #end-slab { position: absolute; left: 192px; top: 775px; width: 428px; height: 186px; background: var(--accent, #f8630a); }
+    #end-tag .on-slab { color: #fff; }
+    #end-rev { position: absolute; left: 100px; top: 986px; width: 880px; height: 84px; background: #fff; border: 6px solid var(--navy, #000099); }
+    #end-rev .stars { position: absolute; left: 22px; top: 12px; display: flex; gap: 6px; }
+    #end-rev .stars svg { width: 48px; height: 48px; display: block; }
+    #end-rev .lg { left: 312px; top: 7.2px; font-size: 58px; color: var(--navy, #000099); letter-spacing: 0.01em; }
+    #end-cta { left: 0; width: 1080px; text-align: center; top: 1087px; font-size: 72px; color: var(--navy, #000099); letter-spacing: 0.02em; }
+    #end-badges { position: absolute; left: 0; top: 1168px; width: 1080px; display: flex; justify-content: center; gap: 26px; }
+    #end-badges img { height: 112px; display: block; }
+  </style>
+  <div id="root" data-composition-id="end" data-width="1080" data-height="1920">
+    <div id="end-clip" class="clip" data-start="0" data-duration="3.6334" data-layout-allow-overflow>
+      <div id="end-bank" data-layout-ignore>
+        <svg style="top: 0" viewBox="0 0 1200 190" preserveAspectRatio="none"><path d="M0 190 L0 120 A80 80 0 0 1 150 80 A110 110 0 0 1 350 60 A95 95 0 0 1 530 85 A120 120 0 0 1 760 55 A100 100 0 0 1 950 80 A85 85 0 0 1 1110 70 A70 70 0 0 1 1200 120 L1200 190 Z" /></svg>
+        <div class="body"></div>
+        <svg style="top: 2410px; transform: scaleY(-1)" viewBox="0 0 1200 190" preserveAspectRatio="none"><path d="M0 190 L0 120 A80 80 0 0 1 150 80 A110 110 0 0 1 350 60 A95 95 0 0 1 530 85 A120 120 0 0 1 760 55 A100 100 0 0 1 950 80 A85 85 0 0 1 1110 70 A70 70 0 0 1 1200 120 L1200 190 Z" /></svg>
+      </div>
+
+      <div id="end-logo"><img src="assets/app/logo.png" alt="QuickWash" /></div>
+      <div id="end-tag" data-layout-allow-overlap>
+        <div id="end-slab"></div>
+        <div class="lg" style="top: 575.7px; font-size: 206.9px"><span class="w tw">FULL</span> <span class="w tw">SERVICE</span> <span class="w tw">IS</span></div>
+        <div class="lg" style="top: 764.3px; font-size: 210.6px"><span class="w tw">A</span> <span class="w tw on-slab" id="end-jersey">JERSEY</span> <span class="w tw">THING</span></div>
+      </div>
+      <div id="end-rev">
+        <div class="stars">
+          <svg viewBox="0 0 24 24"><path fill="#f8630a" d="M12 1.6l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.7 5.6 21.2 7 14.1l-5.3-5 7.2-.9z" /></svg>
+          <svg viewBox="0 0 24 24"><path fill="#f8630a" d="M12 1.6l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.7 5.6 21.2 7 14.1l-5.3-5 7.2-.9z" /></svg>
+          <svg viewBox="0 0 24 24"><path fill="#f8630a" d="M12 1.6l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.7 5.6 21.2 7 14.1l-5.3-5 7.2-.9z" /></svg>
+          <svg viewBox="0 0 24 24"><path fill="#f8630a" d="M12 1.6l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.7 5.6 21.2 7 14.1l-5.3-5 7.2-.9z" /></svg>
+          <svg viewBox="0 0 24 24"><path fill="#f8630a" d="M12 1.6l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.7 5.6 21.2 7 14.1l-5.3-5 7.2-.9z" /></svg>
+        </div>
+        <div class="lg">200+ FIVE-STAR GOOGLE REVIEWS</div>
+      </div>
+      <div class="lg" id="end-cta">DOWNLOAD QUICKWASH</div>
+      <div id="end-badges">
+        <img id="end-ios" src="assets/app/app-store-badge.svg" alt="Download on the App Store" />
+        <img id="end-and" src="assets/app/google-play-badge.svg" alt="Get it on Google Play" />
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // local frame 0 = film frame 466. The cut under the cloud is at local 9 (film frame 475, beat 38).
+      const F = (f) => f / 30;
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#end-bank", { y: -2850 }, { y: -330, duration: F(9), ease: "power2.in" }, 0);
+      tl.to("#end-bank", { y: 1290, duration: 0.6, ease: "power3.out" }, F(9));
+      // everything arrives from above, the way we came
+      const drop = (sel, at, dy, d) => { tl.set(sel, { opacity: 1 }, at); tl.fromTo(sel, { y: -dy }, { y: 0, duration: d, ease: "power4.out" }, at); };
+      drop("#end-logo", F(13), 90, 0.24);
+      const words = document.querySelectorAll("#end-tag .tw");
+      [[0, 60, 0.17], [1, 60, 0.17], [2, 40, 0.13], [3, 40, 0.13]].forEach(([i, dy, d], k) => drop(words[i], F(19) + [0, 0.06, 0.11, 0.17][k], dy, d));
+      drop(["#end-slab", "#end-jersey"], F(19) + 0.22, 76, 0.2);
+      drop(words[5], F(19) + 0.3, 56, 0.16);
+      drop("#end-rev", F(34), 50, 0.18);
+      drop("#end-cta", F(40), 46, 0.16);
+      drop("#end-ios", F(43), 46, 0.18);
+      drop("#end-and", F(45), 46, 0.18);
+      window.__timelines["end"] = tl;
+    })();
+  </script>
+</template>

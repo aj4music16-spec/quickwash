@@ -1,0 +1,111 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "League Gothic", Inter, sans-serif; }
+    #map-clip { position: absolute; inset: 0; }
+    #map-strip { position: absolute; inset: 0; filter: url(#map-f); }
+    .lg { position: absolute; font-family: "League Gothic", Inter, sans-serif; line-height: 1; white-space: nowrap; }
+
+    #map-l1, #map-l2, .gsign, #map-tab, #map-ring, .gpole, .gfoot { opacity: 0; }
+    #map-h .lg { left: 70px; font-size: 190px; color: var(--navy, #000099); }
+    #map-num { display: inline-block; width: 118px; text-align: right; }
+
+    /* three destinations on one signpost, highway style */
+    .gpole { position: absolute; left: 236px; top: 566px; width: 26px; height: 894px; transform-origin: 50% 100%; background: linear-gradient(90deg, #b3bbc6 0 30%, #8a93a0 30% 100%); }
+    .gfoot { position: absolute; left: 204px; top: 1450px; width: 90px; height: 14px; background: #5c6470; }
+    .gsign { position: absolute; left: 60px; width: 408px; height: 104px; background: #0a7a4a; border-radius: 14px; box-shadow: inset 0 0 0 5px #0a7a4a, inset 0 0 0 10px #fff; }
+    .gsign .lg { left: 30px; top: 19.5px; font-size: 64px; color: #fff; letter-spacing: 0.01em; }
+    .gsign svg { position: absolute; right: 26px; top: 27px; width: 50px; height: 50px; }
+    #map-tab { position: absolute; left: 300px; top: 716px; width: 168px; height: 54px; background: #ffd60a; border-radius: 10px 10px 0 0; box-shadow: inset 0 0 0 4px #111; transform-origin: 50% 100%; }
+    #map-tab .lg { left: 0; width: 100%; text-align: center; top: 6.5px; font-size: 42px; color: #111; }
+
+    /* New Jersey as a standing cut-out sign; real county shapes */
+    .mpost { position: absolute; top: 1150px; width: 24px; height: 310px; background: linear-gradient(90deg, #b3bbc6 0 30%, #8a93a0 30% 100%); }
+    #map-nj { position: absolute; left: 500px; top: 420px; width: 564px; height: 1040px; overflow: visible; }
+    #map-nj .ext { fill: #00005c; stroke: #00005c; stroke-width: 12; stroke-linejoin: round; }
+    #map-nj .cty { stroke: #fff; stroke-width: 3; stroke-linejoin: round; }
+    #map-nj .cty.s { fill: #ffffff; }
+    #map-nj .cty.u { fill: #d5e6f2; }
+    #map-nj .out { fill: none; stroke: var(--navy, #000099); stroke-width: 11; stroke-linejoin: round; }
+
+    #map-pin { position: absolute; left: 0; top: 0; width: 96px; height: 124px; margin: -124px 0 0 -48px; transform-origin: 50% 100%; }
+    #map-ring { position: absolute; left: 0; top: 0; width: 220px; height: 110px; margin: -55px 0 0 -110px; border-radius: 50%; border: 10px solid #fff; }
+  </style>
+  <div id="root" data-composition-id="map" data-width="1080" data-height="1920">
+    <svg width="0" height="0" style="position: absolute"><filter id="map-f" x="-15%" y="-5%" width="130%" height="110%"><feGaussianBlur id="map-fe" stdDeviation="0 0" /></filter></svg>
+    <div id="map-clip" class="clip" data-start="0" data-duration="3.8667" data-layout-allow-overflow>
+      <div id="map-strip">
+        <div id="map-h">
+          <div class="lg" id="map-l1" style="top: 182.7px"><span id="map-num">13</span> <span id="map-word">COUNTIES</span></div>
+          <div class="lg" id="map-l2" style="top: 353.2px">ONE APP</div>
+        </div>
+
+        <div class="gpole"></div>
+        <div class="gfoot"></div>
+        <div class="gsign" id="map-g1" style="top: 590px"><div class="lg">NORTH JERSEY</div><svg viewBox="0 0 50 50"><path d="M12 38 L32 18 M16 16 H34 V34" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+        <div id="map-tab"><div class="lg">IT EXISTS</div></div>
+        <div class="gsign" id="map-g2" style="top: 770px"><div class="lg">CENTRAL JERSEY</div><svg viewBox="0 0 50 50"><path d="M8 25 H40 M28 12 L41 25 L28 38" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+        <div class="gsign" id="map-g3" style="top: 940px"><div class="lg">THE SHORE</div><svg viewBox="0 0 50 50"><path d="M12 12 L32 32 M16 34 H34 V16" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" /></svg></div>
+
+        <div class="mpost" style="left: 690px"></div>
+        <div class="mpost" style="left: 850px"></div>
+        <svg id="map-nj" viewBox="-20 -20 564 1040">
+          <path class="ext" d="@@NJ_OUTLINE@@" transform="translate(12 12)" />
+@@NJ_COUNTIES@@
+          <path class="out" d="@@NJ_OUTLINE@@" />
+        </svg>
+      </div>
+      <div id="map-ring"></div>
+      <svg id="map-pin" viewBox="0 0 96 124"><path d="M48 122C48 122 6 76 6 46a42 42 0 0 1 84 0c0 30-42 76-42 76z" fill="#f8630a" stroke="#fff" stroke-width="6" /><circle cx="48" cy="46" r="22" fill="#fff" /><circle cx="48" cy="46" r="10" fill="#000099" /></svg>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // local frame 0 = film frame 267. Beats: 23 -> local 20.5 (pin lands), 25 -> 45.5, 26 -> 58, 27 -> 70.5. Whip out at 100.
+      const F = (f) => f / 30, WH = 16 / 30;
+      const tl = gsap.timeline({ paused: true });
+      const fe = document.querySelector("#map-fe"), blur = { b: 0 };
+      const setBlur = () => fe.setAttribute("stdDeviation", blur.b.toFixed(2) + " 0");
+      const whip = (at, from, to) => {
+        tl.fromTo("#map-strip", { x: from }, { x: to, duration: WH, ease: "power3.inOut" }, at);
+        tl.fromTo(blur, { b: 0 }, { b: 26, duration: WH / 2, ease: "power3.in", onUpdate: setBlur }, at);
+        tl.to(blur, { b: 0, duration: WH / 2, ease: "power3.out", onUpdate: setBlur }, at + WH / 2);
+      };
+      whip(0, 1080, 0);
+
+      // the pin from the booking flies over and lands in Passaic County (Clifton, where QuickWash is based)
+      const PX = 520 + @@CLIFTON_X@@, PY = 440 + @@CLIFTON_Y@@;
+      tl.fromTo("#map-pin", { x: 778 }, { x: PX, duration: F(20), ease: "power1.inOut" }, 0);
+      tl.fromTo("#map-pin", { y: 968 }, { y: PY - 250, duration: F(10), ease: "power2.out" }, 0);
+      tl.to("#map-pin", { y: PY, duration: F(10), ease: "power2.in" }, F(10));
+      tl.to("#map-pin", { scaleY: 0.72, scaleX: 1.2, duration: F(2), ease: "power2.out" }, F(20));
+      tl.to("#map-pin", { scaleY: 1, scaleX: 1, duration: 0.3, ease: "back.out(2.2)" }, F(22));
+      tl.set("#map-ring", { opacity: 1, x: PX, y: PY }, F(20));
+      tl.fromTo("#map-ring", { scale: 0.15 }, { scale: 1.5, duration: 0.5, ease: "power2.out" }, F(20));
+      tl.to("#map-ring", { opacity: 0, duration: 0.3, ease: "none" }, F(20) + 0.2);
+
+      // the impact lights the counties outward, and the number counts them
+      const order = @@NJ_ORDER@@, STEP = 0.07, n = { v: 0 }, num = document.querySelector("#map-num"), word = document.querySelector("#map-word");
+      order.forEach((id, i) => tl.to(id, { fill: i % 2 ? "#ff7d2e" : "#f8630a", duration: 0.1, ease: "none" }, F(21) + i * STEP));
+      tl.set("#map-l1", { opacity: 1 }, F(21));
+      tl.fromTo("#map-l1", { y: 60 }, { y: 0, duration: 0.18, ease: "power4.out" }, F(21));
+      tl.fromTo(n, { v: 1 }, { v: 13, duration: 12 * STEP, ease: "none", onUpdate: () => { const k = Math.round(n.v); num.textContent = k; word.textContent = k === 1 ? "COUNTY" : "COUNTIES"; } }, F(21));
+      tl.set("#map-l2", { opacity: 1 }, F(21) + 13 * STEP + 0.12);
+      tl.fromTo("#map-l2", { y: 60 }, { y: 0, duration: 0.18, ease: "power4.out" }, F(21) + 13 * STEP + 0.12);
+
+      // the destinations slot onto the post on the beat
+      // the signpost goes up just before its first sign
+      tl.set(".gpole, .gfoot", { opacity: 1 }, F(49));
+      tl.fromTo(".gpole", { scaleY: 0 }, { scaleY: 1, duration: 0.22, ease: "power4.out" }, F(49));
+      const blade = (id, at) => { tl.set(id, { opacity: 1 }, at); tl.fromTo(id, { y: -46 }, { y: 0, duration: 0.17, ease: "power4.out" }, at); };
+      blade("#map-g1", F(57));
+      blade("#map-g2", F(66));
+      tl.set("#map-tab", { opacity: 1 }, F(73));
+      tl.fromTo("#map-tab", { scaleY: 0 }, { scaleY: 1, duration: 0.14, ease: "power4.out" }, F(73));
+      blade("#map-g3", F(76));
+      whip(F(100), 0, -1080);
+      tl.to("#map-pin", { x: PX - 1080, duration: WH, ease: "power3.inOut" }, F(100));
+      setBlur();
+      window.__timelines["map"] = tl;
+    })();
+  </script>
+</template>

@@ -1,0 +1,139 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "League Gothic", Inter, sans-serif; }
+    #app-clip { position: absolute; inset: 0; }
+    #app-strip { position: absolute; inset: 0; filter: url(#app-f); }
+    .lg { position: absolute; font-family: "League Gothic", Inter, sans-serif; line-height: 1; white-space: nowrap; }
+    .step, #app-booked, #app-tap, #app-pin { opacity: 0; }
+
+    #app-h .lg { left: 90px; color: var(--navy, #000099); }
+    #app-slab { position: absolute; left: 76px; top: 350px; width: 928px; height: 230px; background: var(--accent, #f8630a); }
+    #app-h .on-slab { color: #fff; }
+
+    /* the phone, big, with the real app screens */
+    #app-phone-ext { position: absolute; left: 554px; top: 610px; width: 476px; height: 980px; border-radius: 74px; background: rgba(0, 0, 90, 0.28); }
+    #app-phone { position: absolute; left: 540px; top: 596px; width: 476px; height: 980px; border-radius: 74px; background: #0b0c14; padding: 12px; }
+    #app-screen { position: relative; width: 452px; height: 956px; border-radius: 62px; overflow: hidden; background: #fff; }
+    #app-screen img { position: absolute; left: 0; top: 0; width: 452px; display: block; }
+    #app-status { position: absolute; left: 0; top: 0; width: 452px; height: 66px; font-family: Inter, sans-serif; color: #fff; }
+    #app-status .time { position: absolute; left: 44px; top: 21px; font-weight: 700; font-size: 22px; letter-spacing: -0.01em; }
+    #app-status .island { position: absolute; left: 153px; top: 13px; width: 146px; height: 40px; border-radius: 20px; background: #000; }
+    #app-status .bars { position: absolute; right: 86px; top: 27px; width: 26px; height: 16px;
+      background: linear-gradient(90deg, #fff 0 5px, transparent 5px 7px, #fff 7px 12px, transparent 12px 14px, #fff 14px 19px, transparent 19px 21px, #fff 21px 26px);
+      clip-path: polygon(0 100%, 0 62%, 5px 62%, 5px 100%, 7px 100%, 7px 42%, 12px 42%, 12px 100%, 14px 100%, 14px 20%, 19px 20%, 19px 100%, 21px 100%, 21px 0, 26px 0, 26px 100%); }
+    #app-status .batt { position: absolute; right: 40px; top: 26px; width: 36px; height: 18px; border-radius: 6px; border: 2px solid rgba(255, 255, 255, 0.75); }
+    #app-status .batt i { position: absolute; left: 2px; top: 2px; width: 22px; height: 10px; border-radius: 3px; background: #fff; }
+    #app-booked { position: absolute; left: 34px; top: 372px; width: 384px; height: 124px; border-radius: 20px; background: #1f9d55; border: 6px solid #fff; transform-origin: 50% 50%; }
+    #app-booked .lg { left: 0; width: 100%; text-align: center; top: 9px; font-size: 104px; color: #fff; letter-spacing: 0.02em; }
+    #app-tap { position: absolute; left: 0; top: 0; width: 84px; height: 84px; margin: -42px 0 0 -42px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); border: 6px solid #fff; box-shadow: 0 0 0 3px rgba(0, 0, 60, 0.35); }
+
+    /* steps as road-sign plates */
+    .step { position: absolute; left: 60px; width: 430px; height: 100px; background: #fff; border: 6px solid var(--navy, #000099); transform-origin: 0 50%; }
+    .step i { position: absolute; left: 0; top: 0; width: 88px; height: 88px; background: var(--navy, #000099); }
+    .step i .lg { left: 0; width: 88px; text-align: center; top: 4.5px; font-size: 80px; color: #fff; font-style: normal; }
+    .step > .lg { left: 110px; top: 15.2px; font-size: 58px; color: var(--navy, #000099); }
+
+    /* the pump meter */
+    #app-meter { position: absolute; left: 60px; top: 1030px; width: 430px; height: 180px; background: #0c0e13; border: 6px solid #2a2e38; --led: #ffab2e; }
+    #app-meter .lab { position: absolute; left: 24px; top: 20px; font-family: Inter, sans-serif; font-weight: 700; font-size: 28px; line-height: 1.15; letter-spacing: 0.08em; color: #aeb6c2; }
+    #app-meter .dg { position: absolute; top: 24px; width: 72px; height: 124px; }
+    .dg polygon { fill: rgba(255, 255, 255, 0.07); }
+    .dg[data-v="0"] .a, .dg[data-v="2"] .a, .dg[data-v="3"] .a, .dg[data-v="5"] .a, .dg[data-v="6"] .a, .dg[data-v="7"] .a, .dg[data-v="8"] .a, .dg[data-v="9"] .a { fill: var(--led, #ffab2e); }
+    .dg[data-v="0"] .b, .dg[data-v="1"] .b, .dg[data-v="2"] .b, .dg[data-v="3"] .b, .dg[data-v="4"] .b, .dg[data-v="7"] .b, .dg[data-v="8"] .b, .dg[data-v="9"] .b { fill: var(--led, #ffab2e); }
+    .dg[data-v="0"] .c, .dg[data-v="1"] .c, .dg[data-v="3"] .c, .dg[data-v="4"] .c, .dg[data-v="5"] .c, .dg[data-v="6"] .c, .dg[data-v="7"] .c, .dg[data-v="8"] .c, .dg[data-v="9"] .c { fill: var(--led, #ffab2e); }
+    .dg[data-v="0"] .d, .dg[data-v="2"] .d, .dg[data-v="3"] .d, .dg[data-v="5"] .d, .dg[data-v="6"] .d, .dg[data-v="8"] .d, .dg[data-v="9"] .d { fill: var(--led, #ffab2e); }
+    .dg[data-v="0"] .e, .dg[data-v="2"] .e, .dg[data-v="6"] .e, .dg[data-v="8"] .e { fill: var(--led, #ffab2e); }
+    .dg[data-v="0"] .f, .dg[data-v="4"] .f, .dg[data-v="5"] .f, .dg[data-v="6"] .f, .dg[data-v="8"] .f, .dg[data-v="9"] .f { fill: var(--led, #ffab2e); }
+    .dg[data-v="2"] .g, .dg[data-v="3"] .g, .dg[data-v="4"] .g, .dg[data-v="5"] .g, .dg[data-v="6"] .g, .dg[data-v="8"] .g, .dg[data-v="9"] .g { fill: var(--led, #ffab2e); }
+
+    /* the pin that carries us to the map */
+    #app-pin { position: absolute; left: 0; top: 0; width: 96px; height: 124px; margin: -124px 0 0 -48px; transform-origin: 50% 100%; }
+  </style>
+  <div id="root" data-composition-id="app" data-width="1080" data-height="1920">
+    <svg width="0" height="0" style="position: absolute"><filter id="app-f" x="-15%" y="-5%" width="130%" height="110%"><feGaussianBlur id="app-fe" stdDeviation="0 0" /></filter></svg>
+    <div id="app-clip" class="clip" data-start="0" data-duration="3.8668" data-layout-allow-overflow>
+      <div id="app-strip">
+        <div id="app-h" data-layout-allow-overlap>
+          <div id="app-slab"></div>
+          <div class="lg" style="top: 173.1px; font-size: 186px">BOOK IT IN UNDER</div>
+          <div class="lg on-slab" style="top: 333px; font-size: 268.1px">20 SECONDS</div>
+        </div>
+
+        <div id="app-phone-ext"></div>
+        <div id="app-phone">
+          <div id="app-screen">
+            <img id="app-s1" src="assets/app/screen-home.jpg" alt="QuickWash app: choose your car and service" />
+            <img id="app-s2" src="assets/app/screen-book.jpg" alt="QuickWash app: book an appointment" />
+            <img id="app-s3" src="assets/app/screen-activity.jpg" alt="QuickWash app: upcoming washes" />
+            <div id="app-status" data-layout-ignore><span class="time">9:41</span><span class="island"></span><span class="bars"></span><span class="batt"><i></i></span></div>
+            <div id="app-booked"><div class="lg">BOOKED</div></div>
+          </div>
+        </div>
+
+        <div class="step" id="app-st1" style="top: 640px"><i><span class="lg">1</span></i><span class="lg">PICK YOUR WASH</span></div>
+        <div class="step" id="app-st2" style="top: 764px"><i><span class="lg">2</span></i><span class="lg">PICK A TIME</span></div>
+        <div class="step" id="app-st3" style="top: 888px"><i><span class="lg">3</span></i><span class="lg">TRACK IT LIVE</span></div>
+
+        <div id="app-meter">
+          <div class="lab">SECONDS<br />TO BOOK</div>
+          <div id="app-d1" style="position: absolute; left: 248px; top: 0"><svg class="dg " data-v="0" viewBox="0 0 64 110"><g transform="skewX(-5) translate(5 0)"><polygon class="a" points="14.0,2 50.0,2 56,8.0 50.0,14 14.0,14 8,8.0"/><polygon class="g" points="14.0,49 50.0,49 56,55.0 50.0,61 14.0,61 8,55.0"/><polygon class="d" points="14.0,96 50.0,96 56,102.0 50.0,108 14.0,108 8,102.0"/><polygon class="f" points="8.0,8 14,14.0 14,48.0 8.0,54 2,48.0 2,14.0"/><polygon class="b" points="56.0,8 62,14.0 62,48.0 56.0,54 50,48.0 50,14.0"/><polygon class="e" points="8.0,55 14,61.0 14,95.0 8.0,101 2,95.0 2,61.0"/><polygon class="c" points="56.0,55 62,61.0 62,95.0 56.0,101 50,95.0 50,61.0"/></g></svg></div>
+          <div id="app-d2" style="position: absolute; left: 332px; top: 0"><svg class="dg " data-v="0" viewBox="0 0 64 110"><g transform="skewX(-5) translate(5 0)"><polygon class="a" points="14.0,2 50.0,2 56,8.0 50.0,14 14.0,14 8,8.0"/><polygon class="g" points="14.0,49 50.0,49 56,55.0 50.0,61 14.0,61 8,55.0"/><polygon class="d" points="14.0,96 50.0,96 56,102.0 50.0,108 14.0,108 8,102.0"/><polygon class="f" points="8.0,8 14,14.0 14,48.0 8.0,54 2,48.0 2,14.0"/><polygon class="b" points="56.0,8 62,14.0 62,48.0 56.0,54 50,48.0 50,14.0"/><polygon class="e" points="8.0,55 14,61.0 14,95.0 8.0,101 2,95.0 2,61.0"/><polygon class="c" points="56.0,55 62,61.0 62,95.0 56.0,101 50,95.0 50,61.0"/></g></svg></div>
+        </div>
+
+        <div id="app-tap"></div>
+      </div>
+      <svg id="app-pin" viewBox="0 0 96 124"><path d="M48 122C48 122 6 76 6 46a42 42 0 0 1 84 0c0 30-42 76-42 76z" fill="#f8630a" stroke="#fff" stroke-width="6" /><circle cx="48" cy="46" r="22" fill="#fff" /><circle cx="48" cy="46" r="10" fill="#000099" /></svg>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // local frame 0 = film frame 167. Beats: 16 -> local 33 (tap 1), 18 -> 58 (tap 2), 20 -> 83 (booked), 21 -> 95 (pin). Whip out at 100.
+      const F = (f) => f / 30, WH = 16 / 30;
+      const tl = gsap.timeline({ paused: true });
+      const fe = document.querySelector("#app-fe"), blur = { b: 0 };
+      const setBlur = () => fe.setAttribute("stdDeviation", blur.b.toFixed(2) + " 0");
+      const whip = (at, from, to) => {
+        tl.fromTo("#app-strip", { x: from }, { x: to, duration: WH, ease: "power3.inOut" }, at);
+        tl.fromTo(blur, { b: 0 }, { b: 26, duration: WH / 2, ease: "power3.in", onUpdate: setBlur }, at);
+        tl.to(blur, { b: 0, duration: WH / 2, ease: "power3.out", onUpdate: setBlur }, at + WH / 2);
+      };
+      whip(0, 1080, 0);
+      tl.set("#app-s2, #app-s3", { xPercent: 100 }, 0);
+
+      // sign plates slot in as each step happens
+      const plate = (id, at) => { tl.set(id, { opacity: 1 }, at); tl.fromTo(id, { x: -70 }, { x: 0, duration: 0.2, ease: "power4.out" }, at); };
+      // 1 · pick your wash
+      plate("#app-st1", F(18));
+      tl.set("#app-tap", { opacity: 1 }, F(20));
+      tl.fromTo("#app-tap", { x: 640, y: 1560, scale: 1 }, { x: 757, y: 1224, duration: F(12), ease: "power3.out" }, F(20));
+      tl.to("#app-tap", { scale: 0.72, duration: F(2), ease: "power2.in" }, F(33)).to("#app-tap", { scale: 1, duration: F(5), ease: "power2.out" }, F(35));
+      tl.to("#app-s1", { xPercent: -100, duration: F(10), ease: "power3.inOut" }, F(37));
+      tl.to("#app-s2", { xPercent: 0, duration: F(10), ease: "power3.inOut" }, F(37));
+      // 2 · pick a time
+      plate("#app-st2", F(44));
+      tl.to("#app-tap", { x: 778, y: 1296, duration: F(11), ease: "power2.inOut" }, F(46));
+      tl.to("#app-tap", { scale: 0.72, duration: F(2), ease: "power2.in" }, F(58)).to("#app-tap", { scale: 1, duration: F(5), ease: "power2.out" }, F(60));
+      tl.to("#app-s2", { xPercent: -100, duration: F(10), ease: "power3.inOut" }, F(62));
+      tl.to("#app-s3", { xPercent: 0, duration: F(10), ease: "power3.inOut" }, F(62));
+      tl.to("#app-tap", { opacity: 0, duration: F(5), ease: "none" }, F(64));
+      // 3 · track it live
+      plate("#app-st3", F(70));
+      // the meter runs the whole time and stops at :19 — under 20, as promised
+      const c = { v: 0 }, d1 = document.querySelector("#app-d1 .dg"), d2 = document.querySelector("#app-d2 .dg");
+      const setN = () => { const n = Math.round(c.v); d1.setAttribute("data-v", Math.floor(n / 10)); d2.setAttribute("data-v", n % 10); };
+      tl.fromTo(c, { v: 0 }, { v: 19, duration: F(63), ease: "none", onUpdate: setN }, F(20));
+      setN();
+      // beat 20: booked
+      tl.set("#app-booked", { opacity: 1 }, F(83));
+      tl.fromTo("#app-booked", { scale: 1.7, rotation: -10 }, { scale: 1, rotation: -4, duration: 0.18, ease: "power4.out" }, F(83));
+      tl.set("#app-meter", { "--led": "#49e08a" }, F(83));
+      // beat 21: a pin pops out of the booking — it will lead us to the map
+      tl.set("#app-pin", { opacity: 1 }, F(95));
+      tl.fromTo("#app-pin", { x: 778, y: 968, scale: 0 }, { x: 778, y: 968, scale: 1, duration: 0.3, ease: "back.out(1.7)" }, F(95));
+      tl.set("#app-pin", { opacity: 0 }, F(100));
+      whip(F(100), 0, -1080);
+      setBlur();
+      window.__timelines["app"] = tl;
+    })();
+  </script>
+</template>

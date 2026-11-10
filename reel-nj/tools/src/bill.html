@@ -1,0 +1,113 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "League Gothic", Inter, sans-serif; }
+    #bill-clip { position: absolute; inset: 0; }
+    #bill-strip { position: absolute; inset: 0; filter: url(#bill-f); }
+    .lg { position: absolute; font-family: "League Gothic", Inter, sans-serif; line-height: 1; white-space: nowrap; }
+    .w { display: inline-block; position: relative; }
+    #bill-hn .hw, #bill-slab, #bill-trust { opacity: 0; }
+
+    /* the billboard: a full-width 16:9 board on a steel monopole */
+    .bb-pole { position: absolute; left: 500px; top: 1322px; width: 80px; height: 140px; background: linear-gradient(90deg, #aeb6c1 0 18%, #8a93a0 18% 80%, #6c7582 80%); }
+    .bb-foot { position: absolute; left: 464px; top: 1452px; width: 152px; height: 16px; background: #5c6470; }
+    .bb-walk { position: absolute; left: 30px; top: 1308px; width: 1020px; height: 16px; background: #515966; }
+    .bb-lamp { position: absolute; top: 1296px; width: 64px; height: 20px; background: #2f343c; border-radius: 4px 4px 10px 10px; }
+    .bb-frame { position: absolute; left: -30px; top: 660px; width: 1140px; height: 641px; background: #fff; }
+    .bb-thick { position: absolute; left: -30px; top: 1301px; width: 1140px; height: 9px; background: #b9c0ca; }
+    .bb-photo { position: absolute; left: -16px; top: 674px; width: 1112px; height: 613px; object-fit: cover; display: block; }
+
+    /* new (colour) headline */
+    #bill-hn .lg { left: 70px; color: var(--navy, #000099); }
+    #bill-slab { position: absolute; left: 485px; top: 415px; width: 538px; height: 162px; background: var(--accent, #f8630a); }
+    #bill-hn .on-slab { color: #fff; }
+    #bill-trust { position: absolute; left: 36px; top: 1186px; width: 516px; height: 84px; background: #fff; border: 6px solid var(--navy, #000099);
+      transform-origin: 20% 50%; }
+    #bill-trust .lg { left: 22px; top: 6.5px; font-size: 60px; color: var(--navy, #000099); }
+
+    /* old (black-and-white) layer, squeegeed off top to bottom */
+    #bill-old { position: absolute; inset: 0; }
+    #bill-old .lg { left: 70px; color: #2a2a2a; }
+
+    /* the squeegee */
+    #bill-sq { position: absolute; left: 0; top: 0; width: 1080px; height: 0; }
+    #bill-sq .sheen { position: absolute; left: 0; top: -170px; width: 1080px; height: 170px; background: linear-gradient(0deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0)); }
+    #bill-sq .chan { position: absolute; left: -40px; top: 0; width: 1160px; height: 30px; background: linear-gradient(180deg, #f1f4f8 0 30%, #b4bcc7 30% 100%); }
+    #bill-sq .rub { position: absolute; left: -40px; top: 30px; width: 1160px; height: 20px; background: #15171c; }
+    #bill-sq .joint { position: absolute; left: 460px; top: -52px; width: 160px; height: 62px; border-radius: 12px; background: var(--accent, #f8630a); }
+    #bill-sq .pole { position: absolute; left: 516px; top: -150px; width: 48px; height: 110px; background: linear-gradient(90deg, #d5dae2 0 30%, #9aa3b0 30% 100%); }
+    #bill-sq .grip { position: absolute; left: 502px; top: -520px; width: 76px; height: 380px; border-radius: 16px; background: linear-gradient(90deg, #ff7d2e 0 28%, var(--accent, #f8630a) 28% 100%); }
+  </style>
+  <div id="root" data-composition-id="bill" data-width="1080" data-height="1920">
+    <svg width="0" height="0" style="position: absolute"><filter id="bill-f" x="-15%" y="-5%" width="130%" height="110%"><feGaussianBlur id="bill-fe" stdDeviation="0 0" /></filter></svg>
+    <div id="bill-clip" class="clip" data-start="0" data-duration="4.7" data-layout-allow-overflow>
+      <div id="bill-strip">
+        <div class="bb-pole"></div>
+        <div class="bb-foot"></div>
+        <div class="bb-frame"></div>
+        <div class="bb-thick"></div>
+        <img class="bb-photo" id="bill-pn" src="assets/shots/bill_new.jpg" alt="A QuickWash detailer hand-drying a navy sedan in a driveway while the owner watches from the door" />
+        <div id="bill-trust"><div class="lg">VETTED · TRAINED · INSURED</div></div>
+        <div class="bb-walk"></div>
+        <div class="bb-lamp" style="left: 150px"></div>
+        <div class="bb-lamp" style="left: 390px"></div>
+        <div class="bb-lamp" style="left: 630px"></div>
+        <div class="bb-lamp" style="left: 870px"></div>
+
+        <div id="bill-hn" data-layout-allow-overlap>
+          <div id="bill-slab"></div>
+          <div class="lg" style="top: 174.9px; font-size: 256.1px"><span class="w hw">FULL</span> <span class="w hw">SERVICE</span></div>
+          <div class="lg" style="top: 405.6px; font-size: 183.2px"><span class="w hw">IN</span> <span class="w hw">YOUR</span> <span class="w hw on-slab" id="bill-dw">DRIVEWAY</span></div>
+        </div>
+
+        <div id="bill-old" data-layout-allow-overlap>
+          <img class="bb-photo" src="assets/shots/bill_old.jpg" alt="A 1950s family washing their own car in the driveway" />
+          <div class="lg" style="top: 185.2px; font-size: 228.3px">STILL WASHING</div>
+          <div class="lg" style="top: 388.4px; font-size: 210.7px">YOUR OWN CAR?</div>
+        </div>
+      </div>
+      <div id="bill-sq">
+        <div class="sheen"></div>
+        <div class="pole"></div>
+        <div class="grip"></div>
+        <div class="joint"></div>
+        <div class="chan"></div>
+        <div class="rub"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // local frame 0 = film frame 42. Whip in 0-16, squeegee at 58 (beat 8), whip out at 125 (beat 14 = local 133).
+      const F = (f) => f / 30, WH = 16 / 30;
+      const tl = gsap.timeline({ paused: true });
+      const fe = document.querySelector("#bill-fe"), blur = { b: 0 };
+      const setBlur = () => fe.setAttribute("stdDeviation", blur.b.toFixed(2) + " 0");
+      const whip = (at, from, to) => {
+        tl.fromTo("#bill-strip", { x: from }, { x: to, duration: WH, ease: "power3.inOut" }, at);
+        tl.fromTo(blur, { b: 0 }, { b: 26, duration: WH / 2, ease: "power3.in", onUpdate: setBlur }, at);
+        tl.to(blur, { b: 0, duration: WH / 2, ease: "power3.out", onUpdate: setBlur }, at + WH / 2);
+      };
+      whip(0, 1080, 0);
+      // beat 8: the squeegee comes down the glass and takes the old way with it
+      tl.fromTo("#bill-sq", { y: -90 }, { y: 2010, duration: 0.5, ease: "power1.inOut" }, F(58));
+      tl.to("#bill-sq", { y: 2600, duration: 0.14, ease: "none" }, F(58) + 0.5);
+      tl.fromTo("#bill-old", { clipPath: "inset(-50px 0px 0px 0px)" }, { clipPath: "inset(2050px 0px 0px 0px)", duration: 0.5, ease: "power1.inOut" }, F(58));
+      // the new line only exists on the clean side of the blade
+      tl.fromTo("#bill-hn", { clipPath: "inset(0px 0px 1970px 0px)" }, { clipPath: "inset(0px 0px -130px 0px)", duration: 0.5, ease: "power1.inOut" }, F(58));
+      // the new line lands behind the blade: waterfall from below, heavier words travel further
+      [[0, 70, 0.19], [1, 60, 0.17], [2, 42, 0.14], [3, 46, 0.15]].forEach(([i, dy, d], k) => {
+        const el = document.querySelectorAll("#bill-hn .hw")[i], at = F(63) + [0, 0.07, 0.13, 0.18][k];
+        tl.set(el, { opacity: 1 }, at);
+        tl.fromTo(el, { y: dy }, { y: 0, duration: d, ease: "power4.out" }, at);
+      });
+      tl.set(["#bill-slab", "#bill-dw"], { opacity: 1 }, F(63) + 0.23);
+      tl.fromTo(["#bill-slab", "#bill-dw"], { y: 76 }, { y: 0, duration: 0.2, ease: "power4.out" }, F(63) + 0.23);
+      // beat 11: the promise gets slapped on the board
+      tl.set("#bill-trust", { opacity: 1 }, F(95));
+      tl.fromTo("#bill-trust", { scale: 1.5, rotation: -9 }, { scale: 1, rotation: -3, duration: 0.2, ease: "power4.out" }, F(95));
+      whip(F(125), 0, -1080);
+      setBlur();
+      window.__timelines["bill"] = tl;
+    })();
+  </script>
+</template>

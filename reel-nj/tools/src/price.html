@@ -1,0 +1,112 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: "League Gothic", Inter, sans-serif; }
+    #price-clip { position: absolute; inset: 0; }
+    #price-strip { position: absolute; inset: 0; filter: url(#price-f); }
+    .lg { position: absolute; font-family: "League Gothic", Inter, sans-serif; line-height: 1; white-space: nowrap; }
+
+    /* the same pylon as the opening shot — this time it posts QuickWash's prices */
+    .pylon { position: absolute; left: 110px; top: 205px; width: 860px; height: 1076px; }
+    .pylon-ext { position: absolute; left: 14px; top: 14px; width: 860px; height: 1076px; border-radius: 34px; background: #00005c; }
+    .pylon-body { position: absolute; inset: 0; border: 12px solid #fff; border-radius: 30px; overflow: hidden; background: var(--navy, #000099); }
+    .pylon-head { position: absolute; left: 0; top: 0; width: 836px; height: 164px; background: var(--accent, #f8630a); border-bottom: 10px solid #fff; }
+    .pylon-head .njb { position: absolute; left: 100px; top: 20px; width: 61px; height: 116px; fill: #fff; }
+    .pylon-head .lg { left: 190px; top: 3px; font-size: 150px; color: #fff; letter-spacing: 0.01em; }
+    .pylon-face { position: absolute; left: 0; top: 164px; width: 836px; height: 888px; }
+    .pylon-base { position: absolute; left: 230px; top: 1281px; width: 620px; height: 178px; background: #cfc8ba; border-top: 16px solid #b3ab9b;
+      background-image: repeating-linear-gradient(0deg, transparent 0 38px, #b9b1a2 38px 42px); }
+    .pylon-base-ext { position: absolute; left: 244px; top: 1295px; width: 620px; height: 164px; background: #9a9283; }
+
+    .band { position: absolute; left: 0; top: 0; width: 836px; height: 86px; background: #fff; }
+    .band .lg { left: 0; width: 836px; text-align: center; top: 11.5px; font-size: 64px; color: var(--navy, #000099); letter-spacing: 0.02em; }
+    .colh { position: absolute; top: 104px; width: 200px; height: 52px; }
+    .colh .lg { left: 0; width: 200px; text-align: center; top: 3px; font-size: 46px; color: #fff; letter-spacing: 0.03em; }
+    #price-wch { background: var(--accent, #f8630a); transform-origin: 0 50%; }
+    .row { position: absolute; left: 0; width: 836px; height: 206px; border-top: 3px solid rgba(255, 255, 255, 0.2); }
+    .row > .lg { left: 34px; top: 50px; font-size: 104px; color: #fff; }
+    .mod { position: absolute; top: 28px; width: 200px; height: 150px; background: #0c0e13; border: 4px solid #2a2e38; border-radius: 12px; }
+    .mod.std { left: 388px; --led: #f4f8ff; }
+    .mod.wc { left: 612px; --led: #ffab2e; }
+    .mod .cur { position: absolute; left: 10px; top: 10px; font-family: Inter, sans-serif; font-weight: 900; font-size: 28px; line-height: 1; color: var(--led); }
+    .mod .dg { position: absolute; top: 32px; width: 46px; height: 79px; }
+    .mod.wc, #price-wch, #price-foot { opacity: 0; }
+    .dg polygon { fill: rgba(255, 255, 255, 0.07); }
+@@SEG_CSS@@
+    #price-foot { position: absolute; left: 0; top: 806px; width: 836px; text-align: center; font-family: Inter, sans-serif; font-weight: 700; font-size: 32px; line-height: 1.2; color: #fff; letter-spacing: 0.01em; }
+    #price-foot b { font-weight: 900; color: #ffb84d; }
+  </style>
+  <div id="root" data-composition-id="price" data-width="1080" data-height="1920">
+    <svg width="0" height="0" style="position: absolute"><filter id="price-f" x="-15%" y="-5%" width="130%" height="110%"><feGaussianBlur id="price-fe" stdDeviation="0 0" /></filter></svg>
+    <div id="price-clip" class="clip" data-start="0" data-duration="3.6667" data-layout-allow-overflow>
+      <div id="price-strip">
+        <div class="pylon-base-ext"></div>
+        <div class="pylon-base"></div>
+        <div class="pylon">
+          <div class="pylon-ext"></div>
+          <div class="pylon-body">
+            <div class="pylon-face">
+              <div class="band"><div class="lg">FLAT PRICES · NO SURPRISES</div></div>
+              <div class="colh" style="left: 388px"><div class="lg">STANDARD</div></div>
+              <div class="colh" id="price-wch" style="left: 612px"><div class="lg">WASHCLUB</div></div>
+
+              <div class="row" style="top: 170px"><div class="lg">QUICKWASH</div>
+                <div class="mod std" id="price-s0"><span class="cur">$</span><i style="position:absolute;left:32px">@@DG:x@@</i><i style="position:absolute;left:86px">@@DG:x@@</i><i style="position:absolute;left:140px">@@DG:x@@</i></div>
+                <div class="mod wc" id="price-w0"><span class="cur">$</span><i style="position:absolute;left:32px">@@DG:x@@</i><i style="position:absolute;left:86px">@@DG:x@@</i><i style="position:absolute;left:140px">@@DG:x@@</i></div>
+              </div>
+              <div class="row" style="top: 380px"><div class="lg">DETAIL</div>
+                <div class="mod std" id="price-s1"><span class="cur">$</span><i style="position:absolute;left:32px">@@DG:x@@</i><i style="position:absolute;left:86px">@@DG:x@@</i><i style="position:absolute;left:140px">@@DG:x@@</i></div>
+                <div class="mod wc" id="price-w1"><span class="cur">$</span><i style="position:absolute;left:32px">@@DG:x@@</i><i style="position:absolute;left:86px">@@DG:x@@</i><i style="position:absolute;left:140px">@@DG:x@@</i></div>
+              </div>
+              <div class="row" style="top: 590px"><div class="lg">FULL DETAIL</div>
+                <div class="mod std" id="price-s2"><span class="cur">$</span><i style="position:absolute;left:32px">@@DG:x@@</i><i style="position:absolute;left:86px">@@DG:x@@</i><i style="position:absolute;left:140px">@@DG:x@@</i></div>
+                <div class="mod wc" id="price-w2"><span class="cur">$</span><i style="position:absolute;left:32px">@@DG:x@@</i><i style="position:absolute;left:86px">@@DG:x@@</i><i style="position:absolute;left:140px">@@DG:x@@</i></div>
+              </div>
+              <div id="price-foot"><b>WashClub</b> $4.99/mo · cancel anytime</div>
+            </div>
+            <div class="pylon-head">
+              <svg class="njb" viewBox="0 0 524 1000"><path d="@@NJ_OUTLINE@@" /></svg>
+              <div class="lg">FULL SERVICE</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // local frame 0 = film frame 367. Beats: 31 -> local 20.5, 33 -> 45.5, 34 -> 58, 36 -> 83. Cut to the end card at local 108.
+      const F = (f) => f / 30, WH = 16 / 30;
+      const tl = gsap.timeline({ paused: true });
+      const fe = document.querySelector("#price-fe"), blur = { b: 0 };
+      const setBlur = () => fe.setAttribute("stdDeviation", blur.b.toFixed(2) + " 0");
+      tl.fromTo("#price-strip", { x: 1080 }, { x: 0, duration: WH, ease: "power3.inOut" }, 0);
+      tl.fromTo(blur, { b: 0 }, { b: 26, duration: WH / 2, ease: "power3.in", onUpdate: setBlur }, 0);
+      tl.to(blur, { b: 0, duration: WH / 2, ease: "power3.out", onUpdate: setBlur }, WH / 2);
+      setBlur();
+
+      const show = (mod, n) => { const s = String(Math.round(n)).padStart(3, "x"); mod.querySelectorAll(".dg").forEach((d, i) => d.setAttribute("data-v", s[i])); };
+      const STD = [99, 249, 399], WC = [69, 199, 349];
+      // the standard prices roll up like a pump meter
+      STD.forEach((v, i) => {
+        const m = document.querySelector("#price-s" + i), c = { v: 0 };
+        tl.fromTo(c, { v: 0 }, { v, duration: 0.42, ease: "power2.out", onUpdate: () => show(m, c.v) }, F(19) + i * F(4));
+        show(m, 0);
+      });
+      // beat 33: the WashClub column switches on at the same prices...
+      tl.fromTo("#price-wch", { scaleX: 0 }, { scaleX: 1, duration: 0.14, ease: "power4.out" }, F(45));
+      tl.set("#price-wch", { opacity: 1 }, F(45));
+      WC.forEach((v, i) => {
+        const m = document.querySelector("#price-w" + i), c = { v: STD[i] };
+        tl.set(m, { opacity: 1 }, F(46) + i * F(2));
+        // ...and beat 34: they drop to the member price
+        tl.fromTo(c, { v: STD[i] }, { v, duration: 0.4, ease: "power2.inOut", onUpdate: () => show(m, c.v) }, F(58) + i * F(4));
+        show(m, STD[i]);
+      });
+      tl.set("#price-foot", { opacity: 1 }, F(50));
+      tl.fromTo("#price-foot", { y: 26 }, { y: 0, duration: 0.18, ease: "power4.out" }, F(50));
+      // the crane up: the sign sinks out of frame under the cloud
+      tl.fromTo("#price-strip", { y: 0 }, { y: 300, duration: F(8), ease: "power4.in" }, F(100));
+      window.__timelines["price"] = tl;
+    })();
+  </script>
+</template>
