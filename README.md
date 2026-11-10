@@ -44,4 +44,5 @@ node video/render.js out.mp4 --fps 24
 - The voiceover is shown as timed captions. Drop a recorded VO onto the same timings
   (the `CAPS` array in `index.html` is the cue list); the score leaves room under it.
   To remove the captions, hide `#cap`.
-- No third-party footage, podcast audio or music is used. Everything is original and generated in code.
+- Photo plates live in `video/shots/` (AI-generated stills supplied for the project). Any missing shot falls back to its coded illustration, so the film always renders.
+- No third-party footage, podcast audio or music is used.

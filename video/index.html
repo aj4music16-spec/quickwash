@@ -596,6 +596,8 @@
   <div class="cta" id="cta" style="right:110px;top:520px">Book in the QuickWash app.</div>
   <div id="s7driver" style="position:absolute;inset:0;display:none"><div class="cam" id="s7driverCam"><img class="plate" id="driverPlate" data-src="shots/06b_driver.jpg" alt=""></div></div>
   <!-- door shut panel (transition into quiet) -->
+  <div id="endcard" style="position:absolute;inset:0;overflow:hidden;visibility:hidden"><div class="cam" id="endcardCam"><img class="plate" id="endPlate" data-src="shots/07_endcard.jpg" alt=""></div>
+    <div id="endSweep" style="position:absolute;top:45%;height:45%;width:420px;left:-600px;mix-blend-mode:screen;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.28),rgba(255,255,255,0));transform:skewX(-24deg)"></div></div>
   <div id="shut" style="position:absolute;inset:0;transform-origin:0 50%">
     <img class="plate" data-src="shots/02_door.jpg" alt="">
     <svg viewBox="0 0 1920 1080" width="1920" height="1080"><rect width="1920" height="1080" fill="url(#doorG)"/><path d="M0 430 H1920" stroke="#9fb3e0" stroke-width="5" opacity=".6"/></svg>
@@ -882,6 +884,14 @@ const scenes = [
       $('shut').style.display = lt < 1.0 ? 'block' : 'none';
       const hero = lt >= 1.0 ? 'visible' : 'hidden';
       ['s7cam', 's7h', 's7u', 's7sub', 'logoCard', 'cta'].forEach(id => $(id).style.visibility = hero);
+      const hasEnd = !!$('endPlate');
+      if (hasEnd) {
+        ['s7cam', 's7h', 's7u', 's7sub', 'logoCard', 'cta'].forEach(id => $(id).style.visibility = 'hidden');
+        $('endcard').style.visibility = hero;
+        tf($('endcardCam'), { s: lerp(1.08, 1.0, P(lt, 1.0, 4.6, E.outC)) });
+        $('endcardCam').style.filter = `blur(${(1 - P(lt, 1.1, 1.9, E.outC)) * 10}px)`;
+        $('endSweep').style.left = lerp(-600, 2200, P(lt, 2.0, 3.4, E.inOutS)) + 'px';
+      }
       const hasDriver = !!$('driverPlate'); $('s7driver').style.display = hasDriver && lt < 1.0 ? 'block' : 'none';
       if (hasDriver) tf($('s7driverCam'), { s: 1.04 + lt * .04, x: -lt * 20 });
       tf($('s7cam'), { s: lerp(1.1, 1.0, P(lt, 1.2, 5, E.outC)) });
