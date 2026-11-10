@@ -44,7 +44,8 @@
   #black{position:absolute;inset:0;background:#000;opacity:0;z-index:44;pointer-events:none}
 
   .plate{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-  .plate + svg{display:none}  /* photo plate present → hide the coded fallback */
+  .plate + svg{display:none}
+  .photo .plate{position:static;display:block;width:100%;height:100%;object-fit:cover}  /* photo plate present → hide the coded fallback */
   .serif{font-family:'Caladea','Liberation Serif',serif}
   .photo{position:absolute;background:#f7f2e7;padding:22px 22px 60px;box-shadow:0 30px 60px rgba(40,25,5,.35)}
   .photo svg{filter:grayscale(1) sepia(.35) contrast(1.15)}
@@ -177,6 +178,7 @@
 <!-- ============ SCENE 2 · 4–9s · door opens, clean interior ============ -->
 <div class="scene" id="s2">
   <div class="cam" id="s2cam">
+    <img class="plate" data-src="shots/02_interior.jpg" alt="">
     <svg viewBox="0 0 1920 1080" width="1920" height="1080" id="interior">
       <defs>
         <linearGradient id="skyWarm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe9b8"/><stop offset=".6" stop-color="#cfe0a0"/><stop offset="1" stop-color="#7fa65c"/></linearGradient>
@@ -240,6 +242,7 @@
   </div>
   <!-- door panel that swings open -->
   <div id="door" style="position:absolute;inset:0;transform-origin:0% 50%;">
+    <img class="plate" data-src="shots/02_door.jpg" alt="">
     <svg viewBox="0 0 1920 1080" width="1920" height="1080">
       <defs>
         <linearGradient id="doorHi" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".22"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient>
@@ -252,6 +255,8 @@
       <path d="M0 980 H1920" stroke="#0a0f1d" stroke-width="10"/>
     </svg>
   </div>
+  <div id="s2shade" style="position:absolute;inset:0;background:radial-gradient(ellipse at 18% 30%,rgba(8,6,4,.55) 0%,rgba(8,6,4,0) 55%)"></div>
+  <div id="s2flare" style="position:absolute;left:1180px;top:-120px;width:600px;height:600px;border-radius:50%;mix-blend-mode:screen;background:radial-gradient(circle,rgba(255,236,190,.55),rgba(255,210,140,0) 65%)"></div>
   <div class="hl" id="s2h" style="left:140px;top:150px;font-size:150px">
     <span class="ln"><span>Same car.</span></span><span class="ln"><span>New</span></span><span class="ln"><span>feeling.</span></span>
   </div>
@@ -267,7 +272,8 @@
       <g fill="#b9ab90" opacity=".55" id="newsCols"></g>
     </svg>
     <!-- photo A: family washing a vintage car -->
-    <div class="photo" id="phA" style="left:120px;top:110px;width:840px;height:520px">
+    <div class="photo" id="phA" style="left:100px;top:80px;width:900px;height:506px">
+      <img class="plate" data-src="shots/03a_vintage_family.jpg" alt="">
       <svg viewBox="0 0 840 520" width="840" height="520">
         <rect width="840" height="520" fill="#9aa3a8"/>
         <rect y="0" width="840" height="220" fill="#d4d8d8"/>
@@ -294,7 +300,8 @@
       </svg>
     </div>
     <!-- photo B: hand polishing a hood -->
-    <div class="photo" id="phB" style="left:1080px;top:520px;width:640px;height:400px">
+    <div class="photo" id="phB" style="left:1130px;top:650px;width:640px;height:360px">
+      <img class="plate" data-src="shots/03b_vintage_polish.jpg" alt="">
       <svg viewBox="0 0 640 400" width="640" height="400">
         <rect width="640" height="400" fill="#a7adb0"/>
         <path d="M0 230 Q320 150 640 200 V400 H0 Z" fill="#2a2e31"/>
@@ -306,7 +313,8 @@
       </svg>
     </div>
     <!-- photo C: classic car ad -->
-    <div class="photo" id="phC" style="left:300px;top:640px;width:560px;height:330px;padding-bottom:30px">
+    <div class="photo" id="phC" style="left:250px;top:610px;width:600px;height:338px;padding-bottom:30px">
+      <img class="plate" data-src="shots/03c_vintage_ad.jpg" alt="">
       <svg viewBox="0 0 560 330" width="560" height="330">
         <rect width="560" height="330" fill="#e6e1d6"/>
         <text x="30" y="70" font-family="Caladea,serif" font-style="italic" font-size="44" fill="#2b2b2b">Feel it again —</text>
@@ -319,9 +327,9 @@
       </svg>
     </div>
   </div>
-  <div id="s3type" style="position:absolute;right:120px;top:120px;width:640px;transform-origin:0 0">
-    <div class="serif" id="s3t1" style="font-size:78px;line-height:1;font-weight:700;color:#1a1a1a;font-style:italic">The enduring<br>appeal of</div>
-    <div class="bl" id="s3t2" style="position:relative;margin-top:26px;font-size:112px;transform:rotate(-5deg);transform-origin:0 0">
+  <div id="s3type" style="position:absolute;right:140px;top:90px;width:640px;transform-origin:0 0">
+    <div class="serif" id="s3t1" style="font-size:68px;line-height:1;font-weight:700;color:#1a1a1a;font-style:italic">The enduring<br>appeal of</div>
+    <div class="bl" id="s3t2" style="position:relative;margin-top:22px;font-size:96px;transform:rotate(-5deg);transform-origin:0 0">
       <span class="ln"><span>The</span></span><span class="ln"><span>New-car</span></span><span class="ln"><span>feeling</span></span>
     </div>
   </div>
@@ -576,6 +584,7 @@
   <div class="cta" id="cta" style="right:110px;top:520px">Book in the QuickWash app.</div>
   <!-- door shut panel (transition into quiet) -->
   <div id="shut" style="position:absolute;inset:0;transform-origin:0 50%">
+    <img class="plate" data-src="shots/02_door.jpg" alt="">
     <svg viewBox="0 0 1920 1080" width="1920" height="1080"><rect width="1920" height="1080" fill="url(#doorG)"/><path d="M0 430 H1920" stroke="#9fb3e0" stroke-width="5" opacity=".6"/></svg>
   </div>
 </div>
@@ -752,6 +761,8 @@ const scenes = [
       $('doorSweep').setAttribute('x', lerp(-600, 2200, P(lt, 0, 1, E.inOutS)));
       tf($('s2cam'), { s: lerp(1.14, 1.02, P(lt, .2, 2.0, E.outC)) + lt * .006, x: -lt * 6 });
       $('rays').style.opacity = .6 + .4 * Math.sin(lt * 1.3);
+      $('s2flare').style.opacity = .55 + .3 * Math.sin(lt * 1.1) + .15 * Math.sin(lt * 3.7);
+      $('s2shade').style.opacity = P(lt, .8, 1.4);
       $('motes').querySelectorAll('circle').forEach((c, i) => { const v = +c.dataset.v; c.setAttribute('transform', `translate(${Math.sin(lt * .7 + i) * 20} ${-lt * (8 + v * 22)})`); });
       const gl = P(lt, 2.9, 3.2) * (1 - P(lt, 3.3, 3.8)); const glint = $('glint');
       glint.setAttribute('opacity', gl); glint.setAttribute('rx', 4 + gl * 60); glint.setAttribute('ry', 2 + gl * 8);
@@ -766,7 +777,8 @@ const scenes = [
       drop($('phA'), .1, -3, -200, -120); drop($('phB'), 1.0, 4, 260, 160); drop($('phC'), 1.9, -2, -120, 260);
       // film flicker
       const fl = .9 + .1 * Math.sin(lt * 47) * Math.sin(lt * 13);
-      ['phA', 'phB', 'phC'].forEach(id => $(id).querySelector('svg').style.filter = `grayscale(1) sepia(.35) contrast(1.15) brightness(${fl})`);
+      ['phA', 'phB', 'phC'].forEach(id => { const m = $(id).querySelector('.plate') || $(id).querySelector('svg');
+        m.style.filter = (id === 'phC' && m.tagName === 'IMG') ? `saturate(.8) sepia(.15) brightness(${fl})` : `grayscale(1) sepia(.35) contrast(1.15) brightness(${fl})`; });
       $('phBhand').setAttribute('transform', `translate(${Math.sin(lt * 4) * 30} ${Math.cos(lt * 4) * 10})`);
       const sk = Math.max(0, Math.sin(lt * 3)); $('phBstar').setAttribute('transform', `translate(470 270) scale(${sk}) translate(-470 -270)`);
       $('s3t1').style.opacity = P(lt, 2.7, 3.2); $('s3t1').style.transform = `translateY(${(1 - P(lt, 2.7, 3.3)) * 30}px)`;
@@ -894,7 +906,7 @@ function seek(t) {
   blk = Math.max(blk, P(t, 39.6, 40.0) * 0);
   $('black').style.opacity = blk;
   // grain stronger on archival section
-  $('grain').style.opacity = (t >= 9 && t < 15) ? .32 : .14;
+  $('grain').style.opacity = (t >= 9 && t < 15) ? .2 : .14;
   drawGrain(Math.floor(t * 12));   // grain refreshes at 12 fps: filmic, and much kinder to the encoder
   // caption
   const c = CAPS.find(([a, b]) => t >= a && t < b), ct = $('capText');
