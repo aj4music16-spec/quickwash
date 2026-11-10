@@ -4,3 +4,5 @@ dist/preview-*.mp4
 
 reel/.hyperframes/
 reel/renders/
+reel-app/.hyperframes/
+reel-app/renders/

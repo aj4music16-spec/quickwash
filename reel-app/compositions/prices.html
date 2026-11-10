@@ -1,0 +1,30 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: Inter, sans-serif;
+      background: radial-gradient(120% 70% at 20% 0%, #1b2fd0 0%, var(--navy, #000099) 45%, #03043a 100%); }
+    #pr-h { position: absolute; left: 90px; top: 200px; width: 840px; color: #fff; font-weight: 900; font-size: 118px; line-height: .95; letter-spacing: -0.04em; }
+    .card { position: absolute; left: 90px; width: 830px; height: 200px; border-radius: 36px; background: #fff; display: flex; align-items: center; padding: 0 44px; box-shadow: 0 24px 60px rgba(0,0,30,.4); }
+    .card .n { flex: 1; }
+    .card .n b { display: block; color: var(--navy, #000099); font-weight: 900; font-size: 58px; letter-spacing: -0.03em; }
+    .card .n span { display: block; margin-top: 8px; color: #3b4466; font-weight: 600; font-size: 31px; }
+    .card .p { color: var(--accent, #f26b21); font-weight: 900; font-size: 92px; letter-spacing: -0.04em; }
+    #pr-f { position: absolute; left: 90px; top: 1250px; color: #bcd3ff; font-weight: 600; font-size: 32px; }
+  </style>
+  <div id="root" data-composition-id="prices" data-width="1080" data-height="1920">
+    <div id="pr-h" class="clip" data-start="0" data-duration="2.5">Flat pricing.<br />No surprises.</div>
+    <div id="pr-c1" class="clip card" data-start="0.2" data-duration="2.3" style="top: 520px"><div class="n"><b>QuickWash</b><span>Hand wash, vacuum, windows</span></div><div class="p">$99</div></div>
+    <div id="pr-c2" class="clip card" data-start="0.2" data-duration="2.3" style="top: 750px"><div class="n"><b>Detail</b><span>Deep interior + exterior</span></div><div class="p">$249</div></div>
+    <div id="pr-c3" class="clip card" data-start="0.2" data-duration="2.3" style="top: 980px"><div class="n"><b>Full Detail</b><span>Steam, clay bar, engine bay</span></div><div class="p">$399</div></div>
+    <div id="pr-f" class="clip" data-start="0.6" data-duration="1.9">Standard vehicle size</div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#pr-h", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.03);
+      ["#pr-c1", "#pr-c2", "#pr-c3"].forEach((id, i) => tl.fromTo(id, { x: 1100, rotation: 4 }, { x: 0, rotation: 0, duration: 0.5, ease: "expo.out" }, 0.22 + i * 0.1));
+      tl.fromTo("#pr-f", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" }, 0.65);
+      tl.to(["#pr-c1", "#pr-c2", "#pr-c3"], { x: -1100, duration: 0.28, ease: "power3.in", stagger: 0.03 }, 2.2);
+      window.__timelines["prices"] = tl;
+    })();
+  </script>
+</template>

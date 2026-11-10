@@ -1,0 +1,45 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: Inter, sans-serif; background: linear-gradient(180deg, #ffffff 0%, #e4f3fb 100%); }
+    .bub { position: absolute; border-radius: 50%; border: 8px solid rgba(44,156,206,.45); background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.9), rgba(44,156,206,.12) 65%); }
+    #pf-n { position: absolute; left: 0; right: 0; top: 300px; text-align: center; color: var(--navy, #000099); font-weight: 900; font-size: 250px; letter-spacing: -0.06em; line-height: .9; font-variant-numeric: tabular-nums; }
+    #pf-l { position: absolute; left: 0; right: 0; top: 560px; text-align: center; color: #1a2360; font-weight: 800; font-size: 60px; letter-spacing: -0.02em; }
+    #pf-stars { position: absolute; left: 0; right: 0; top: 800px; display: flex; justify-content: center; gap: 18px; }
+    #pf-stars svg { width: 130px; height: 130px; }
+    #pf-r { position: absolute; left: 0; right: 0; top: 980px; text-align: center; color: var(--navy, #000099); font-weight: 900; font-size: 76px; letter-spacing: -0.03em; line-height: 1.05; }
+    #pf-s { position: absolute; left: 0; right: 0; top: 1190px; text-align: center; color: #3b4466; font-weight: 700; font-size: 40px; }
+  </style>
+  <div id="root" data-composition-id="proof" data-width="1080" data-height="1920">
+    <div id="pf-bubs" class="clip" data-start="0" data-duration="2.4" style="position:absolute;inset:0" data-layout-ignore>
+      <div class="bub" id="pf-b1" style="left:110px;top:1480px;width:260px;height:260px"></div>
+      <div class="bub" id="pf-b2" style="left:470px;top:1620px;width:160px;height:160px"></div>
+      <div class="bub" id="pf-b3" style="left:740px;top:1420px;width:210px;height:210px"></div>
+      <div class="bub" id="pf-b4" style="left:380px;top:1380px;width:90px;height:90px"></div>
+    </div>
+    <div id="pf-n" class="clip" data-start="0" data-duration="2.4"><span id="pf-count">10,000</span>+</div>
+    <div id="pf-l" class="clip" data-start="0" data-duration="2.4">washes &amp; details completed</div>
+    <div id="pf-stars" class="clip" data-start="0.5" data-duration="1.9">
+      <svg viewBox="0 0 24 24"><path fill="#f26b21" d="M12 1.6l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.7 5.6 21.2 7 14.1l-5.3-5 7.2-.9z"/></svg>
+      <svg viewBox="0 0 24 24"><path fill="#f26b21" d="M12 1.6l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.7 5.6 21.2 7 14.1l-5.3-5 7.2-.9z"/></svg>
+      <svg viewBox="0 0 24 24"><path fill="#f26b21" d="M12 1.6l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.7 5.6 21.2 7 14.1l-5.3-5 7.2-.9z"/></svg>
+      <svg viewBox="0 0 24 24"><path fill="#f26b21" d="M12 1.6l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.7 5.6 21.2 7 14.1l-5.3-5 7.2-.9z"/></svg>
+      <svg viewBox="0 0 24 24"><path fill="#f26b21" d="M12 1.6l3.1 6.6 7.2.9-5.3 5 1.4 7.1L12 17.7 5.6 21.2 7 14.1l-5.3-5 7.2-.9z"/></svg>
+    </div>
+    <div id="pf-r" class="clip" data-start="0.8" data-duration="1.6">200+ five-star<br />Google reviews</div>
+    <div id="pf-s" class="clip" data-start="0.7" data-duration="1.7">New Jersey · New York · Florida</div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      const c = { v: 7000 }, el = document.querySelector("#pf-count");
+      tl.fromTo(c, { v: 7000 }, { v: 10000, duration: 0.7, ease: "expo.out", onUpdate: () => { el.textContent = Math.round(c.v / 10) * 10 >= 10000 ? "10,000" : (Math.round(c.v / 10) * 10).toLocaleString("en-US"); } }, 0);
+      tl.fromTo("#pf-n", { scale: 0.9, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "expo.out" }, 0);
+      tl.fromTo("#pf-l", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.2);
+      tl.fromTo("#pf-stars svg", { scale: 0, rotation: -40, transformOrigin: "50% 50%" }, { scale: 1, rotation: 0, duration: 0.35, ease: "back.out(1.7)", stagger: 0.07 }, 0.52);
+      tl.fromTo("#pf-r", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0.85);
+      tl.fromTo("#pf-s", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" }, 0.75);
+      [["#pf-b1", -120], ["#pf-b2", -200], ["#pf-b3", -150], ["#pf-b4", -260]].forEach(([id, y]) => tl.fromTo(id, { y: 200 }, { y, duration: 2.4, ease: "power1.out" }, 0));
+      window.__timelines["proof"] = tl;
+    })();
+  </script>
+</template>

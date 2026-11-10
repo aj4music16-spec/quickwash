@@ -1,0 +1,38 @@
+<!doctype html>
+<html
+  lang="en"
+  data-composition-variables='[
+    {"id":"navy","type":"color","label":"Brand navy","default":"#000099"},
+    {"id":"sky","type":"color","label":"Brand sky blue","default":"#2c9cce"},
+    {"id":"accent","type":"color","label":"Brand orange","default":"#f26b21"},
+    {"id":"tagline","type":"string","label":"End line","default":"The car wash that comes to you."}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #03043a; }
+      #root { width: 100%; height: 100%; font-family: Inter, sans-serif; }
+      #ground { position: absolute; inset: 0; background: #03043a; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="18" data-width="1080" data-height="1920" data-motion-blur="on">
+      <div id="ground"></div>
+      <div id="hook" data-composition-id="hook" data-composition-src="compositions/hook.html" data-start="0" data-duration="2" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index:1"></div>
+      <div id="app" data-composition-id="app" data-composition-src="compositions/app.html" data-start="2" data-duration="5.5" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index:2"></div>
+      <div id="come" data-composition-id="come" data-composition-src="compositions/come.html" data-start="7.5" data-duration="3" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index:3"></div>
+      <div id="prices" data-composition-id="prices" data-composition-src="compositions/prices.html" data-start="10.5" data-duration="2.5" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index:4"></div>
+      <div id="proof" data-composition-id="proof" data-composition-src="compositions/proof.html" data-start="13" data-duration="2.4" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index:5"></div>
+      <div id="end" data-composition-id="end" data-composition-src="compositions/end.html" data-start="15" data-duration="3" data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index:6"></div>
+      <audio id="bed" class="clip" data-start="0" data-duration="18" data-track-index="2" data-volume="1" src="assets/audio/bed.m4a"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

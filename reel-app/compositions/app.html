@@ -1,0 +1,81 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; font-family: Inter, sans-serif;
+      background: radial-gradient(120% 70% at 80% 10%, #1b2fd0 0%, var(--navy, #000099) 45%, #03043a 100%); }
+    .bub { position: absolute; border-radius: 50%; border: 6px solid rgba(120,200,240,.35); background: radial-gradient(circle at 30% 30%, rgba(255,255,255,.28), rgba(255,255,255,0) 60%); }
+    #app-h { position: absolute; left: 90px; top: 190px; width: 840px; color: #fff; font-weight: 900; font-size: 128px; line-height: .93; letter-spacing: -0.04em; }
+    #app-h .w { display: inline-block; margin-right: .16em; }
+    #app-phone { position: absolute; left: 452px; top: 560px; width: 548px; height: 1128px; border-radius: 84px; background: #0a0b14; padding: 14px;
+      box-shadow: 0 60px 120px rgba(0,0,20,.55), 0 0 0 2px rgba(255,255,255,.12) inset; }
+    #app-screen { position: relative; width: 100%; height: 100%; border-radius: 70px; overflow: hidden; background: #fff; }
+    #app-screen img { position: absolute; left: 0; top: 0; width: 100%; display: block; }
+    #app-tap { position: absolute; left: 0; top: 0; width: 84px; height: 84px; margin: -42px 0 0 -42px; border-radius: 50%; background: rgba(255,255,255,.55); border: 5px solid #fff; box-shadow: 0 6px 24px rgba(0,0,60,.4); }
+    #app-booked { position: absolute; left: 60px; right: 60px; top: 440px; padding: 30px 0; text-align: center; border-radius: 28px; background: #1f9d55; color: #fff; font-weight: 900; font-size: 54px; box-shadow: 0 20px 50px rgba(0,60,20,.45); }
+    .step { position: absolute; left: 70px; width: 360px; display: flex; align-items: center; gap: 22px; color: #fff; font-weight: 800; font-size: 44px; line-height: 1.05; letter-spacing: -0.02em; }
+    .step i { flex: none; width: 76px; height: 76px; border-radius: 50%; background: var(--accent, #f26b21); display: grid; place-items: center; font-style: normal; font-weight: 900; font-size: 40px; }
+    #app-timer { position: absolute; left: 70px; top: 1130px; width: 360px; color: #fff; }
+    #app-timer b { display: block; font-weight: 900; font-size: 150px; letter-spacing: -0.05em; line-height: .9; font-variant-numeric: tabular-nums; }
+    #app-timer span { display: block; margin-top: 10px; font-weight: 700; font-size: 34px; color: #bcd3ff; }
+  </style>
+  <div id="root" data-composition-id="app" data-width="1080" data-height="1920">
+    <div id="app-bubs" class="clip" data-start="0" data-duration="5.5" style="position:absolute;inset:0" data-layout-ignore>
+      <div class="bub" id="app-b1" style="left:60px;top:1500px;width:150px;height:150px"></div>
+      <div class="bub" id="app-b2" style="left:300px;top:1700px;width:90px;height:90px"></div>
+      <div class="bub" id="app-b3" style="left:880px;top:330px;width:120px;height:120px"></div>
+      <div class="bub" id="app-b4" style="left:190px;top:1330px;width:60px;height:60px"></div>
+    </div>
+    <div id="app-h" class="clip" data-start="0" data-duration="5.5">
+      <span class="w">Book a wash</span><span class="w">in</span><span class="w" style="color: var(--accent, #f26b21)">20 seconds.</span>
+    </div>
+    <div id="app-phoneclip" class="clip" data-start="0" data-duration="5.5" style="position:absolute;inset:0" data-layout-allow-overflow>
+      <div id="app-phone"><div id="app-screen">
+        <img id="app-s1" src="assets/app/screen-home.jpg" alt="QuickWash app home screen" />
+        <img id="app-s2" src="assets/app/screen-book.jpg" alt="QuickWash app booking screen" />
+        <img id="app-s3" src="assets/app/screen-activity.jpg" alt="QuickWash app upcoming washes" />
+        <div id="app-booked">Booked ✓</div>
+        <div id="app-tap"></div>
+      </div></div>
+    </div>
+    <div id="app-st1" class="clip step" data-start="0.7" data-duration="4.8" style="top: 640px"><i>1</i>Pick your wash</div>
+    <div id="app-st2" class="clip step" data-start="2.0" data-duration="3.5" style="top: 790px"><i>2</i>Pick a time</div>
+    <div id="app-st3" class="clip step" data-start="3.4" data-duration="2.1" style="top: 940px"><i>3</i>Track your detailer</div>
+    <div id="app-timer" class="clip" data-start="0.4" data-duration="5.1"><b id="app-count">0:00</b><span>to book it</span></div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      [["#app-b1", -260], ["#app-b2", -340], ["#app-b3", -180], ["#app-b4", -420]].forEach(([id, y]) => tl.fromTo(id, { y: 0 }, { y, duration: 5.5, ease: "none" }, 0));
+      tl.fromTo("#app-h .w", { opacity: 0, filter: "blur(10px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.15, ease: "power4.out", stagger: 0.08 }, 0.05);
+      // phone rises out of the whip
+      tl.fromTo("#app-phone", { y: 1500, rotation: 7 }, { y: 0, rotation: 0, duration: 0.7, ease: "expo.out" }, 0.05);
+      tl.set("#app-s2", { xPercent: 100 }, 0); tl.set("#app-s3", { xPercent: 100 }, 0);
+      tl.set("#app-booked", { scale: 0.6, opacity: 0 }, 0);
+      // 1 · pick your wash: finger travels to the QuickWash card and taps
+      tl.fromTo("#app-tap", { x: 420, y: 1000, scale: 1, opacity: 0 }, { x: 250, y: 640, opacity: 1, duration: 0.45, ease: "power3.out" }, 0.75);
+      tl.to("#app-tap", { scale: 0.7, duration: 0.08, ease: "power2.in" }, 1.25).to("#app-tap", { scale: 1, duration: 0.18, ease: "power2.out" }, 1.33);
+      tl.fromTo("#app-s1", { scale: 1 }, { scale: 1.03, duration: 0.1, yoyo: true, repeat: 1, ease: "power1.inOut" }, 1.27);
+      tl.to("#app-s1", { xPercent: -100, duration: 0.4, ease: "power3.inOut" }, 1.6);
+      tl.to("#app-s2", { xPercent: 0, duration: 0.4, ease: "power3.inOut" }, 1.6);
+      // 2 · pick a time: tap "Book This Slot"
+      tl.to("#app-tap", { x: 260, y: 790, duration: 0.5, ease: "power2.inOut" }, 2.1);
+      tl.to("#app-tap", { scale: 0.7, duration: 0.08, ease: "power2.in" }, 2.68).to("#app-tap", { scale: 1, duration: 0.18, ease: "power2.out" }, 2.76);
+      tl.to("#app-s2", { xPercent: -100, duration: 0.4, ease: "power3.inOut" }, 3.05);
+      tl.to("#app-s3", { xPercent: 0, duration: 0.4, ease: "power3.inOut" }, 3.05);
+      tl.to("#app-tap", { opacity: 0, duration: 0.2, ease: "power2.out" }, 3.0);
+      // 3 · booked
+      tl.to("#app-booked", { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.4)" }, 4.55);
+      ["#app-st1", "#app-st2", "#app-st3"].forEach((id, i) => {
+        const t = [0.7, 2.0, 3.4][i];
+        tl.fromTo(id, { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.35, ease: "expo.out" }, t + 0.02);
+      });
+      // the 20-second clock
+      const c = { v: 0 }, el = document.querySelector("#app-count");
+      tl.fromTo("#app-timer", { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "power2.out" }, 0.42);
+      tl.fromTo(c, { v: 0 }, { v: 20, duration: 4.0, ease: "none", onUpdate: () => { el.textContent = "0:" + String(Math.round(c.v)).padStart(2, "0"); } }, 0.55);
+      tl.to("#app-count", { color: "#6ee7a0", duration: 0.2, ease: "power2.out" }, 4.55);
+      // exit: phone drops away with the cut
+      tl.to("#app-phone", { y: -1900, rotation: -5, duration: 0.3, ease: "power3.in" }, 5.2);
+      window.__timelines["app"] = tl;
+    })();
+  </script>
+</template>
