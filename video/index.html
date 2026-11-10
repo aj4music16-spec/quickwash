@@ -338,6 +338,7 @@
 <!-- ============ SCENE 4 · 15–21s · then life happens ============ -->
 <div class="scene" id="s4">
   <div class="layer" id="p1" style="clip-path:polygon(0 0,36% 0,30% 100%,0 100%)">
+    <img class="plate" data-src="shots/04a_gymbag.jpg" alt="" style="transform:translateX(-600px)">
     <svg viewBox="0 0 1920 1080" width="1920" height="1080">
       <rect width="1920" height="1080" fill="#c58f55"/>
       <rect width="1920" height="1080" fill="url(#leather)"/>
@@ -356,6 +357,7 @@
     </svg>
   </div>
   <div class="layer" id="p2" style="clip-path:polygon(36% 0,68% 0,62% 100%,30% 100%)">
+    <img class="plate" data-src="shots/04b_cups.jpg" alt="">
     <svg viewBox="0 0 1920 1080" width="1920" height="1080">
       <rect width="1920" height="1080" fill="#151619"/>
       <path d="M560 1080 L700 620 Q720 580 780 580 H1180 Q1240 580 1260 620 L1340 1080 Z" fill="#c69157"/>
@@ -365,6 +367,7 @@
     </svg>
   </div>
   <div class="layer" id="p3" style="clip-path:polygon(68% 0,100% 0,100% 100%,62% 100%)">
+    <img class="plate" data-src="shots/04c_clutter.jpg" alt="" style="transform:translateX(640px)">
     <svg viewBox="0 0 1920 1080" width="1920" height="1080">
       <rect width="1920" height="1080" fill="#1c1d21"/>
       <rect width="1920" height="1080" fill="#000" filter="url(#leatherTex)" opacity=".25"/>
@@ -393,6 +396,7 @@
 <div class="scene" id="s5">
   <!-- 5a foam on paint -->
   <div class="layer" id="s5a"><div class="cam">
+    <img class="plate" id="foamPlate" data-src="shots/05a_foam.jpg" alt="">
     <svg viewBox="0 0 1920 1080" width="1920" height="1080">
       <defs>
         <linearGradient id="reflSky" x1="0" y1="0" x2="1" y2=".3"><stop offset="0" stop-color="#8fb0d8" stop-opacity="0"/><stop offset=".5" stop-color="#d9ecff" stop-opacity=".5"/><stop offset="1" stop-color="#8fb0d8" stop-opacity="0"/></linearGradient>
@@ -414,6 +418,7 @@
   <!-- 5b split: brush seam | microfiber -->
   <div class="layer" id="s5b">
     <div class="layer" style="clip-path:polygon(0 0,54% 0,46% 100%,0 100%)"><div class="cam" id="brushCam">
+      <img class="plate" data-src="shots/05b_brush.jpg" alt="" style="transform:translateX(-430px)">
       <svg viewBox="0 0 1920 1080" width="1920" height="1080">
         <rect width="1920" height="1080" fill="url(#leather)"/>
         <rect width="1920" height="1080" fill="#3b2410" filter="url(#leatherTex)" opacity=".3"/>
@@ -431,6 +436,8 @@
       </svg>
     </div></div>
     <div class="layer" style="clip-path:polygon(54% 0,100% 0,100% 100%,46% 100%)"><div class="cam" id="clothCam">
+      <img class="plate" id="clothPlate" data-src="shots/05c_microfiber.jpg" alt="" style="transform:translateX(560px)">
+      <div id="haze" style="position:absolute;inset:0;display:none;background:rgba(196,202,214,.42);backdrop-filter:blur(3px) saturate(.6);-webkit-mask-image:linear-gradient(90deg,transparent 0,transparent var(--w),#000 calc(var(--w) + 160px));mask-image:linear-gradient(90deg,transparent 0,transparent var(--w),#000 calc(var(--w) + 160px))"></div>
       <svg viewBox="0 0 1920 1080" width="1920" height="1080">
         <defs>
           <clipPath id="wipeClip"><path id="wipePath" d="M0 0"/></clipPath>
@@ -456,6 +463,7 @@
     </div></div>
     <svg class="layer" viewBox="0 0 1920 1080" width="1920" height="1080"><path d="M1037 0 L883 1080" stroke="#fff" stroke-width="10"/></svg>
   </div>
+  <div id="s5sheen" style="position:absolute;top:-20%;bottom:-20%;width:600px;left:-800px;mix-blend-mode:screen;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(220,235,255,.22),rgba(255,255,255,0));transform:skewX(-20deg)"></div>
   <div class="bl" id="s5h" style="left:900px;top:600px;font-size:132px">
     <span class="ln"><span>Wash away</span></span><span class="ln"><span>the week.</span></span>
   </div>
@@ -466,6 +474,7 @@
 <!-- ============ SCENE 6 · 29–35s · detailer in the driveway ============ -->
 <div class="scene" id="s6">
   <div class="cam" id="s6cam">
+    <img class="plate" data-src="shots/06_driveway.jpg" alt="">
     <svg viewBox="0 0 1920 1080" width="1920" height="1080">
       <defs>
         <linearGradient id="morn" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#bfe0ff"/><stop offset=".7" stop-color="#ffe8c2"/><stop offset="1" stop-color="#ffd59a"/></linearGradient>
@@ -554,6 +563,7 @@
 <!-- ============ SCENE 7 · 35–40s · door shuts, quiet, hero + CTA ============ -->
 <div class="scene" id="s7">
   <div class="cam" id="s7cam">
+    <img class="plate" data-src="shots/07_hero.jpg" alt="">
     <svg viewBox="0 0 1920 1080" width="1920" height="1080">
       <defs>
         <linearGradient id="heroSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9fd0ff"/><stop offset=".65" stop-color="#fff1d6"/><stop offset="1" stop-color="#ffd9a3"/></linearGradient>
@@ -576,12 +586,13 @@
     <span class="ln"><span>Your car.</span></span><span class="ln"><span>Reset.</span></span>
   </div>
   <svg class="uline" id="s7u" style="left:100px;top:420px" width="520" height="60"><path d="M10 34 Q260 6 500 26" stroke-width="20"/></svg>
-  <div id="s7sub" style="position:absolute;left:104px;top:500px;font:600 44px/1.2 'Inter',sans-serif;color:#0b1a5c">Mobile detailing, delivered.</div>
+  <div id="s7sub" style="position:absolute;left:104px;top:462px;font:600 44px/1.2 'Inter',sans-serif;color:#0b1a5c;text-shadow:0 0 18px rgba(255,255,255,.8)">Mobile detailing, delivered.</div>
   <div class="logo-card" id="logoCard" style="right:110px;top:110px;width:400px;height:360px">
     <svg width="230" height="196"><use href="#logoIcon" width="230" height="196"/></svg>
     <div class="wordmark" style="font-size:62px;margin-top:6px">QUICKWASH</div>
   </div>
   <div class="cta" id="cta" style="right:110px;top:520px">Book in the QuickWash app.</div>
+  <div id="s7driver" style="position:absolute;inset:0;display:none"><div class="cam" id="s7driverCam"><img class="plate" id="driverPlate" data-src="shots/06b_driver.jpg" alt=""></div></div>
   <!-- door shut panel (transition into quiet) -->
   <div id="shut" style="position:absolute;inset:0;transform-origin:0 50%">
     <img class="plate" data-src="shots/02_door.jpg" alt="">
@@ -817,6 +828,7 @@ const scenes = [
         });
         $('rinseRect').setAttribute('height', P(lt, 2.0, 3.6, E.inOutC) * 1080);
         $('sheen').setAttribute('x', lerp(-900, 2400, P(lt, 3.0, 3.95, E.inOutS)));
+        const fp = $('foamPlate'); if (fp) fp.style.transform = `translateY(${-30 + lt * 14}px) scale(1.04)`;
       }
       if (onB) {
         const bt = lt - 4;
@@ -831,7 +843,9 @@ const scenes = [
         $('cloth').setAttribute('transform', `translate(${cx} ${cy}) rotate(${Math.sin(bt * 3) * 10})`);
         $('wipePath').setAttribute('d', `M700 ${cy - 330} H${cx + 40} Q${cx + 160} ${cy} ${cx + 40} ${cy + 330} H700 Z`);
         tf($('clothCam'), { s: 1.05 + bt * .01 });
+        if ($('clothPlate')) { const hz = $('haze'); hz.style.display = 'block'; hz.style.setProperty('--w', lerp(700, 2100, P(bt, .2, 3.4, E.inOutS)) + 'px'); }
       }
+      $('s5sheen').style.display = onA ? 'block' : 'none'; $('s5sheen').style.left = lerp(-900, 2400, P(lt, 2.6, 3.9, E.inOutS)) + 'px';
       revealLines($('s5h'), lt, .5, .14);
       drawLine($('s5u'), lt, 1.1, 1.6);
       const hide = P(lt, 3.6, 3.95);
@@ -864,6 +878,8 @@ const scenes = [
       $('shut').style.display = lt < 1.0 ? 'block' : 'none';
       const hero = lt >= 1.0 ? 'visible' : 'hidden';
       ['s7cam', 's7h', 's7u', 's7sub', 'logoCard', 'cta'].forEach(id => $(id).style.visibility = hero);
+      const hasDriver = !!$('driverPlate'); $('s7driver').style.display = hasDriver && lt < 1.0 ? 'block' : 'none';
+      if (hasDriver) tf($('s7driverCam'), { s: 1.04 + lt * .04, x: -lt * 20 });
       tf($('s7cam'), { s: lerp(1.1, 1.0, P(lt, 1.2, 5, E.outC)) });
       document.querySelectorAll('#s7 .sweep').forEach(r => r.setAttribute('x', lerp(-400, 1500, P(lt, 1.8, 3.2, E.inOutS))));
       document.querySelectorAll('#s7 .spokes').forEach(s => { const b = s.getAttribute('transform').split(' rotate')[0]; s.setAttribute('transform', `${b} rotate(${lt * 4})`); });
@@ -890,7 +906,7 @@ function drawGrain(frame) {
 function seek(t) {
   for (const s of scenes) {
     const el = $(s.id), on = t >= s.a && t < s.b + (s.id === 's7' ? 1 : 0);
-    const replay = s.id === 's2' && t >= 35 && t < 36;   // back inside the car as the door shuts
+    const replay = s.id === 's2' && t >= 35 && t < 36 && !$('driverPlate');   // back inside the car as the door shuts
     el.style.display = on || replay ? 'block' : 'none';
     if (on) s.draw(t); else if (replay) s.draw(9.2 + (t - 35));
   }
