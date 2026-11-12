@@ -1,61 +1,51 @@
 <!doctype html>
-<html lang="en">
+<html
+  lang="en"
+  data-composition-variables='[
+    {"id":"navy","type":"color","label":"Brand navy","default":"#000099"},
+    {"id":"accent","type":"color","label":"Brand orange","default":"#ff6600"}
+  ]'
+>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=1920, height=1080" />
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js"></script>
     <style>
-      /* Placeholders: replace all three with the film's own palette and display face. */
-      :root {
-        --ground: #000;
-        --ink: #ffffff;
-        --font-display: sans-serif;
-      }
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        margin: 0;
-        width: 1920px;
-        height: 1080px;
-        overflow: hidden;
-        background: var(--ground);
-      }
-      #root {
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-family: var(--font-display);
-      }
-      #title {
-        color: var(--ink);
-        font-size: 72px;
-        font-weight: 600;
-        letter-spacing: -0.03em;
-      }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; font-family: Inter, sans-serif; }
+      #stage { position: absolute; inset: 0; background: #000; }
     </style>
   </head>
   <body>
-    <div
-      id="root"
-      data-composition-id="main"
-      data-start="0"
-      data-duration="10"
-      data-width="1920"
-      data-height="1080"
-    >
-      <h1 id="title" class="clip" data-start="0" data-duration="10" data-track-index="0">Title</h1>
+    <!-- "The $99 Tag" - QuickWash, High Point NC. 1080x1920, 30 fps, 594 frames, 100 BPM (18 frames a beat). -->
+    <div id="root" data-composition-id="main" data-start="0" data-duration="19.8" data-width="1080" data-height="1920">
+      <div id="stage" data-layout-ignore></div>
+
+      <!-- S1-S2 f0-108 -->
+      <div id="hook" data-composition-id="hook" data-composition-src="compositions/hook.html" data-start="0" data-duration="3.6"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 1"></div>
+      <!-- S3-S8 f108-324 -->
+      <div id="services" data-composition-id="services" data-composition-src="compositions/services.html" data-start="3.6" data-duration="7.2"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 2"></div>
+      <!-- S9 f324-396 -->
+      <div id="payoff" data-composition-id="payoff" data-composition-src="compositions/payoff.html" data-start="10.8" data-duration="2.4"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 3"></div>
+      <!-- S10-S11 f396-516 (S11 runs on under the end-card wipe) -->
+      <div id="proof" data-composition-id="proof" data-composition-src="compositions/proof.html" data-start="13.2" data-duration="4"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 4"></div>
+      <!-- S12 f504-594 -->
+      <div id="end" data-composition-id="end" data-composition-src="compositions/end.html" data-start="16.8" data-duration="3"
+        data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 5"></div>
+      <!-- the hang tag, over every shot f0-516 -->
+      <div id="tag" data-composition-id="tag" data-composition-src="compositions/tag.html" data-start="0" data-duration="17.2"
+        data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 6"></div>
+
+      <audio id="bed" class="clip" data-start="0" data-duration="19.8" data-track-index="4" data-volume="1" src="assets/audio/bed.m4a"></audio>
     </div>
     <script>
-      const tl = gsap.timeline({ paused: true });
-      // Example: tl.fromTo("#title", { opacity: 0, filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.18, ease: "power4.out" }, 0);
-      window.__timelines["main"] = tl;
-      tl.seek(0);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
     </script>
   </body>
 </html>

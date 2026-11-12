@@ -1,0 +1,54 @@
+<template>
+  <style>
+    @font-face { font-family: "League Gothic"; src: url("assets/fonts/league-gothic-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; }
+    #root { position: absolute; inset: 0; overflow: hidden; background: #000; }
+    .shot { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+    .line { position: absolute; inset: 0; z-index: 2; }
+    .slab { position: absolute; left: 72px; top: 1000px; padding: 24px; background: #000099; box-shadow: 0 12px 0 #000470; }
+    .row { display: block; font-family: "League Gothic", sans-serif; font-size: 150px; line-height: 0.9; letter-spacing: 0; color: #ffffff; white-space: nowrap; }
+    .r2 { opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="services" data-width="1080" data-height="1920">
+    <!-- six services, 36 frames each from film frame 108; one punch per shot on its first frame (tag scene) -->
+    <video id="svc-s3" class="clip shot" src="assets/footage/s03-mitt-bumper.mp4" data-start="0" data-duration="1.2" data-media-start="0.5" data-track-index="0" muted playsinline></video>
+    <video id="svc-s4" class="clip shot" src="assets/footage/s04-clean-footwell.mp4" data-start="1.2" data-duration="1.2" data-media-start="0.5" data-track-index="0" muted playsinline></video>
+    <video id="svc-s5" class="clip shot" src="assets/footage/s05-windshield-rinse.mp4" data-start="2.4" data-duration="1.2" data-media-start="0.5" data-track-index="0" muted playsinline></video>
+    <video id="svc-s6" class="clip shot" src="assets/footage/s06-wheel-rinse.mp4" data-start="3.6" data-duration="1.2" data-media-start="0.5" data-track-index="0" playsinline data-has-audio="true" data-volume="0.25"></video>
+    <video id="svc-s7" class="clip shot" src="assets/footage/s07-clean-dash.mp4" data-start="4.8" data-duration="1.2" data-media-start="0.5" data-track-index="0" muted playsinline></video>
+    <video id="svc-s8" class="clip shot" src="assets/footage/s08-spray-hood.mp4" data-start="6" data-duration="1.2" data-media-start="0.3" data-track-index="0" muted playsinline></video>
+
+    <div id="svc-l3" class="clip line" data-start="0" data-duration="1.2" data-track-index="1">
+      <div id="svc-l3-slab" class="slab"><span class="row">FOAM +</span><span class="row r2">HAND WASH</span></div>
+    </div>
+    <div id="svc-l4" class="clip line" data-start="1.2" data-duration="1.2" data-track-index="1">
+      <div id="svc-l4-slab" class="slab"><span class="row">VACUUM,</span><span class="row r2">TRUNK TOO</span></div>
+    </div>
+    <div id="svc-l5" class="clip line" data-start="2.4" data-duration="1.2" data-track-index="1">
+      <div id="svc-l5-slab" class="slab"><span class="row">GLASS,</span><span class="row r2">BOTH SIDES</span></div>
+    </div>
+    <div id="svc-l6" class="clip line" data-start="3.6" data-duration="1.2" data-track-index="1">
+      <div id="svc-l6-slab" class="slab"><span class="row">TIRE SHINE</span><span class="row r2">+ JAMBS</span></div>
+    </div>
+    <div id="svc-l7" class="clip line" data-start="4.8" data-duration="1.2" data-track-index="1">
+      <div id="svc-l7-slab" class="slab"><span class="row">DASH</span><span class="row r2">WIPED DOWN</span></div>
+    </div>
+    <div id="svc-l8" class="clip line" data-start="6" data-duration="1.2" data-track-index="1">
+      <div id="svc-l8-slab" class="slab"><span class="row">CERAMIC-</span><span class="row r2">INFUSED WAX</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // scene starts at film frame 108
+      const F = (f) => f / 30;
+      const tl = gsap.timeline({ paused: true });
+      const line = (id, t) => {
+        tl.fromTo(`#${id}-slab`, { y: 40 }, { y: 0, duration: F(5), ease: "power4.out" }, t);
+        tl.set(`#${id} .r2`, { opacity: 1 }, t + F(2));
+        tl.fromTo(`#${id} .r2`, { y: 26 }, { y: 0, duration: F(5), ease: "power4.out" }, t + F(2));
+      };
+      ["svc-l3", "svc-l4", "svc-l5", "svc-l6", "svc-l7", "svc-l8"].forEach((id, i) => line(id, F(36 * i)));
+      window.__timelines = window.__timelines || {};
+      window.__timelines["services"] = tl;
+    })();
+  </script>
+</template>

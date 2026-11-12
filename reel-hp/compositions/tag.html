@@ -1,0 +1,132 @@
+<template>
+  <style>
+    @font-face { font-family: "League Gothic"; src: url("assets/fonts/league-gothic-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; }
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #tag-clip { position: absolute; inset: 0; }
+
+    /* The hang tag: 440 x 620 card at x 80, y 220. Wrappers, outside in:
+       pull (end-card lift) > grow (flip scale) > kick (punch recoil) > persp > flip (rotateY) > faces */
+    #tag-pull, #tag-grow, #tag-kick { position: absolute; left: 80px; top: 220px; width: 440px; height: 620px; }
+    #tag-grow, #tag-kick { left: 0; top: 0; }
+    #tag-string { position: absolute; left: 218.5px; top: -900px; width: 3px; height: 948px; background: #efe9dc; }
+    #tag-persp { position: absolute; inset: 0; perspective: 1600px; perspective-origin: 220px 48px; }
+    #tag-flip { position: absolute; inset: 0; transform-style: preserve-3d; }
+    .tag-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+    #tag-back { transform: rotateY(180deg); }
+    .tag-shadow { position: absolute; inset: 0; filter: drop-shadow(10px 14px 0 rgba(0, 0, 4, 0.3)); }
+
+    /* card stock: clipped top corners, punched holes cut by the mask (grommet hole always open) */
+    .tag-card {
+      position: absolute; inset: 0; background: #ffffff;
+      clip-path: polygon(56px 0, 384px 0, 440px 56px, 440px 620px, 0 620px, 0 56px);
+      -webkit-mask-image: radial-gradient(circle at 220px 48px, transparent 10px, #000 10.5px);
+      mask-image: radial-gradient(circle at 220px 48px, transparent 10px, #000 10.5px);
+      -webkit-mask-composite: source-in; mask-composite: intersect;
+    }
+    #tag-back .tag-card {
+      -webkit-mask-image: radial-gradient(circle at 220px 48px, transparent 10px, #000 10.5px), radial-gradient(circle at 80px 550px, transparent 15px, #000 15.5px), radial-gradient(circle at 136px 550px, transparent 15px, #000 15.5px), radial-gradient(circle at 192px 550px, transparent 15px, #000 15.5px), radial-gradient(circle at 248px 550px, transparent 15px, #000 15.5px), radial-gradient(circle at 304px 550px, transparent 15px, #000 15.5px), radial-gradient(circle at 360px 550px, transparent 15px, #000 15.5px);
+      mask-image: radial-gradient(circle at 220px 48px, transparent 10px, #000 10.5px), radial-gradient(circle at 80px 550px, transparent 15px, #000 15.5px), radial-gradient(circle at 136px 550px, transparent 15px, #000 15.5px), radial-gradient(circle at 192px 550px, transparent 15px, #000 15.5px), radial-gradient(circle at 248px 550px, transparent 15px, #000 15.5px), radial-gradient(circle at 304px 550px, transparent 15px, #000 15.5px), radial-gradient(circle at 360px 550px, transparent 15px, #000 15.5px);
+    }
+    .tag-edge { position: absolute; left: 0; top: 0; width: 440px; height: 620px; }
+    .tag-grommet { position: absolute; left: 194px; top: 22px; width: 52px; height: 52px; border-radius: 50%; border: 16px solid #ff6600; }
+    .tag-target { position: absolute; top: 535px; width: 30px; height: 30px; border-radius: 50%; border: 2px solid #c9cedb; }
+    .tag-rim { position: absolute; top: 535px; width: 30px; height: 30px; border-radius: 50%; border: 3px solid #ff6600; }
+    #tag-front .tag-rim { opacity: 0; }
+
+    .tag-price { position: absolute; left: 0; width: 440px; text-align: center; font-family: "League Gothic", sans-serif; font-size: 300px;
+      line-height: 1; letter-spacing: -3px; color: #000099; white-space: nowrap; }
+    #tag-front .tag-price { top: 75px; }
+    .tag-size { position: absolute; left: 0; width: 440px; text-align: center; font-family: Inter, sans-serif; font-weight: 800; font-size: 30px;
+      line-height: 36px; color: #000099; white-space: nowrap; }
+    #tag-allsix { position: absolute; left: 0; top: 76px; width: 440px; text-align: center; font-family: "League Gothic", sans-serif; font-size: 120px;
+      line-height: 1; color: #ff6600; white-space: nowrap; }
+    #tag-back .tag-price { top: 172px; }
+  </style>
+  <div id="root" data-composition-id="tag" data-width="1080" data-height="1920">
+    <div id="tag-clip" class="clip" data-start="0" data-duration="17.2" data-layout-allow-overflow data-layout-allow-overlap>
+      <div id="tag-pull">
+        <div id="tag-grow">
+          <div id="tag-kick">
+            <div id="tag-persp">
+              <div id="tag-flip">
+                <!-- FRONT: $99, vehicle size, six punch positions -->
+                <div id="tag-front" class="tag-face">
+                  <div class="tag-shadow">
+                    <div id="tag-front-card" class="tag-card">
+                      <svg class="tag-edge" viewBox="0 0 440 620"><polygon points="61.8,14 378.2,14 426,61.8 426,606 14,606 14,61.8" fill="none" stroke="#d8dce6" stroke-width="2" /></svg>
+                      <div class="tag-price">$99</div>
+                      <div class="tag-size" style="top: 360px">STANDARD-SIZE</div>
+                      <div class="tag-size" style="top: 398px">VEHICLE</div>
+                      <div class="tag-target" style="left: 65px"></div>
+                      <div class="tag-target" style="left: 121px"></div>
+                      <div class="tag-target" style="left: 177px"></div>
+                      <div class="tag-target" style="left: 233px"></div>
+                      <div class="tag-target" style="left: 289px"></div>
+                      <div class="tag-target" style="left: 345px"></div>
+                    </div>
+                    <div class="tag-grommet"></div>
+                    <div id="tag-rim1" class="tag-rim" style="left: 65px"></div>
+                    <div id="tag-rim2" class="tag-rim" style="left: 121px"></div>
+                    <div id="tag-rim3" class="tag-rim" style="left: 177px"></div>
+                    <div id="tag-rim4" class="tag-rim" style="left: 233px"></div>
+                    <div id="tag-rim5" class="tag-rim" style="left: 289px"></div>
+                    <div id="tag-rim6" class="tag-rim" style="left: 345px"></div>
+                  </div>
+                </div>
+                <!-- BACK: ALL SIX / $99, all six holes punched (mirrored positions are symmetric) -->
+                <div id="tag-back" class="tag-face">
+                  <div class="tag-shadow">
+                    <div class="tag-card">
+                      <svg class="tag-edge" viewBox="0 0 440 620"><polygon points="61.8,14 378.2,14 426,61.8 426,606 14,606 14,61.8" fill="none" stroke="#d8dce6" stroke-width="2" /></svg>
+                      <div id="tag-allsix">ALL SIX</div>
+                      <div class="tag-price">$99</div>
+                    </div>
+                    <div class="tag-grommet"></div>
+                    <div class="tag-rim" style="left: 65px"></div>
+                    <div class="tag-rim" style="left: 121px"></div>
+                    <div class="tag-rim" style="left: 177px"></div>
+                    <div class="tag-rim" style="left: 233px"></div>
+                    <div class="tag-rim" style="left: 289px"></div>
+                    <div class="tag-rim" style="left: 345px"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- cotton string from the grommet straight up out of frame -->
+            <div id="tag-string" data-layout-ignore></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // Film frames at 30 fps. 100 BPM = 18 frames a beat. This scene starts at film frame 0.
+      const F = (f) => f / 30;
+      const tl = gsap.timeline({ paused: true });
+      const grommet = "radial-gradient(circle at 220px 48px, transparent 10px, #000 10.5px)";
+      const hole = (i) => `radial-gradient(circle at ${80 + 56 * i}px 550px, transparent 15px, #000 15.5px)`;
+      const mask = (n) => [grommet].concat(Array.from({ length: n }, (_, i) => hole(i))).join(", ");
+
+      // Punches 1-6 on the first frame of S3-S8 (f108, 144, 180, 216, 252, 288): the hole opens in one
+      // frame and the punch knocks the tag 6 px down; it returns over 4 frames. No other tag motion.
+      for (let i = 0; i < 6; i++) {
+        const t = F(108 + 36 * i), m = mask(i + 1);
+        tl.set("#tag-front-card", { webkitMaskImage: m, maskImage: m }, t);
+        tl.set("#tag-rim" + (i + 1), { opacity: 1 }, t);
+        tl.fromTo("#tag-kick", { y: 6 }, { y: 0, duration: F(4), ease: "power2.out", immediateRender: false }, t);
+      }
+
+      // S9 payoff (f324-336): the tag turns over about the grommet, front swaps to back at 90 degrees,
+      // and grows 1.00 -> 1.20 to land at x 80-608, y 220-964.
+      tl.fromTo("#tag-flip", { rotationY: 0, transformOrigin: "220px 48px" }, { rotationY: 180, duration: F(12), ease: "power3.inOut" }, F(324));
+      tl.fromTo("#tag-grow", { scale: 1, x: 0, y: 0, transformOrigin: "220px 48px" }, { scale: 1.2, x: 44, y: 9.6, duration: F(12), ease: "power3.inOut" }, F(324));
+
+      // End card (f504): pulled up out of frame on its string in 12 frames, power4.in.
+      tl.fromTo("#tag-pull", { y: 0 }, { y: -1080, duration: F(12), ease: "power4.in" }, F(504));
+
+      window.__timelines = window.__timelines || {};
+      window.__timelines["tag"] = tl;
+    })();
+  </script>
+</template>
