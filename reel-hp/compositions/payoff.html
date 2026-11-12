@@ -9,7 +9,7 @@
   <div id="root" data-composition-id="payoff" data-width="1080" data-height="1920">
     <!-- S9 f324-396: the finished car. The one added footage move: push 1.00 -> 1.05 over 72 frames. -->
     <div id="pay-cam" data-layout-allow-overflow>
-      <video id="pay-s9" class="clip shot" src="assets/footage/s09-hero-front.mp4" data-start="0" data-duration="2.4" data-media-start="0.5"
+      <video id="pay-s9" class="clip shot" src="assets/footage/s09-hero-side.mp4" data-start="0" data-duration="2.4" data-media-start="0.5"
         data-track-index="0" muted playsinline></video>
     </div>
     <div id="payoff-scrim" class="scrim" data-layout-ignore></div>
@@ -19,7 +19,7 @@
       // scene starts at film frame 324
       const F = (f) => f / 30;
       const tl = gsap.timeline({ paused: true });
-      tl.fromTo("#pay-cam", { scale: 1, transformOrigin: "66% 50%" }, { scale: 1.05, duration: F(72), ease: "power2.out" }, 0);
+      tl.fromTo("#pay-cam", { scale: 1, transformOrigin: "50% 55%" }, { scale: 1.05, duration: F(72), ease: "power2.out" }, 0);
       window.__timelines = window.__timelines || {};
       window.__timelines["payoff"] = tl;
     })();

@@ -14,7 +14,7 @@ tools/trim.py. "In-out" is the source time on screen.
 | S6 tires (stand-in) | 216-252 | s06-wheel-rinse.mp4 | IMG_6386.MOV | 4.8-6.0 | clip sound at -12 dB |
 | S7 dash (stand-in) | 252-288 | s07-clean-dash.mp4 | IMG_6439.MOV | 1.8-3.0 | Volvo wheel badge |
 | S8 wax (stand-in) | 288-324 | s08-spray-hood.mp4 | IMG_6393.MOV | 0.3-1.5 | plate blurred; unlabelled bottle |
-| S9 hero | 324-396 | s09-hero-front.mp4 | IMG_6432.MOV | 2.5-4.9 | 1.00-1.05 push in HTML |
+| S9 hero | 324-396 | s09-hero-side.mp4 | IMG_6438.MOV | 1.3-3.7 | 1.00-1.05 push in HTML (v3: replaced IMG_6432, whose headlight and bumper read as unwashed) |
 | S10 no need to be home | 396-450 | s10-detailer-house.mp4 | IMG_0012_1_12.mp4 | 0.3-2.1 | NJ plate blurred; face visible |
 | S11 vetted, trained, insured | 450-516 | s11-detailer-logo.mp4 | IMG_0012_1_15.mp4 | 0.3-2.5 | under the end-card wipe from f504; clip sound at -12 dB |
 
