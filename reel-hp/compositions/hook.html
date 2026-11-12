@@ -1,15 +1,17 @@
 <template>
   <style>
-    @font-face { font-family: "League Gothic"; src: url("assets/fonts/league-gothic-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; }
     #root { position: absolute; inset: 0; overflow: hidden; background: #000; }
     .shot { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
-    /* line carrier: navy slab, 24 px padding, 12 px darker thickness edge, left at x 72, top at y 1000 */
-    .line { position: absolute; inset: 0; z-index: 2; }
-    .slab { position: absolute; left: 72px; top: 1000px; padding: 24px; background: #000099; box-shadow: 0 12px 0 #000470; }
-    .row { display: block; font-family: "League Gothic", sans-serif; font-size: 150px; line-height: 0.9; letter-spacing: 0; color: #ffffff; white-space: nowrap; }
-    .r2 { opacity: 0; }
+    /* legibility without a box: a soft bottom scrim over the footage (a div, not a filter) plus a soft text shadow */
+    .scrim { position: absolute; left: 0; top: 980px; width: 1080px; height: 940px; z-index: 2;
+      background: linear-gradient(180deg, rgba(0, 0, 20, 0) 0%, rgba(0, 0, 20, 0.42) 60%, rgba(0, 0, 20, 0.55) 100%); }
+    .line { position: absolute; inset: 0; z-index: 3; }
+    /* one line of Poppins 700, left at x 72, bottom of the text box at y 1300 (baseline ~1283), max 800 px wide */
+    .lt { position: absolute; left: 72px; bottom: 620px; max-width: 800px; font-family: Poppins, sans-serif; font-weight: 700; font-size: 84px;
+      line-height: 1.1; letter-spacing: -0.01em; color: #ffffff; text-shadow: 0 3px 18px rgba(0, 0, 10, 0.55), 0 1px 2px rgba(0, 0, 10, 0.5); }
   </style>
   <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <div id="hook-scrim" class="scrim" data-layout-ignore></div>
     <!-- S1 f0-54: foam pre-soak sheeting off black paint (natural foam sound under the bed) -->
     <video id="hook-s1" class="clip shot" src="assets/footage/s01-foam-sheet.mp4" data-start="0" data-duration="1.8" data-media-start="0.5"
       data-track-index="0" playsinline data-has-audio="true" data-volume="0.25"></video>
@@ -19,10 +21,10 @@
 
     <!-- line 1 is on frame 0 (the thumbnail): no entry -->
     <div id="hook-l1" class="clip line" data-start="0" data-duration="1.8" data-track-index="1">
-      <div id="hook-l1-slab" class="slab"><span class="row">WASHED IN</span><span class="row">YOUR DRIVEWAY</span></div>
+      <div id="hook-l1-t" class="lt">Washed in your driveway</div>
     </div>
     <div id="hook-l2" class="clip line" data-start="1.866667" data-duration="1.733333" data-track-index="1">
-      <div id="hook-l2-slab" class="slab"><span class="row">NOW IN</span><span class="row r2">HIGH POINT</span></div>
+      <div id="hook-l2-t" class="lt">Now in High Point</div>
     </div>
   </div>
   <script>
@@ -30,12 +32,9 @@
       // scene starts at film frame 0
       const F = (f) => f / 30;
       const tl = gsap.timeline({ paused: true });
-      // a line arrives from 40 px below, opacity binary (the clip window), power4.out over 5 frames;
-      // its second row shows 2 frames later and travels 26 px. A landed line never moves.
+      // a line arrives from 24 px below, opacity binary (the clip window), power4.out over 5 frames. A landed line never moves.
       const line = (id, t) => {
-        tl.fromTo(`#${id}-slab`, { y: 40 }, { y: 0, duration: F(5), ease: "power4.out" }, t);
-        tl.set(`#${id} .r2`, { opacity: 1 }, t + F(2));
-        tl.fromTo(`#${id} .r2`, { y: 26 }, { y: 0, duration: F(5), ease: "power4.out" }, t + F(2));
+        tl.fromTo(`#${id}-t`, { y: 24 }, { y: 0, duration: F(5), ease: "power4.out" }, t);
       };
       line("hook-l2", F(56));
       window.__timelines = window.__timelines || {};

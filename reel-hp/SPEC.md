@@ -187,3 +187,20 @@ Every cut, punch, flip and end-card beat lands on the frame given above. Deviati
 - **Check warnings kept**: nested_media_start_basis_ambiguous (the media starts are composition-local on purpose),
   timeline_track_too_dense (six line clips in the services scene is the SPEC's shot group), contrast_aa_failure on
   ALL SIX (#FF6600 on white is 2.94:1; the SPEC fixes the brand orange; 120 px display type).
+
+## Overlay v2 (client feedback, 2026-11-12) — supersedes LOOK's Ink, Display, Depth and the slab/tag numbers above
+
+Story, timing, cuts, footage, sound and end-card content are unchanged.
+- **Lines**: no slabs. White Poppins 700, mixed case, 84 px, letter-spacing -0.01em, line-height 1.1, left x 72,
+  max width 800 px (wraps to two lines only past 800: "Washed in your driveway", "Ceramic-infused wax",
+  "No need to be home", "Vetted, trained, insured"). Text box bottom at y 1300 (baseline ~1283), so wrapped lines
+  grow upward. Legibility: text-shadow 0 3px 18px rgba(0,0,10,.55), 0 1px 2px rgba(0,0,10,.5), plus a full-width
+  scrim div (y 980-1920, linear-gradient 0 / .42 at 60% / .55) on every footage shot, S9 included. Arrival: binary
+  opacity (the clip window), 5-frame power4.out from 24 px below; leaves with the cut.
+  Exception: "Foam + hand wash" (S3) sits 100 px higher (text box bottom y 1200) because at y 1300 it covered the mitt.
+- **Tag**: whole tag at 0.62 (card ~273 x 384), pinned top-left x 72, y 200; $99 ~186 px; STANDARD-SIZE / VEHICLE at
+  46 card px = 28.5 px on screen; six holes, punch kick 6 px on screen. Shadow 6 x 8 px, rgba(0,0,4,.22). S9 flip
+  (f324-336): back face grows 0.62 -> 1.0 (440 x 620 at x 72, y 200) anchored top-left; shrinks back to 0.62 over 8
+  frames from the S10 cut (f396).
+- **End card**: "Book in the app" Poppins 700 96 px mixed case; logo, badges and fine print unchanged (moved up to
+  close the gap).

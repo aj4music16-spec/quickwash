@@ -1,14 +1,17 @@
 <template>
   <style>
-    @font-face { font-family: "League Gothic"; src: url("assets/fonts/league-gothic-latin-400-normal.woff2") format("woff2"); font-weight: 400; font-style: normal; }
     #root { position: absolute; inset: 0; overflow: hidden; background: #000; }
     .shot { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
-    .line { position: absolute; inset: 0; z-index: 2; }
-    .slab { position: absolute; left: 72px; top: 1000px; padding: 24px; background: #000099; box-shadow: 0 12px 0 #000470; }
-    .row { display: block; font-family: "League Gothic", sans-serif; font-size: 150px; line-height: 0.9; letter-spacing: 0; color: #ffffff; white-space: nowrap; }
-    .r2 { opacity: 0; }
+    /* legibility without a box: a soft bottom scrim over the footage (a div, not a filter) plus a soft text shadow */
+    .scrim { position: absolute; left: 0; top: 980px; width: 1080px; height: 940px; z-index: 2;
+      background: linear-gradient(180deg, rgba(0, 0, 20, 0) 0%, rgba(0, 0, 20, 0.42) 60%, rgba(0, 0, 20, 0.55) 100%); }
+    .line { position: absolute; inset: 0; z-index: 3; }
+    /* one line of Poppins 700, left at x 72, bottom of the text box at y 1300 (baseline ~1283), max 800 px wide */
+    .lt { position: absolute; left: 72px; bottom: 620px; max-width: 800px; font-family: Poppins, sans-serif; font-weight: 700; font-size: 84px;
+      line-height: 1.1; letter-spacing: -0.01em; color: #ffffff; text-shadow: 0 3px 18px rgba(0, 0, 10, 0.55), 0 1px 2px rgba(0, 0, 10, 0.5); }
   </style>
   <div id="root" data-composition-id="services" data-width="1080" data-height="1920">
+    <div id="services-scrim" class="scrim" data-layout-ignore></div>
     <!-- six services, 36 frames each from film frame 108; one punch per shot on its first frame (tag scene) -->
     <video id="svc-s3" class="clip shot" src="assets/footage/s03-mitt-bumper.mp4" data-start="0" data-duration="1.2" data-media-start="0.5" data-track-index="0" muted playsinline></video>
     <video id="svc-s4" class="clip shot" src="assets/footage/s04-clean-footwell.mp4" data-start="1.2" data-duration="1.2" data-media-start="0.5" data-track-index="0" muted playsinline></video>
@@ -18,22 +21,22 @@
     <video id="svc-s8" class="clip shot" src="assets/footage/s08-spray-hood.mp4" data-start="6" data-duration="1.2" data-media-start="0.3" data-track-index="0" muted playsinline></video>
 
     <div id="svc-l3" class="clip line" data-start="0" data-duration="1.2" data-track-index="1">
-      <div id="svc-l3-slab" class="slab"><span class="row">FOAM +</span><span class="row r2">HAND WASH</span></div>
+      <div id="svc-l3-t" class="lt" style="bottom: 720px">Foam + hand wash</div>
     </div>
     <div id="svc-l4" class="clip line" data-start="1.2" data-duration="1.2" data-track-index="1">
-      <div id="svc-l4-slab" class="slab"><span class="row">VACUUM,</span><span class="row r2">TRUNK TOO</span></div>
+      <div id="svc-l4-t" class="lt">Vacuum, trunk too</div>
     </div>
     <div id="svc-l5" class="clip line" data-start="2.4" data-duration="1.2" data-track-index="1">
-      <div id="svc-l5-slab" class="slab"><span class="row">GLASS,</span><span class="row r2">BOTH SIDES</span></div>
+      <div id="svc-l5-t" class="lt">Glass, both sides</div>
     </div>
     <div id="svc-l6" class="clip line" data-start="3.6" data-duration="1.2" data-track-index="1">
-      <div id="svc-l6-slab" class="slab"><span class="row">TIRE SHINE</span><span class="row r2">+ JAMBS</span></div>
+      <div id="svc-l6-t" class="lt">Tire shine + jambs</div>
     </div>
     <div id="svc-l7" class="clip line" data-start="4.8" data-duration="1.2" data-track-index="1">
-      <div id="svc-l7-slab" class="slab"><span class="row">DASH</span><span class="row r2">WIPED DOWN</span></div>
+      <div id="svc-l7-t" class="lt">Dash wiped down</div>
     </div>
     <div id="svc-l8" class="clip line" data-start="6" data-duration="1.2" data-track-index="1">
-      <div id="svc-l8-slab" class="slab"><span class="row">CERAMIC-</span><span class="row r2">INFUSED WAX</span></div>
+      <div id="svc-l8-t" class="lt">Ceramic-infused wax</div>
     </div>
   </div>
   <script>
@@ -42,9 +45,7 @@
       const F = (f) => f / 30;
       const tl = gsap.timeline({ paused: true });
       const line = (id, t) => {
-        tl.fromTo(`#${id}-slab`, { y: 40 }, { y: 0, duration: F(5), ease: "power4.out" }, t);
-        tl.set(`#${id} .r2`, { opacity: 1 }, t + F(2));
-        tl.fromTo(`#${id} .r2`, { y: 26 }, { y: 0, duration: F(5), ease: "power4.out" }, t + F(2));
+        tl.fromTo(`#${id}-t`, { y: 24 }, { y: 0, duration: F(5), ease: "power4.out" }, t);
       };
       ["svc-l3", "svc-l4", "svc-l5", "svc-l6", "svc-l7", "svc-l8"].forEach((id, i) => line(id, F(36 * i)));
       window.__timelines = window.__timelines || {};

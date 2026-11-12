@@ -4,16 +4,17 @@
     #root { position: absolute; inset: 0; overflow: hidden; }
     #tag-clip { position: absolute; inset: 0; }
 
-    /* The hang tag: 440 x 620 card at x 80, y 220. Wrappers, outside in:
-       pull (end-card lift) > grow (flip scale) > kick (punch recoil) > persp > flip (rotateY) > faces */
-    #tag-pull, #tag-grow, #tag-kick { position: absolute; left: 80px; top: 220px; width: 440px; height: 620px; }
+    /* The hang tag (Overlay v2): a 440 x 620 card drawn at 0.62 (about 273 x 384 px), pinned top-left at x 72, y 200.
+       Wrappers, outside in: pull (end-card lift) > grow (0.62 rest scale, 1.0 for the S9 payoff) > kick (punch recoil)
+       > persp > flip (rotateY) > faces. All sizes inside are card units (x 0.62 on screen at rest). */
+    #tag-pull, #tag-grow, #tag-kick { position: absolute; left: 72px; top: 200px; width: 440px; height: 620px; }
     #tag-grow, #tag-kick { left: 0; top: 0; }
     #tag-string { position: absolute; left: 218.5px; top: -900px; width: 3px; height: 948px; background: #efe9dc; }
     #tag-persp { position: absolute; inset: 0; perspective: 1600px; perspective-origin: 220px 48px; }
     #tag-flip { position: absolute; inset: 0; transform-style: preserve-3d; }
     .tag-face { position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden; }
     #tag-back { transform: rotateY(180deg); }
-    .tag-shadow { position: absolute; inset: 0; filter: drop-shadow(10px 14px 0 rgba(0, 0, 4, 0.3)); }
+    .tag-shadow { position: absolute; inset: 0; filter: drop-shadow(9.7px 12.9px 0 rgba(0, 0, 4, 0.22)); }  /* 6 x 8 px on screen at 0.62 */
 
     /* card stock: clipped top corners, punched holes cut by the mask (grommet hole always open) */
     .tag-card {
@@ -36,8 +37,9 @@
     .tag-price { position: absolute; left: 0; width: 440px; text-align: center; font-family: "League Gothic", sans-serif; font-size: 300px;
       line-height: 1; letter-spacing: -3px; color: #000099; white-space: nowrap; }
     #tag-front .tag-price { top: 75px; }
-    .tag-size { position: absolute; left: 0; width: 440px; text-align: center; font-family: Inter, sans-serif; font-weight: 800; font-size: 30px;
-      line-height: 36px; color: #000099; white-space: nowrap; }
+    /* 46 card px = 28.5 px on screen at 0.62 (the 28 px floor) */
+    .tag-size { position: absolute; left: 0; width: 440px; text-align: center; font-family: Inter, sans-serif; font-weight: 800; font-size: 46px;
+      line-height: 50px; letter-spacing: -0.01em; color: #000099; white-space: nowrap; }
     #tag-allsix { position: absolute; left: 0; top: 76px; width: 440px; text-align: center; font-family: "League Gothic", sans-serif; font-size: 120px;
       line-height: 1; color: #ff6600; white-space: nowrap; }
     #tag-back .tag-price { top: 172px; }
@@ -55,8 +57,8 @@
                     <div id="tag-front-card" class="tag-card">
                       <svg class="tag-edge" viewBox="0 0 440 620"><polygon points="61.8,14 378.2,14 426,61.8 426,606 14,606 14,61.8" fill="none" stroke="#d8dce6" stroke-width="2" /></svg>
                       <div class="tag-price">$99</div>
-                      <div class="tag-size" style="top: 360px">STANDARD-SIZE</div>
-                      <div class="tag-size" style="top: 398px">VEHICLE</div>
+                      <div class="tag-size" style="top: 352px">STANDARD-SIZE</div>
+                      <div class="tag-size" style="top: 402px">VEHICLE</div>
                       <div class="tag-target" style="left: 65px"></div>
                       <div class="tag-target" style="left: 121px"></div>
                       <div class="tag-target" style="left: 177px"></div>
@@ -109,18 +111,21 @@
       const mask = (n) => [grommet].concat(Array.from({ length: n }, (_, i) => hole(i))).join(", ");
 
       // Punches 1-6 on the first frame of S3-S8 (f108, 144, 180, 216, 252, 288): the hole opens in one
-      // frame and the punch knocks the tag 6 px down; it returns over 4 frames. No other tag motion.
+      // frame and the punch knocks the tag 6 px down on screen (9.7 card px at 0.62); it returns over 4 frames.
       for (let i = 0; i < 6; i++) {
         const t = F(108 + 36 * i), m = mask(i + 1);
         tl.set("#tag-front-card", { webkitMaskImage: m, maskImage: m }, t);
         tl.set("#tag-rim" + (i + 1), { opacity: 1 }, t);
-        tl.fromTo("#tag-kick", { y: 6 }, { y: 0, duration: F(4), ease: "power2.out", immediateRender: false }, t);
+        tl.fromTo("#tag-kick", { y: 9.7 }, { y: 0, duration: F(4), ease: "power2.out", immediateRender: false }, t);
       }
 
-      // S9 payoff (f324-336): the tag turns over about the grommet, front swaps to back at 90 degrees,
-      // and grows 1.00 -> 1.20 to land at x 80-608, y 220-964.
+      // Rest scale 0.62, anchored top-left (x 72, y 200). The fromTo renders 0.62 from frame 0.
+      // S9 payoff (f324-336): the tag turns over about the grommet, front swaps to back at 90 degrees, and the back
+      // grows to 1.0 (440 x 620, x 72-512, y 200-820) so ALL SIX / $99 is the hero over the finished car.
       tl.fromTo("#tag-flip", { rotationY: 0, transformOrigin: "220px 48px" }, { rotationY: 180, duration: F(12), ease: "power3.inOut" }, F(324));
-      tl.fromTo("#tag-grow", { scale: 1, x: 0, y: 0, transformOrigin: "220px 48px" }, { scale: 1.2, x: 44, y: 9.6, duration: F(12), ease: "power3.inOut" }, F(324));
+      tl.fromTo("#tag-grow", { scale: 0.62, transformOrigin: "0px 0px" }, { scale: 1, duration: F(12), ease: "power3.inOut" }, F(324));
+      // S10 cut (f396): back to 0.62 over 8 frames.
+      tl.fromTo("#tag-grow", { scale: 1 }, { scale: 0.62, duration: F(8), ease: "power3.inOut", immediateRender: false }, F(396));
 
       // End card (f504): pulled up out of frame on its string in 12 frames, power4.in.
       tl.fromTo("#tag-pull", { y: 0 }, { y: -1080, duration: F(12), ease: "power4.in" }, F(504));
