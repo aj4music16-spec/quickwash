@@ -2,8 +2,8 @@
   <style>
     #root { position: absolute; inset: 0; overflow: hidden; background: #000; }
     .shot { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
-    /* legibility without a box: a soft bottom scrim over the footage (a div, not a filter) plus a soft text shadow */
-    .scrim { position: absolute; left: 0; top: 980px; width: 1080px; height: 940px; z-index: 2;
+    /* v9: the feature checklist (checklist.html) sits on this bottom scrim, extended up to y 820 */
+    .scrim { position: absolute; left: 0; top: 820px; width: 1080px; height: 1100px; z-index: 2;
       background: linear-gradient(180deg, rgba(0, 0, 20, 0) 0%, rgba(0, 0, 20, 0.42) 60%, rgba(0, 0, 20, 0.55) 100%); }
     .line { position: absolute; inset: 0; z-index: 3; }
     /* one line of Poppins 700, left at x 72, bottom of the text box at y 1300 (baseline ~1283), max 800 px wide */
@@ -20,34 +20,12 @@
     <video id="svc-s7" class="clip shot" src="assets/footage/s07-door-wipe.mp4" data-start="4.4" data-duration="1.1" data-media-start="0.5" data-track-index="0" muted playsinline></video>
     <video id="svc-s8" class="clip shot" src="assets/footage/s08-spray-hood.mp4" data-start="5.5" data-duration="1.1" data-media-start="0.3" data-track-index="0" muted playsinline></video>
 
-    <div id="svc-l3" class="clip line" data-start="0" data-duration="1.1" data-track-index="1">
-      <div id="svc-l3-t" class="lt" style="bottom: 720px">Foam + hand wash</div>
-    </div>
-    <div id="svc-l4" class="clip line" data-start="1.1" data-duration="1.1" data-track-index="1">
-      <div id="svc-l4-t" class="lt">Vacuum, trunk too</div>
-    </div>
-    <div id="svc-l5" class="clip line" data-start="2.2" data-duration="1.1" data-track-index="1">
-      <div id="svc-l5-t" class="lt">Glass, both sides</div>
-    </div>
-    <div id="svc-l6" class="clip line" data-start="3.3" data-duration="1.1" data-track-index="1">
-      <div id="svc-l6-t" class="lt">Tire shine + jambs</div>
-    </div>
-    <div id="svc-l7" class="clip line" data-start="4.4" data-duration="1.1" data-track-index="1">
-      <div id="svc-l7-t" class="lt" style="bottom: 1100px">Interior wiped down</div>
-    </div>
-    <div id="svc-l8" class="clip line" data-start="5.5" data-duration="1.1" data-track-index="1">
-      <div id="svc-l8-t" class="lt">Ceramic-infused wax</div>
-    </div>
   </div>
   <script>
     (function () {
       // scene starts at film frame 180 (6.0 s)
       const F = (f) => f / 30;
       const tl = gsap.timeline({ paused: true });
-      const line = (id, t) => {
-        tl.fromTo(`#${id}-t`, { y: 24 }, { y: 0, duration: F(5), ease: "power4.out" }, t);
-      };
-      ["svc-l3", "svc-l4", "svc-l5", "svc-l6", "svc-l7", "svc-l8"].forEach((id, i) => line(id, F(33 * i)));
       window.__timelines = window.__timelines || {};
       window.__timelines["services"] = tl;
     })();
