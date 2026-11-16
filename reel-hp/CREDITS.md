@@ -24,3 +24,12 @@ Get signed releases before the ad runs. Third-party marks visible: Nissan, Volvo
 Music and sound effects: synthesized for this film by tools/soundtrack.js (no samples, no library music).
 Logo and store badges: assets/app (QuickWash; official Apple and Google badge artwork, untinted).
 Font: League Gothic (SIL OFL), Inter (SIL OFL).
+
+## Audio (v4)
+
+- Music: ElevenLabs sound generation, three 20 s instrumental beds in `assets/audio/music/` (acoustic pop, southern soul, indie pop), generated on the client's ElevenLabs account.
+- Voiceover: ElevenLabs text-to-speech, `eleven_multilingual_v2`, voices Chris and Sarah, 5 lines (`assets/audio/vo/script.json`).
+- Mix: `tools/mix.sh <bed> <voice> <out.m4a>` places the lines at 0.25 / 1.85 / 3.75 / 13.4 / 17.35 s, ducks the music under the voice, and normalizes to about -14 LUFS.
+  Main cut: acoustic + Chris (`dist/quickwash-highpoint-99.mp4`). Alternate: soul + Sarah (`dist/quickwash-highpoint-99-alt-soul-sarah.mp4`).
+- Clip natural sound lowered from 0.25 to 0.12 so it sits under the voice.
+- Check ElevenLabs' commercial-use terms for your plan before running paid media.
