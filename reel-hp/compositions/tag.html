@@ -45,7 +45,7 @@
     #tag-back .tag-price { top: 172px; }
   </style>
   <div id="root" data-composition-id="tag" data-width="1080" data-height="1920">
-    <div id="tag-clip" class="clip" data-start="0" data-duration="17.2" data-layout-allow-overflow data-layout-allow-overlap>
+    <div id="tag-clip" class="clip" data-start="0" data-duration="16" data-layout-allow-overflow data-layout-allow-overlap>
       <div id="tag-pull">
         <div id="tag-grow">
           <div id="tag-kick">
@@ -103,32 +103,37 @@
   </div>
   <script>
     (function () {
-      // Film frames at 30 fps. 100 BPM = 18 frames a beat. This scene starts at film frame 0.
+      // v5: this scene starts at film frame 72 (2.4 s); local frame n = film frame n + 72.
       const F = (f) => f / 30;
       const tl = gsap.timeline({ paused: true });
+
+      // B. OFFER (film f72): the tag drops in on its string, -450 px to rest in 8 frames power3.out with one small
+      // settle (6 px past, back in 4 frames). After this it only moves for punch kicks, the flip and the pull.
+      tl.fromTo("#tag-pull", { y: -450 }, { y: 6, duration: F(8), ease: "power3.out" }, 0);
+      tl.to("#tag-pull", { y: 0, duration: F(4), ease: "power2.out" }, F(8));
       const grommet = "radial-gradient(circle at 220px 48px, transparent 10px, #000 10.5px)";
       const hole = (i) => `radial-gradient(circle at ${80 + 56 * i}px 550px, transparent 15px, #000 15.5px)`;
       const mask = (n) => [grommet].concat(Array.from({ length: n }, (_, i) => hole(i))).join(", ");
 
-      // Punches 1-6 on the first frame of S3-S8 (f108, 144, 180, 216, 252, 288): the hole opens in one
+      // Punches 1-6 on the first frame of each service shot (film f144, 180, 216, 252, 288, 324): the hole opens in one
       // frame and the punch knocks the tag 6 px down on screen (9.7 card px at 0.62); it returns over 4 frames.
       for (let i = 0; i < 6; i++) {
-        const t = F(108 + 36 * i), m = mask(i + 1);
+        const t = F(72 + 36 * i), m = mask(i + 1);
         tl.set("#tag-front-card", { webkitMaskImage: m, maskImage: m }, t);
         tl.set("#tag-rim" + (i + 1), { opacity: 1 }, t);
         tl.fromTo("#tag-kick", { y: 9.7 }, { y: 0, duration: F(4), ease: "power2.out", immediateRender: false }, t);
       }
 
       // Rest scale 0.62, anchored top-left (x 72, y 200). The fromTo renders 0.62 from frame 0.
-      // S9 payoff (f324-336): the tag turns over about the grommet, front swaps to back at 90 degrees, and the back
+      // D. PAYOFF (film f360-372): the tag turns over about the grommet, front swaps to back at 90 degrees, and the back
       // grows to 1.0 (440 x 620, x 72-512, y 200-820) so ALL SIX / $99 is the hero over the finished car.
-      tl.fromTo("#tag-flip", { rotationY: 0, transformOrigin: "220px 48px" }, { rotationY: 180, duration: F(12), ease: "power3.inOut" }, F(324));
-      tl.fromTo("#tag-grow", { scale: 0.62, transformOrigin: "0px 0px" }, { scale: 1, duration: F(12), ease: "power3.inOut" }, F(324));
-      // S10 cut (f396): back to 0.62 over 8 frames.
+      tl.fromTo("#tag-flip", { rotationY: 0, transformOrigin: "220px 48px" }, { rotationY: 180, duration: F(12), ease: "power3.inOut" }, F(288));
+      tl.fromTo("#tag-grow", { scale: 0.62, transformOrigin: "0px 0px" }, { scale: 1, duration: F(12), ease: "power3.inOut" }, F(288));
+      // E. URGENCY cut (film f468): back to 0.62 over 8 frames.
       tl.fromTo("#tag-grow", { scale: 1 }, { scale: 0.62, duration: F(8), ease: "power3.inOut", immediateRender: false }, F(396));
 
-      // End card (f504): pulled up out of frame on its string in 12 frames, power4.in.
-      tl.fromTo("#tag-pull", { y: 0 }, { y: -1080, duration: F(12), ease: "power4.in" }, F(504));
+      // F. END CARD (film f540): pulled up out of frame on its string in 12 frames, power4.in.
+      tl.fromTo("#tag-pull", { y: 0 }, { y: -1080, duration: F(12), ease: "power4.in", immediateRender: false }, F(468));
 
       window.__timelines = window.__timelines || {};
       window.__timelines["tag"] = tl;

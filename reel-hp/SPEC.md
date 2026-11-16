@@ -204,3 +204,51 @@ Story, timing, cuts, footage, sound and end-card content are unchanged.
   frames from the S10 cut (f396).
 - **End card**: "Book in the app" Poppins 700 96 px mixed case; logo, badges and fine print unchanged (moved up to
   close the gap).
+
+## v5 restructure (Meta lead-form campaign, 2026-11-16) — supersedes the timeline, sound and end card above
+
+Pain-point hook, then the offer, features SEEN while value is HEARD, and a lead-form call to action with urgency.
+22.0 s = 660 frames at 30 fps; every cut on the 0.6 s grid. Overlay v2 look kept (Poppins lines over the bottom scrim,
+small top-left tag, flip payoff). Footage trims and plate blurs unchanged except s09 and s11 (re-trimmed longer).
+
+| Part | Time (s) | Frames | Picture | On screen | Tag |
+|---|---|---|---|---|---|
+| A Hook | 0.0-2.4 | 0-72 | 3 mess stills, 0.8 s each, hard cuts: cups, crumbs, clutter (3413x1920 pan, subject centred, 1.08->1.0 settle) | "Embarrassed when / someone gets in / your car?" from f0, held 2.4 s, upper-middle (y 300-564) over a top scrim | absent |
+| B Offer | 2.4-4.8 | 72-144 | detailer in the driveway (s02), then the foam sheet (s01) | "We come to you" / "Now in High Point" | drops in on its string at 2.4 (y -450 -> rest, 8 f power3.out, one 6 px settle) |
+| C Services | 4.8-12.0 | 144-360 | the six service shots, 1.2 s each, same order | the six feature lines | one punch per shot, first frame |
+| D Payoff | 12.0-15.6 | 360-468 | s09 hero side, 1.00->1.05 push across the shot | — | flips to ALL SIX / $99 at 12.0, grows to 1.0 |
+| E Urgency | 15.6-18.0 | 468-540 | s11 detailer, logo on the hoodie (runs on under the wipe to 18.4) | "Spots this week are filling up" (wraps to two rows) | shrinks back to 0.62 over 8 f at 15.6 |
+| F End card | 18.0-22.0 | 540-660 | navy wipe up 12 f; logo slam f552; "Claim your spot" (Poppins 700 96) f558; "Enter your info below" (Poppins 600 52) f561; orange 120 px down chevron f564, one drop of 40 px with a settle; fine print f567. Complete by f570 (19.0 s), held. No app-store badges. | | pulled up out of frame 18.0-18.4 |
+
+S10 ("No need to be home") is cut; the voiceover says it.
+
+**Deviation**: the hook line is three rows at 80 px, not two rows at ~92 px: at 92 px "Embarrassed when someone" is
+1354 px wide and "someone gets in your car?" 1218 px, so two rows cannot fit inside x 72-860. Widest row
+("Embarrassed when") is 783 px at 80 px.
+
+**Voiceover** (ElevenLabs, voice Chris, `assets/audio/vo2/script.json`), trimmed of leading/trailing silence
+(silenceremove -45 dB, 40 ms kept) and placed by `tools/mix.sh`:
+
+| Line | Text | Trimmed | Start | End |
+|---|---|---|---|---|
+| l1 | Embarrassed when someone gets in your car? | 1.69 s | 0.15 | 1.84 |
+| l2 | QuickWash comes to your driveway. A full wash, inside and out, for ninety-nine dollars. | 5.01 s | 2.50 | 7.51 |
+| l3 | We bring the water, the power, and the pros. You don't even have to be home. | 3.80 s | 8.30 | 12.10 |
+| l4 | All six. Ninety-nine dollars. | 2.85 s | 12.85 (nudged from 13.0 to end by 15.7) | 15.70 |
+| l5 | Spots in High Point are filling up fast this week. Enter your info below, and claim yours today. | 5.17 s | 16.10 | 21.27 |
+
+Music: `assets/audio/music/bed_acoustic22.mp3` (22 s), ducked under the voice; chain = VO high-pass + compressor,
+sidechain duck, loudnorm -14 LUFS, limiter. Output `assets/audio/mix-v5.m4a` (-14.6 LUFS, -1.2 dBTP); clip natural
+sound (s01, s06, s11) stays at 0.12 under it. The bed is music only: no synthesized punch sounds remain.
+
+**Sources for every claim**
+
+| Claim | Source |
+|---|---|
+| $99, standard-size vehicle; full wash inside and out; the six services | quickwashtech.com package list (see table above) |
+| We come to you / your driveway; "we bring the water and power" | site claim (mobile service, vans bring water and power) |
+| "You don't even have to be home" | site claim (no need to be present with access to the car) |
+| Vetted, trained, insured (no longer on screen) | site claim |
+| Now in High Point / Now booking High Point & the Triad | **not on the site: client to confirm** |
+| "Spots this week are filling up" / "filling up fast this week" | **the client's urgency claim: it must be true whenever the ad runs** |
+| The mess stills (cups, crumbs, clutter) | AI-generated images the client supplied earlier; illustrative, not QuickWash footage and not a customer's car |

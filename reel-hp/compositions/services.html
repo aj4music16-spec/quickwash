@@ -12,7 +12,7 @@
   </style>
   <div id="root" data-composition-id="services" data-width="1080" data-height="1920">
     <div id="services-scrim" class="scrim" data-layout-ignore></div>
-    <!-- six services, 36 frames each from film frame 108; one punch per shot on its first frame (tag scene) -->
+    <!-- six services, 36 frames each from film frame 144 (4.8 s); one punch per shot on its first frame (tag scene) -->
     <video id="svc-s3" class="clip shot" src="assets/footage/s03-mitt-bumper.mp4" data-start="0" data-duration="1.2" data-media-start="0.5" data-track-index="0" muted playsinline></video>
     <video id="svc-s4" class="clip shot" src="assets/footage/s04-clean-footwell.mp4" data-start="1.2" data-duration="1.2" data-media-start="0.5" data-track-index="0" muted playsinline></video>
     <video id="svc-s5" class="clip shot" src="assets/footage/s05-windshield-rinse.mp4" data-start="2.4" data-duration="1.2" data-media-start="0.5" data-track-index="0" muted playsinline></video>
@@ -41,7 +41,7 @@
   </div>
   <script>
     (function () {
-      // scene starts at film frame 108
+      // scene starts at film frame 144 (4.8 s)
       const F = (f) => f / 30;
       const tl = gsap.timeline({ paused: true });
       const line = (id, t) => {

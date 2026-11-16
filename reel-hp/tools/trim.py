@@ -6,7 +6,7 @@ crf 18 yuv420p faststart with its audio. A mild, uniform grade (eq contrast 1.05
 is applied in this step, never as a CSS filter. Readable plates are blurred with a tracked box:
 the plate centre was read off gridded frames every 0.3-0.4 s and is interpolated linearly.
 
-Usage: python3 tools/trim.py <proxy_dir>
+Usage: python3 tools/trim.py <proxy_dir> [shot-name ...]   (no names = every shot)
 """
 import os, subprocess, sys
 
@@ -30,11 +30,11 @@ SHOTS = [
     ("s08-spray-hood",        "IMG_6393",       0.3,  1.5,
      [(0.0, 207, 1275), (0.3, 247, 1285), (0.6, 277, 1300), (0.9, 290, 1317), (1.2, 282, 1340),
       (1.5, 255, 1360), (1.8, 227, 1380), (2.1, 195, 1390)], 370, 220),
-    ("s09-hero-side",         "IMG_6438",       1.3,  3.7, None, 0, 0),   # v3: replaced IMG_6432 (yellowed headlight, dull bumper)
+    ("s09-hero-side",         "IMG_6438",       0.1,  3.7, None, 0, 0),   # v5: 3.6 s payoff (v3 replaced IMG_6432)
     ("s10-detailer-house",    "IMG_0012_1_12",  0.3,  2.1,
      [(0.0, 540, 1100), (0.35, 488, 1100), (0.7, 495, 1085), (1.05, 485, 1150), (1.4, 435, 1160),
       (1.75, 452, 1162), (2.1, 450, 1155), (2.6, 455, 1120)], 170, 140),
-    ("s11-detailer-logo",     "IMG_0012_1_15",  0.3,  2.5, None, 0, 0),
+    ("s11-detailer-logo",     "IMG_0012_1_15",  0.3,  3.1, None, 0, 0),   # v5: 2.4 s urgency shot + 0.4 s under the wipe
 ]
 
 
@@ -50,8 +50,11 @@ def lerp_expr(keys, t0, off, lo, hi):
 
 def main():
     os.makedirs(OUT, exist_ok=True)
+    only = set(sys.argv[2:])
     for name, clip, a, b, track, bw, bh in SHOTS:
-        s, e = max(0.0, a - 0.5), b + 0.5
+        if only and name not in only:
+            continue
+        s, e = max(0.0, a - 0.5), b + 0.5   # the trim filter stops at the clip end if e runs past it
         src = os.path.join(PROXY, clip + ".mp4")
         v = f"[0:v]trim=start={s}:end={e},setpts=PTS-STARTPTS,{GRADE}"
         if track:

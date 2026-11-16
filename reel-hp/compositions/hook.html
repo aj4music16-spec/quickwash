@@ -1,42 +1,45 @@
 <template>
   <style>
-    #root { position: absolute; inset: 0; overflow: hidden; background: #000; }
-    .shot { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
-    /* legibility without a box: a soft bottom scrim over the footage (a div, not a filter) plus a soft text shadow */
-    .scrim { position: absolute; left: 0; top: 980px; width: 1080px; height: 940px; z-index: 2;
-      background: linear-gradient(180deg, rgba(0, 0, 20, 0) 0%, rgba(0, 0, 20, 0.42) 60%, rgba(0, 0, 20, 0.55) 100%); }
-    .line { position: absolute; inset: 0; z-index: 3; }
-    /* one line of Poppins 700, left at x 72, bottom of the text box at y 1300 (baseline ~1283), max 800 px wide */
-    .lt { position: absolute; left: 72px; bottom: 620px; max-width: 800px; font-family: Poppins, sans-serif; font-weight: 700; font-size: 84px;
-      line-height: 1.1; letter-spacing: -0.01em; color: #ffffff; text-shadow: 0 3px 18px rgba(0, 0, 10, 0.55), 0 1px 2px rgba(0, 0, 10, 0.5); }
+    #root { position: absolute; inset: 0; overflow: hidden; background: #05060a; }
+    /* 16:9 stills shown vertically: a 3413 x 1920 img panned so the subject is centred (as reel/compositions/week.html) */
+    .plate { position: absolute; inset: 0; overflow: hidden; z-index: 1; }
+    .cam { position: absolute; left: 0; top: 0; width: 3413px; height: 1920px; }
+    .cam img { width: 100%; height: 100%; display: block; }
+    /* top scrim for the upper-middle line (a div over the stills, not a filter) */
+    .tscrim { position: absolute; left: 0; top: 0; width: 1080px; height: 900px; z-index: 2;
+      background: linear-gradient(180deg, rgba(0, 0, 20, 0.62) 0%, rgba(0, 0, 20, 0.45) 55%, rgba(0, 0, 20, 0) 100%); }
+    /* the hook line: Poppins 700, three rows at 80 px (two rows at 92 px do not fit x 72-860) */
+    #hook-q { position: absolute; left: 72px; top: 300px; width: 790px; z-index: 3; font-family: Poppins, sans-serif; font-weight: 700;
+      font-size: 80px; line-height: 1.1; letter-spacing: -0.01em; color: #ffffff;
+      text-shadow: 0 3px 18px rgba(0, 0, 10, 0.55), 0 1px 2px rgba(0, 0, 10, 0.5); }
+    #hook-q span { display: block; white-space: nowrap; }
   </style>
   <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
-    <div id="hook-scrim" class="scrim" data-layout-ignore></div>
-    <!-- S1 f0-54: foam pre-soak sheeting off black paint (natural foam sound under the bed) -->
-    <video id="hook-s1" class="clip shot" src="assets/footage/s01-foam-sheet.mp4" data-start="0" data-duration="1.8" data-media-start="0.5"
-      data-track-index="0" playsinline data-has-audio="true" data-volume="0.12"></video>
-    <!-- S2 f54-108: the detailer at the car in a house driveway (plate blurred in the trim) -->
-    <video id="hook-s2" class="clip shot" src="assets/footage/s02-detailer-driveway.mp4" data-start="1.8" data-duration="1.8" data-media-start="0.5"
-      data-track-index="0" muted playsinline></video>
-
-    <!-- line 1 is on frame 0 (the thumbnail): no entry -->
-    <div id="hook-l1" class="clip line" data-start="0" data-duration="1.8" data-track-index="1">
-      <div id="hook-l1-t" class="lt">Washed in your driveway</div>
+    <!-- A. HOOK f0-72: three mess stills, 24 frames each, hard cuts (AI-generated images supplied by the client) -->
+    <div id="hook-p1" class="clip plate" data-start="0" data-duration="0.8" data-track-index="0" data-layout-allow-overflow>
+      <div id="hook-c1" class="cam"><img src="assets/stills/04b_cups.jpg" alt="Empty cups in a car cupholder" /></div>
     </div>
-    <div id="hook-l2" class="clip line" data-start="1.866667" data-duration="1.733333" data-track-index="1">
-      <div id="hook-l2-t" class="lt">Now in High Point</div>
+    <div id="hook-p2" class="clip plate" data-start="0.8" data-duration="0.8" data-track-index="0" data-layout-allow-overflow>
+      <div id="hook-c2" class="cam"><img src="assets/stills/01b_crumbs.jpg" alt="Crumbs on a car seat" /></div>
+    </div>
+    <div id="hook-p3" class="clip plate" data-start="1.6" data-duration="0.8" data-track-index="0" data-layout-allow-overflow>
+      <div id="hook-c3" class="cam"><img src="assets/stills/04c_clutter.jpg" alt="Clutter in a car" /></div>
+    </div>
+    <div id="hook-scrim" class="tscrim" data-layout-ignore></div>
+    <!-- on frame 0 (the thumbnail) and held for the whole hook -->
+    <div id="hook-q" class="clip" data-start="0" data-duration="2.4" data-track-index="1">
+      <span>Embarrassed when</span><span>someone gets in</span><span>your car?</span>
     </div>
   </div>
   <script>
     (function () {
       // scene starts at film frame 0
-      const F = (f) => f / 30;
+      const W = 3413, cx = (f) => Math.min(0, Math.max(1080 - W, 540 - W * f));
       const tl = gsap.timeline({ paused: true });
-      // a line arrives from 24 px below, opacity binary (the clip window), power4.out over 5 frames. A landed line never moves.
-      const line = (id, t) => {
-        tl.fromTo(`#${id}-t`, { y: 24 }, { y: 0, duration: F(5), ease: "power4.out" }, t);
-      };
-      line("hook-l2", F(56));
+      // each still is centred on its subject and settles 1.08 -> 1.0 (no lateral drift)
+      [["#hook-c1", 0.5, 0], ["#hook-c2", 0.53, 0.8], ["#hook-c3", 0.47, 1.6]].forEach(([id, f, t]) => {
+        tl.fromTo(id, { x: cx(f), scale: 1.08, transformOrigin: `${f * 100}% 50%` }, { x: cx(f), scale: 1, duration: 0.5, ease: "power2.out" }, t);
+      });
       window.__timelines = window.__timelines || {};
       window.__timelines["hook"] = tl;
     })();

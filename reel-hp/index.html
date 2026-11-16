@@ -18,30 +18,34 @@
     </style>
   </head>
   <body>
-    <!-- "The $99 Tag" - QuickWash, High Point NC. 1080x1920, 30 fps, 594 frames, 100 BPM (18 frames a beat). -->
-    <div id="root" data-composition-id="main" data-start="0" data-duration="19.8" data-width="1080" data-height="1920">
+    <!-- "The $99 Tag" v5 (Meta lead form) - QuickWash, High Point NC. 1080x1920, 30 fps, 660 frames; cuts on a 0.6 s grid. -->
+    <div id="root" data-composition-id="main" data-start="0" data-duration="22" data-width="1080" data-height="1920">
       <div id="stage" data-layout-ignore></div>
 
-      <!-- S1-S2 f0-108 -->
-      <div id="hook" data-composition-id="hook" data-composition-src="compositions/hook.html" data-start="0" data-duration="3.6"
+      <!-- A. HOOK 0-2.4: three mess stills, the question on frame 0 -->
+      <div id="hook" data-composition-id="hook" data-composition-src="compositions/hook.html" data-start="0" data-duration="2.4"
         data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 1"></div>
-      <!-- S3-S8 f108-324 -->
-      <div id="services" data-composition-id="services" data-composition-src="compositions/services.html" data-start="3.6" data-duration="7.2"
+      <!-- B. OFFER 2.4-4.8: detailer in the driveway, foam sheet; the tag drops in -->
+      <div id="offer" data-composition-id="offer" data-composition-src="compositions/offer.html" data-start="2.4" data-duration="2.4"
         data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 2"></div>
-      <!-- S9 f324-396 -->
-      <div id="payoff" data-composition-id="payoff" data-composition-src="compositions/payoff.html" data-start="10.8" data-duration="2.4"
+      <!-- C. SERVICES 4.8-12.0: six shots, six punches -->
+      <div id="services" data-composition-id="services" data-composition-src="compositions/services.html" data-start="4.8" data-duration="7.2"
         data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 3"></div>
-      <!-- S10-S11 f396-516 (S11 runs on under the end-card wipe) -->
-      <div id="proof" data-composition-id="proof" data-composition-src="compositions/proof.html" data-start="13.2" data-duration="4"
+      <!-- D. PAYOFF 12.0-15.6: the finished car; the tag flips to ALL SIX / $99 -->
+      <div id="payoff" data-composition-id="payoff" data-composition-src="compositions/payoff.html" data-start="12" data-duration="3.6"
         data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 4"></div>
-      <!-- S12 f504-594 -->
-      <div id="end" data-composition-id="end" data-composition-src="compositions/end.html" data-start="16.8" data-duration="3"
-        data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 5"></div>
-      <!-- the hang tag, over every shot f0-516 -->
-      <div id="tag" data-composition-id="tag" data-composition-src="compositions/tag.html" data-start="0" data-duration="17.2"
-        data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 6"></div>
+      <!-- E. URGENCY 15.6-18.0 (the shot runs on under the end-card wipe to 18.4) -->
+      <div id="urgency" data-composition-id="urgency" data-composition-src="compositions/urgency.html" data-start="15.6" data-duration="2.8"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 5"></div>
+      <!-- F. END CARD 18.0-22.0: lead-form call to action -->
+      <div id="end" data-composition-id="end" data-composition-src="compositions/end.html" data-start="18" data-duration="4"
+        data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 6"></div>
+      <!-- the hang tag, from the offer to the end-card pull (2.4-18.4) -->
+      <div id="tag" data-composition-id="tag" data-composition-src="compositions/tag.html" data-start="2.4" data-duration="16"
+        data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 7"></div>
 
-      <audio id="bed" class="clip" data-start="0" data-duration="19.8" data-track-index="4" data-volume="1" src="assets/audio/mix-acoustic-chris.m4a"></audio>
+      <!-- premix: ElevenLabs acoustic bed + Chris VO, ducked (tools/mix.sh) -->
+      <audio id="bed" class="clip" data-start="0" data-duration="22" data-track-index="4" data-volume="1" src="assets/audio/mix-v5.m4a"></audio>
     </div>
     <script>
       window.__timelines = window.__timelines || {};
