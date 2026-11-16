@@ -1,0 +1,44 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #ck-clip { position: absolute; inset: 0; }
+    /* the package as a checklist: six fixed rows, left x 72, pitch 70 px, block y 890-1300 (clear of the grown tag, which ends at y 820) */
+    .ck-row { position: absolute; left: 72px; height: 60px; display: flex; align-items: center; gap: 18px; opacity: 0; }
+    .ck-badge { width: 48px; height: 48px; flex: none; border-radius: 50%; background: #ff6600; }
+    .ck-badge svg { width: 48px; height: 48px; display: block; }
+    .ck-badge path { fill: none; stroke: #ffffff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 15; stroke-dashoffset: 15; }
+    .ck-label { font-family: Poppins, sans-serif; font-weight: 600; font-size: 50px; line-height: 60px; letter-spacing: -0.01em; color: #ffffff;
+      white-space: nowrap; max-width: 760px; text-shadow: 0 3px 18px rgba(0, 0, 10, 0.55), 0 1px 2px rgba(0, 0, 10, 0.5); }
+  </style>
+  <div id="root" data-composition-id="checklist" data-width="1080" data-height="1920">
+    <!-- mounted at 5.8 s so row 1 (6.0 s) is revealed at local 0.2 s; leaves with the urgency cut at 15.6 s -->
+    <div id="ck-clip" class="clip" data-start="0" data-duration="9.8" data-layout-allow-overflow>
+      <div id="ck-r1" class="ck-row" style="top: 890px"><div class="ck-badge"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.5 3.5 6.5-7" /></svg></div><div class="ck-label">Foam + hand wash</div></div>
+      <div id="ck-r2" class="ck-row" style="top: 960px"><div class="ck-badge"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.5 3.5 6.5-7" /></svg></div><div class="ck-label">Vacuum, trunk too</div></div>
+      <div id="ck-r3" class="ck-row" style="top: 1030px"><div class="ck-badge"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.5 3.5 6.5-7" /></svg></div><div class="ck-label">Glass, in + out</div></div>
+      <div id="ck-r4" class="ck-row" style="top: 1100px"><div class="ck-badge"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.5 3.5 6.5-7" /></svg></div><div class="ck-label">Tire shine + door jambs</div></div>
+      <div id="ck-r5" class="ck-row" style="top: 1170px"><div class="ck-badge"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.5 3.5 6.5-7" /></svg></div><div class="ck-label">Interior wiped down</div></div>
+      <div id="ck-r6" class="ck-row" style="top: 1240px"><div class="ck-badge"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.5 3.5 6.5-7" /></svg></div><div class="ck-label">Ceramic spray wax</div></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // scene starts at film 5.8 s. Row N lands on the first frame of service shot N: film 6.0 + 1.1 (N - 1) s.
+      const F = (f) => f / 30, T0 = 0.2;
+      const tl = gsap.timeline({ paused: true });
+      for (let n = 1; n <= 6; n++) {
+        const r = `#ck-r${n}`, t = T0 + 1.1 * (n - 1);
+        tl.set(r, { opacity: 1 }, t);                                                     // binary reveal
+        tl.fromTo(`${r} .ck-label`, { y: 20 }, { y: 0, duration: F(5), ease: "power4.out" }, t);
+        tl.fromTo(`${r} .ck-badge`, { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: F(6), ease: "back.out(1.7)" }, t);
+        tl.fromTo(`${r} path`, { strokeDashoffset: 15 }, { strokeDashoffset: 0, duration: F(5), ease: "power2.out" }, t + F(6));
+        // the previous row steps back so the newest is brightest
+        if (n > 1) tl.fromTo(`#ck-r${n - 1}`, { opacity: 1 }, { opacity: 0.78, duration: F(4), ease: "power1.out", immediateRender: false }, t);
+      }
+      // payoff cut (film 12.6 s): all six back to full
+      tl.fromTo("#ck-r1, #ck-r2, #ck-r3, #ck-r4, #ck-r5", { opacity: 0.78 }, { opacity: 1, duration: F(4), ease: "power1.out", immediateRender: false }, 6.8);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["checklist"] = tl;
+    })();
+  </script>
+</template>

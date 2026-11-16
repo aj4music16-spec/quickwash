@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "22a1488a-6c5d-4017-8e77-f44597b8be17",
-  "currentRevision": "841d6ee0-df08-450c-af78-af23c74d0704",
+  "currentRevision": "bbb65e81-bc9b-47e1-a68a-fa981aaeba62",
   "pendingChanges": false,
   "files": {
     "AGENTS.md": {
@@ -217,8 +217,8 @@
       "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/72/72e79c5dfbf4db167fe11e63b0f1de73b53a4f61c7cd327a1ee97436ba3fb2e3"
     },
     "assets/footage/o1-van-logo.mp4": {
-      "hash": "58b1cd68aacba9aa82b9d908ae2df470840fe9f9cd334683846318926668bc95",
-      "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/58/58b1cd68aacba9aa82b9d908ae2df470840fe9f9cd334683846318926668bc95"
+      "hash": "c983d60c7fa0e7634ff505ef69ac3e030dd6a4dd84b5c1a4854b2620bd1f916e",
+      "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/c9/c983d60c7fa0e7634ff505ef69ac3e030dd6a4dd84b5c1a4854b2620bd1f916e"
     },
     "assets/footage/s01-foam-sheet.mp4": {
       "hash": "77558982c917309f26c13c72f5d0a62453f5e26fe3082b62e95b1cb646ac7753",
@@ -241,28 +241,28 @@
       "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/44/44ccc4226d374555d1b927086f5f3ce4da871cb5e25f517753971b8a6b9e84fa"
     },
     "assets/footage/s05-windshield-rinse.mp4": {
-      "hash": "834cda375151f6d3bab72a93eb4bf3259893528bb521c700bd5068a07460de82",
-      "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/83/834cda375151f6d3bab72a93eb4bf3259893528bb521c700bd5068a07460de82"
+      "hash": "c3be2b76c596a2857dc1ce1dbbe7edaed3d0216d2f1583ace92a551e9fd1251b",
+      "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/c3/c3be2b76c596a2857dc1ce1dbbe7edaed3d0216d2f1583ace92a551e9fd1251b"
     },
     "assets/footage/s06-wheel-rinse.mp4": {
-      "hash": "616dfa03fd41b0e166400dca3bca2a0ce19a2ff722973140a679f9557cfb5814",
-      "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/61/616dfa03fd41b0e166400dca3bca2a0ce19a2ff722973140a679f9557cfb5814"
+      "hash": "fb3cb42bb133d4299767cd3efe6541350be9fe6df758227eced6c169eb562963",
+      "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/fb/fb3cb42bb133d4299767cd3efe6541350be9fe6df758227eced6c169eb562963"
     },
     "assets/footage/s07-clean-dash.mp4": {
       "hash": "9ca752960d9b1f1e97fda4bfd9470518733ba9d63a8e4c8d32d086ce374b39e7",
       "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/9c/9ca752960d9b1f1e97fda4bfd9470518733ba9d63a8e4c8d32d086ce374b39e7"
     },
     "assets/footage/s07-door-wipe.mp4": {
-      "hash": "f19b1870ed65417efa0b7c534feda66354fa88ff89a615a9ea02d937648cef56",
-      "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/f1/f19b1870ed65417efa0b7c534feda66354fa88ff89a615a9ea02d937648cef56"
+      "hash": "25c5fad758451e047a339a11d358a120a1f54ce69872df439961f1d4f2731145",
+      "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/25/25c5fad758451e047a339a11d358a120a1f54ce69872df439961f1d4f2731145"
     },
     "assets/footage/s08-spray-hood.mp4": {
       "hash": "874254a5e2579b49ae58b3cd2eb80b63401426142cdfc16a03af5ca6268b58e8",
       "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/87/874254a5e2579b49ae58b3cd2eb80b63401426142cdfc16a03af5ca6268b58e8"
     },
     "assets/footage/s09-hero-side.mp4": {
-      "hash": "39f9fe554745075307f7662ec8f05567094e4ca535fe3567ea91038da2c603fd",
-      "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/39/39f9fe554745075307f7662ec8f05567094e4ca535fe3567ea91038da2c603fd"
+      "hash": "d4f4f9d0b961de2d07cc743016f5faa80d268886fc203a16f616ec32a97a4bd2",
+      "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/d4/d4f4f9d0b961de2d07cc743016f5faa80d268886fc203a16f616ec32a97a4bd2"
     },
     "assets/footage/s10-detailer-house.mp4": {
       "hash": "e88b2114c2146c216ff7ea9ffeb5adbad206b43fd9638a3445b42f1bed2ad2f5",
@@ -286,6 +286,37 @@
         "assets/app/endcard-odessa.jpg": {
           "before": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/68/687b55ca280e3d10dc9387404f0e3ea5ecda02f59942e12e65f83f41f3e821fb",
           "after": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/69/69f6ba12ff7d3a4510bd7faba4e85920d045c56fe0f1f6baa07c7f1a31ee1713"
+        }
+      }
+    },
+    "bbb65e81-bc9b-47e1-a68a-fa981aaeba62": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1794861173919,
+      "endedAt": 1794861173959,
+      "files": {
+        "assets/footage/o1-van-logo.mp4": {
+          "before": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/58/58b1cd68aacba9aa82b9d908ae2df470840fe9f9cd334683846318926668bc95",
+          "after": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/c9/c983d60c7fa0e7634ff505ef69ac3e030dd6a4dd84b5c1a4854b2620bd1f916e"
+        },
+        "assets/footage/s05-windshield-rinse.mp4": {
+          "before": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/83/834cda375151f6d3bab72a93eb4bf3259893528bb521c700bd5068a07460de82",
+          "after": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/c3/c3be2b76c596a2857dc1ce1dbbe7edaed3d0216d2f1583ace92a551e9fd1251b"
+        },
+        "assets/footage/s06-wheel-rinse.mp4": {
+          "before": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/61/616dfa03fd41b0e166400dca3bca2a0ce19a2ff722973140a679f9557cfb5814",
+          "after": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/fb/fb3cb42bb133d4299767cd3efe6541350be9fe6df758227eced6c169eb562963"
+        },
+        "assets/footage/s07-door-wipe.mp4": {
+          "before": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/f1/f19b1870ed65417efa0b7c534feda66354fa88ff89a615a9ea02d937648cef56",
+          "after": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/25/25c5fad758451e047a339a11d358a120a1f54ce69872df439961f1d4f2731145"
+        },
+        "assets/footage/s09-hero-side.mp4": {
+          "before": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/39/39f9fe554745075307f7662ec8f05567094e4ca535fe3567ea91038da2c603fd",
+          "after": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/d4/d4f4f9d0b961de2d07cc743016f5faa80d268886fc203a16f616ec32a97a4bd2"
         }
       }
     }
@@ -480,13 +511,14 @@
   },
   "renders": {
     "latest": {
-      "id": "c72316bf-1103-45f0-890f-25ddff4af11f",
-      "completedAt": 1794860488202,
+      "id": "1d8a4726-a559-4272-b85f-dd4597e782aa",
+      "completedAt": 1794861275333,
       "output": "/home/user/quickwash/dist/quickwash-odessa-99.mp4",
       "status": "completed",
-      "revision": "841d6ee0-df08-450c-af78-af23c74d0704"
+      "revision": "bbb65e81-bc9b-47e1-a68a-fa981aaeba62"
     },
     "retainedRevisions": [
+      "bbb65e81-bc9b-47e1-a68a-fa981aaeba62",
       "841d6ee0-df08-450c-af78-af23c74d0704"
     ]
   },
