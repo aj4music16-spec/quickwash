@@ -306,3 +306,19 @@ filling up" must be true when the ad runs.
   handle (an air nozzle enters for the last ~0.3 s). Label "Dash wiped down" -> "Interior wiped down"; it sits higher
   (text box bottom y 820, over the empty door panel) so it clears the hand and towel.
 - Render: `--quality delivery --max-bitrate 12M` (28.9 MB).
+
+## v9 (2026-11-16) — the package as a checklist; everything else as v8
+
+- The six per-shot service lines are replaced by one accumulating checklist (`compositions/checklist.html`, host 5.8-15.6 s,
+  above the footage, below the tag). Six fixed rows at x 72, pitch 70 px, y 890-1300: orange #FF6600 48 px check badge
+  (white stroke "M7 12.5l3.5 3.5 6.5-7", 2.4 px, round caps) + Poppins 600 50 px white label, 18 px gap, soft text
+  shadows, no box. Labels: Foam + hand wash / Vacuum, trunk too / Glass, in + out / Tire shine + door jambs /
+  Interior wiped down / Ceramic spray wax.
+- Row N lands on the first frame of service shot N (6.0, 7.1, 8.2, 9.3, 10.4, 11.5 s): binary reveal (tl.set), label rises
+  20 px over 5 f power4.out, badge pops 0->1 over 6 f back.out(1.7), check draws on over the next 5 f. The previous row
+  drops to opacity 0.78 (4 f); all return to 1 on the payoff cut (12.6 s). The full list stays under the INSIDE & OUT tag
+  (which ends at y 820, so no overlap) and leaves with the urgency cut at 15.6 s.
+- Bottom scrim on the services and payoff shots extended up to y 820.
+- Known overlap: the fixed block sits over part of the action in S6 (the wheel being rinsed) and S7 (the hand wiping the
+  door panel); the action stays visible between the rows. Fixing it would need different footage framing or a different
+  list position.
