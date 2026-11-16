@@ -6,11 +6,16 @@ crf 18 yuv420p faststart with its audio. A mild, uniform grade (eq contrast 1.05
 is applied in this step, never as a CSS filter. Readable plates are blurred with a tracked box:
 the plate centre was read off gridded frames every 0.3-0.4 s and is interpolated linearly.
 
-Usage: python3 tools/trim.py <proxy_dir> [shot-name ...]   (no names = every shot)
+Usage: python3 tools/trim.py <proxy_dir> [--proxy-b <dir>] [shot-name ...]   (no names = every shot)
+Clips named "B/<name>" come from the second proxy dir (the "dirty car" shoot, grey Dodge Durango, v6).
 """
 import os, subprocess, sys
 
-PROXY = sys.argv[1] if len(sys.argv) > 1 else "proxy"
+ARGS = sys.argv[1:]
+PROXY_B = None
+if "--proxy-b" in ARGS:
+    k = ARGS.index("--proxy-b"); PROXY_B = ARGS[k + 1]; del ARGS[k:k + 2]
+PROXY = ARGS[0] if ARGS else "proxy"
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "assets", "footage")
 GRADE = "eq=contrast=1.05:saturation=1.08"
 
@@ -34,6 +39,13 @@ SHOTS = [
     ("s10-detailer-house",    "IMG_0012_1_12",  0.3,  2.1,
      [(0.0, 540, 1100), (0.35, 488, 1100), (0.7, 495, 1085), (1.05, 485, 1150), (1.4, 435, 1160),
       (1.75, 452, 1162), (2.1, 450, 1155), (2.6, 455, 1120)], 170, 140),
+    # v6 ("dirty car" shoot, client's Drive folder; proxies already tone-mapped SDR). No plate or face in these windows.
+    ("h1-salt-floor",         "B/IMG_2020",     0.0,  0.9, None, 0, 0),
+    ("h2-rear-carpet",        "B/IMG_2022",     2.3,  3.2, None, 0, 0),
+    ("h3-bottle-headphones",  "B/IMG_2022",     8.3,  9.2, None, 0, 0),
+    ("h4-dirty-door",         "B/IMG_2028",     0.0,  0.9, None, 0, 0),
+    ("o1-van-logo",           "B/IMG_3730",     0.0,  1.2, None, 0, 0),
+    ("s04-vacuum-lines",      "B/IMG_2059",     0.2,  1.3, None, 0, 0),
     ("s11-detailer-logo",     "IMG_0012_1_15",  0.3,  3.1, None, 0, 0),   # v5: 2.4 s urgency shot + 0.4 s under the wipe
 ]
 
@@ -50,12 +62,17 @@ def lerp_expr(keys, t0, off, lo, hi):
 
 def main():
     os.makedirs(OUT, exist_ok=True)
-    only = set(sys.argv[2:])
+    only = set(ARGS[1:])
     for name, clip, a, b, track, bw, bh in SHOTS:
         if only and name not in only:
             continue
         s, e = max(0.0, a - 0.5), b + 0.5   # the trim filter stops at the clip end if e runs past it
-        src = os.path.join(PROXY, clip + ".mp4")
+        if clip.startswith("B/"):
+            if not PROXY_B:
+                sys.exit(f"{name}: needs --proxy-b <dir>")
+            src = os.path.join(PROXY_B, clip[2:] + ".mp4")
+        else:
+            src = os.path.join(PROXY, clip + ".mp4")
         v = f"[0:v]trim=start={s}:end={e},setpts=PTS-STARTPTS,{GRADE}"
         if track:
             xs = [(k[0], k[1]) for k in track]

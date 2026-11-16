@@ -12,42 +12,42 @@
   </style>
   <div id="root" data-composition-id="services" data-width="1080" data-height="1920">
     <div id="services-scrim" class="scrim" data-layout-ignore></div>
-    <!-- six services, 36 frames each from film frame 144 (4.8 s); one punch per shot on its first frame (tag scene) -->
-    <video id="svc-s3" class="clip shot" src="assets/footage/s03-mitt-bumper.mp4" data-start="0" data-duration="1.2" data-media-start="0.5" data-track-index="0" muted playsinline></video>
-    <video id="svc-s4" class="clip shot" src="assets/footage/s04-clean-footwell.mp4" data-start="1.2" data-duration="1.2" data-media-start="0.5" data-track-index="0" muted playsinline></video>
-    <video id="svc-s5" class="clip shot" src="assets/footage/s05-windshield-rinse.mp4" data-start="2.4" data-duration="1.2" data-media-start="0.5" data-track-index="0" muted playsinline></video>
-    <video id="svc-s6" class="clip shot" src="assets/footage/s06-wheel-rinse.mp4" data-start="3.6" data-duration="1.2" data-media-start="0.5" data-track-index="0" playsinline data-has-audio="true" data-volume="0.12"></video>
-    <video id="svc-s7" class="clip shot" src="assets/footage/s07-clean-dash.mp4" data-start="4.8" data-duration="1.2" data-media-start="0.5" data-track-index="0" muted playsinline></video>
-    <video id="svc-s8" class="clip shot" src="assets/footage/s08-spray-hood.mp4" data-start="6" data-duration="1.2" data-media-start="0.3" data-track-index="0" muted playsinline></video>
+    <!-- the service shots, 33 frames (1.1 s) each from film frame 180 (6.0 s); each feature is seen, never counted -->
+    <video id="svc-s3" class="clip shot" src="assets/footage/s03-mitt-bumper.mp4" data-start="0" data-duration="1.1" data-media-start="0.5" data-track-index="0" muted playsinline></video>
+    <video id="svc-s4" class="clip shot" src="assets/footage/s04-vacuum-lines.mp4" data-start="1.1" data-duration="1.1" data-media-start="0.2" data-track-index="0" muted playsinline></video>
+    <video id="svc-s5" class="clip shot" src="assets/footage/s05-windshield-rinse.mp4" data-start="2.2" data-duration="1.1" data-media-start="0.5" data-track-index="0" muted playsinline></video>
+    <video id="svc-s6" class="clip shot" src="assets/footage/s06-wheel-rinse.mp4" data-start="3.3" data-duration="1.1" data-media-start="0.5" data-track-index="0" playsinline data-has-audio="true" data-volume="0.12"></video>
+    <video id="svc-s7" class="clip shot" src="assets/footage/s07-clean-dash.mp4" data-start="4.4" data-duration="1.1" data-media-start="0.5" data-track-index="0" muted playsinline></video>
+    <video id="svc-s8" class="clip shot" src="assets/footage/s08-spray-hood.mp4" data-start="5.5" data-duration="1.1" data-media-start="0.3" data-track-index="0" muted playsinline></video>
 
-    <div id="svc-l3" class="clip line" data-start="0" data-duration="1.2" data-track-index="1">
+    <div id="svc-l3" class="clip line" data-start="0" data-duration="1.1" data-track-index="1">
       <div id="svc-l3-t" class="lt" style="bottom: 720px">Foam + hand wash</div>
     </div>
-    <div id="svc-l4" class="clip line" data-start="1.2" data-duration="1.2" data-track-index="1">
+    <div id="svc-l4" class="clip line" data-start="1.1" data-duration="1.1" data-track-index="1">
       <div id="svc-l4-t" class="lt">Vacuum, trunk too</div>
     </div>
-    <div id="svc-l5" class="clip line" data-start="2.4" data-duration="1.2" data-track-index="1">
+    <div id="svc-l5" class="clip line" data-start="2.2" data-duration="1.1" data-track-index="1">
       <div id="svc-l5-t" class="lt">Glass, both sides</div>
     </div>
-    <div id="svc-l6" class="clip line" data-start="3.6" data-duration="1.2" data-track-index="1">
+    <div id="svc-l6" class="clip line" data-start="3.3" data-duration="1.1" data-track-index="1">
       <div id="svc-l6-t" class="lt">Tire shine + jambs</div>
     </div>
-    <div id="svc-l7" class="clip line" data-start="4.8" data-duration="1.2" data-track-index="1">
+    <div id="svc-l7" class="clip line" data-start="4.4" data-duration="1.1" data-track-index="1">
       <div id="svc-l7-t" class="lt">Dash wiped down</div>
     </div>
-    <div id="svc-l8" class="clip line" data-start="6" data-duration="1.2" data-track-index="1">
+    <div id="svc-l8" class="clip line" data-start="5.5" data-duration="1.1" data-track-index="1">
       <div id="svc-l8-t" class="lt">Ceramic-infused wax</div>
     </div>
   </div>
   <script>
     (function () {
-      // scene starts at film frame 144 (4.8 s)
+      // scene starts at film frame 180 (6.0 s)
       const F = (f) => f / 30;
       const tl = gsap.timeline({ paused: true });
       const line = (id, t) => {
         tl.fromTo(`#${id}-t`, { y: 24 }, { y: 0, duration: F(5), ease: "power4.out" }, t);
       };
-      ["svc-l3", "svc-l4", "svc-l5", "svc-l6", "svc-l7", "svc-l8"].forEach((id, i) => line(id, F(36 * i)));
+      ["svc-l3", "svc-l4", "svc-l5", "svc-l6", "svc-l7", "svc-l8"].forEach((id, i) => line(id, F(33 * i)));
       window.__timelines = window.__timelines || {};
       window.__timelines["services"] = tl;
     })();

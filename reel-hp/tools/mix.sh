@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-# v5 premix for the Meta lead-form cut: ElevenLabs acoustic bed + ElevenLabs voiceover (Chris), music ducked under the voice.
-# Usage: tools/mix.sh [out.m4a]   (default assets/audio/mix-v5.m4a)
+# v6 premix for the Meta lead-form cut: ElevenLabs acoustic bed + ElevenLabs voiceover (Chris), music ducked under the voice.
+# Usage: tools/mix.sh [out.m4a]   (default assets/audio/mix-v6.m4a)
 # 1. Each VO line has its leading/trailing silence trimmed (silenceremove, -45 dB, 40 ms kept at each end); the trimmed
 #    durations are printed.
-# 2. Lines are placed at their requested starts, then nudged so no two overlap (>= 0.1 s gap), l4 ends by 15.7 s
+# 2. Lines are placed at their requested starts, then nudged so no two overlap (>= 0.1 s gap), l1 ends by 3.5 s, l4 ends by 15.7 s
 #    (before the urgency cut) and l5 ends by 21.8 s.
 # 3. Same chain as before: VO high-pass + compressor, sidechain duck of the music, loudnorm -14 LUFS, limiter.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 FILM=22.0
-BED="assets/audio/music/bed_acoustic22.mp3"; VO="assets/audio/vo2/chris"; OUT="${1:-assets/audio/mix-v5.m4a}"
-REQ=(0.15 2.5 8.3 13.0 16.1)          # requested starts for l1..l5 (s)
-LIMIT=(0 0 0 15.7 21.8)               # latest allowed end per line (0 = none)
+BED="assets/audio/music/bed_acoustic22.mp3"; VO="assets/audio/vo3/chris"; OUT="${1:-assets/audio/mix-v6.m4a}"
+REQ=(0.10 3.7 8.8 12.85 16.1)         # requested starts for l1..l5 (s); l3 asked at 8.9, moved to 8.8 so l4 can end by 15.7
+LIMIT=(3.5 0 0 15.7 21.8)               # latest allowed end per line (0 = none)
 TMP="$(mktemp -d)"; trap 'rm -rf "$TMP"' EXIT
 
 DUR=()

@@ -252,3 +252,42 @@ sound (s01, s06, s11) stays at 0.12 under it. The bed is music only: no synthesi
 | Now in High Point / Now booking High Point & the Triad | **not on the site: client to confirm** |
 | "Spots this week are filling up" / "filling up fast this week" | **the client's urgency claim: it must be true whenever the ad runs** |
 | The mess stills (cups, crumbs, clutter) | AI-generated images the client supplied earlier; illustrative, not QuickWash footage and not a customer's car |
+
+## v6 (2026-11-16) — supersedes the v5 timeline, tag and audio; v5 look, duck chain and end card kept
+
+22.0 s = 660 frames at 30 fps.
+
+| Part | Time (s) | Picture | On screen | Tag |
+|---|---|---|---|---|
+| A Hook | 0.0-3.6 | four real "before" shots of one job, 0.9 s each, hard cuts: salt-crusted driver floor (IMG_2020 0.0-0.9), rear carpet with ground-in salt (IMG_2022 2.3-3.2), water bottle + headphones on the mat (IMG_2022 8.3-9.2), "Dirty" written in the door grime (IMG_2028 0.0-0.9) | orange location chip "Hey High Point, NC" with a map pin (Poppins 700 44 px, y 200-276; the only orange in the hook) over "Embarrassed when / someone gets in / your car?" (Poppins 700 80 px, y 310-574), both from f0, held 3.6 s, over a top scrim | absent |
+| B Offer | 3.6-6.0 | past the QuickWash van, logo filling the frame (IMG_3730 0.0-1.2); the foam-sheet shot | "We come to you" (raised to y ~668-760 so it clears the van logo); "Your driveway. $99." | drops in at 3.6 |
+| C Services | 6.0-12.6 | the service shots, 1.1 s each, same order; the vacuum stand-in is now IMG_2059 0.2-1.3 (a mat with fresh vacuum lines, the result of vacuuming) | the same six feature labels | no punches |
+| D Payoff | 12.6-15.6 | s09 hero side, 1.00->1.05 push across 3.0 s | — | flips at 12.6 to INSIDE & OUT / $99, grows to 1.0 |
+| E Urgency | 15.6-18.0 | s11 detailer (runs under the wipe to 18.4) | "Spots this week are filling up" | shrinks to 0.62 at 15.6 |
+| F End card | 18.0-22.0 | as v5 (Claim your spot / Enter your info below / arrow / fine print; no badges) | | pulled out 18.0-18.4 |
+
+**No count anywhere**: the punch holes, rims, targets and punch kicks are removed from the tag (front and back). Tag front:
+$99 + STANDARD-SIZE / VEHICLE. Tag back: "INSIDE & OUT" (orange League Gothic 105 px = 380 px, the card width) over
+"$99". The feature labels stay: they are seen, not counted. Not used: the drill-brush and air-blow POV clips (carpet
+power-scrubbing is not part of the $99 package).
+
+**Hook windows** (looked at frame by frame): IMG_2022's two windows moved 0.3 s later than asked (2.0->2.3, 8.0->8.3)
+so the debris-strewn carpet fills the frame and the headphones stay in shot. No plate or face in any chosen window
+(IMG_2028 has only a tiny, unidentifiable distant reflection in the mirror; IMG_2020 shows the filmer's shoe at the
+frame edge). The customer plate H45-VLA (IMG_2026/2037/2063/3730 after 2.6 s/3734) and van plate P81-RZT (IMG_2010)
+exist elsewhere in the shoot; none is in a chosen window (IMG_3730 is used 0.0-1.2 and its trimmed file ends at 1.7).
+
+**Voiceover** (`assets/audio/vo3`, Chris; l1 "Hey High Point! Embarrassed when someone gets in your car?",
+l4 "Inside and out. Ninety-nine dollars."; l2, l3, l5 as v5). After silence trim, placed by `tools/mix.sh` → `assets/audio/mix-v6.m4a`:
+
+| Line | Trimmed | Start | End |
+|---|---|---|---|
+| l1 | 2.62 s | 0.10 | 2.72 |
+| l2 | 5.01 s | 3.70 | 8.70 |
+| l3 | 3.80 s | 8.80 (asked 8.9; moved so l4 can end by 15.7 with a 0.1 s gap) | 12.61 |
+| l4 | 2.95 s | 12.75 (asked 12.85) | 15.70 |
+| l5 | 5.17 s | 16.10 | 21.27 |
+
+**Sources**: the hook footage is real QuickWash footage of one customer's car (grey Dodge Durango), not the AI stills used
+in v5. "Hey High Point" / "Now booking High Point & the Triad" remain **client to confirm**; "Spots this week are
+filling up" must be true when the ad runs.

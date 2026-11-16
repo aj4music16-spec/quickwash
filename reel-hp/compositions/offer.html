@@ -12,22 +12,22 @@
   </style>
   <div id="root" data-composition-id="offer" data-width="1080" data-height="1920">
     <div id="offer-scrim" class="scrim" data-layout-ignore></div>
-    <!-- B. OFFER f72-144: the detailer in a house driveway (plate blurred in the trim), then the foam sheet -->
-    <video id="offer-s2" class="clip shot" src="assets/footage/s02-detailer-driveway.mp4" data-start="0" data-duration="1.2" data-media-start="0.5"
+    <!-- B. OFFER f108-180: the camera passes the QuickWash van (logo filling the frame), then the foam sheet -->
+    <video id="offer-van" class="clip shot" src="assets/footage/o1-van-logo.mp4" data-start="0" data-duration="1.2" data-media-start="0"
       data-track-index="0" muted playsinline></video>
     <video id="offer-s1" class="clip shot" src="assets/footage/s01-foam-sheet.mp4" data-start="1.2" data-duration="1.2" data-media-start="0.5"
       data-track-index="0" playsinline data-has-audio="true" data-volume="0.12"></video>
 
     <div id="offer-l1" class="clip line" data-start="0" data-duration="1.2" data-track-index="1">
-      <div id="offer-l1-t" class="lt">We come to you</div>
+      <div id="offer-l1-t" class="lt" style="bottom: 1160px">We come to you</div>
     </div>
     <div id="offer-l2" class="clip line" data-start="1.2" data-duration="1.2" data-track-index="1">
-      <div id="offer-l2-t" class="lt">Now in High Point</div>
+      <div id="offer-l2-t" class="lt">Your driveway. $99.</div>
     </div>
   </div>
   <script>
     (function () {
-      // scene starts at film frame 72 (2.4 s)
+      // scene starts at film frame 108 (3.6 s)
       const F = (f) => f / 30;
       const tl = gsap.timeline({ paused: true });
       // a line arrives from 24 px below, opacity binary (the clip window), power4.out over 5 frames. A landed line never moves.
