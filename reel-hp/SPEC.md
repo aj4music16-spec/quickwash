@@ -322,9 +322,3 @@ filling up" must be true when the ad runs.
 - Known overlap: the fixed block sits over part of the action in S6 (the wheel being rinsed) and S7 (the hand wiping the
   door panel); the action stays visible between the rows. Fixing it would need different footage framing or a different
   list position.
-
-## Location-agnostic crops
-
-Five clips (o1-van-logo, s05-windshield-rinse, s06-wheel-rinse, s07-door-wipe, s09-hero-side) are cropped tighter so no city skyline shows.
-
-Glass shot (s05) replaced with the IMG_2041 windshield mitt wash (proxy 11.2-13.4 s): no skyline, shows glass being cleaned.
