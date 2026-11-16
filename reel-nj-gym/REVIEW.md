@@ -6,7 +6,7 @@
 
 | Time | Shot | On screen | Audio |
 |---|---|---|---|
-| 0–1.5 | POV key handoff | YOUR CAR GETS DETAILED / WHILE YOU WORK OUT | VO: "Your car gets detailed… while you work out." |
+| 0–1.5 | POV key handoff | Your car gets detailed / while you work out | VO: "Your car gets detailed… while you work out." |
 | 1.5–2.7 | QuickWash van | WE COME / TO YOU | |
 | 2.7–4.3 | Real booking screen (cropped, no account data) | BOOK IN UNDER / 20 SECONDS | VO: "Book QuickWash in the app in under twenty seconds. Hand off your keys, and go train." |
 | 4.3–6.6 | Handoff, walk into gym | HAND OFF YOUR KEYS · GO TRAIN | |
@@ -16,7 +16,9 @@
 | 22.7–27.5 | Supplied end card (`gfx/endcard.webp`): 6-frame scale pop, slow push-in | A clean car. A click away. · Mobile detailing. We come to you. · Download the app · store badges | VO: "QuickWash. Mobile washes and details in New Jersey. Download the app." |
 
 **Claims:** "under 20 seconds" per reel-nj/SPEC.md sources. "New Jersey" kept general (service area is 13 counties).
-**Look:** League Gothic caps, orange #f8630a slab on one word; end card is the brand-supplied image; captions kept out of top 12% / bottom 20%.
+**Look:** Instagram-native text — Inter Bold, sentence case, white with a soft shadow; the hook uses white rounded labels with black text. No condensed caps or colour slabs. End card is the brand-supplied image. Captions kept out of the top 12% / bottom 20%.
+**Colour:** iPhone clips are HLG / BT.2020 HDR; `build.py` tone-maps them to SDR BT.709 (mobius, 203-nit white, saturation 0.9) so they match the BT.709 DJI clips. Output is tagged BT.709.
+**Rebuild:** `gfx/shoot_captions.js` → `build.py <work_dir>` → `mix.sh <work_dir> out.mp4`.
 **Sound:** ElevenLabs VO (Laura) + ElevenLabs-generated beat, one continuous bed ducked under voice.
 
 ## Not checked / open
