@@ -13,10 +13,10 @@
 | 6.6–14.0 | Cross-cut workout ↔ detailing (ASL 0.7–1.2 s, varied) | YOU LIFT… / WE DETAIL | VO: "You lift. We detail." |
 | 14.0–18.1 | Second customer drop-off (live audio), bench, detailing | CHEST DAY? / SAME DEAL. | Live: "This car today? Yes, sir. You got it." |
 | 18.1–22.7 | Walk out, reveal (live audio) | WALK OUT TO A / SPOTLESS RIDE / "WOW. IT'S SO GOOD." | VO: "Then walk out to a spotless ride." Live: "Oh, it's so good." |
-| 22.7–27.5 | Van push-in + end card | QUICKWASH · WE COME TO YOU · MOBILE WASHES & DETAILS · NEW JERSEY · DOWNLOAD QUICKWASH · store badges | VO: "QuickWash. Mobile washes and details in New Jersey. Download the app." |
+| 22.7–27.5 | Supplied end card (`gfx/endcard.webp`): 6-frame scale pop, slow push-in | A clean car. A click away. · Mobile detailing. We come to you. · Download the app · store badges | VO: "QuickWash. Mobile washes and details in New Jersey. Download the app." |
 
 **Claims:** "under 20 seconds" per reel-nj/SPEC.md sources. "New Jersey" kept general (service area is 13 counties).
-**Look:** League Gothic caps, orange #f8630a slab on one word, navy #000099 end card; captions kept out of top 12% / bottom 20%.
+**Look:** League Gothic caps, orange #f8630a slab on one word; end card is the brand-supplied image; captions kept out of top 12% / bottom 20%.
 **Sound:** ElevenLabs VO (Laura) + ElevenLabs-generated beat, one continuous bed ducked under voice.
 
 ## Not checked / open

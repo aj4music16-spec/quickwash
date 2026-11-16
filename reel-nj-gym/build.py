@@ -44,10 +44,12 @@ for i,s in enumerate(segs):
              "-loop","1","-t",str(d),"-i",G+"book.png","-filter_complex",fc,"-map","[v]","-map","1:a"]+enc+["-t",str(d),out])
     elif s=="END":
         d=4.8
-        fc=(f"[0:v]scale=1080:1920:force_original_aspect_ratio=increase,crop=1080:1920,fps=30,zoompan=z='1+0.0007*on':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1080x1920:fps=30[bg];"
-            f"[2:v]format=rgba,fade=in:st=0:d=0.3:alpha=1[ov];[bg][ov]overlay=0:0,format=yuv420p[v]")
-        run(["ffmpeg","-v","error","-y","-ss","5.0","-t",str(d),"-i",A+"DJI_0050.mp4","-f","lavfi","-t",str(d),"-i","anullsrc=r=44100:cl=stereo",
-             "-loop","1","-t",str(d),"-i",G+"end.png","-filter_complex",fc,"-map","[v]","-map","1:a"]+enc+["-t",str(d),out])
+        # Supplied end card (gfx/endcard.webp, 9:16): lands with a 6-frame scale pop, then a slow push-in.
+        fc=(f"[0:v]scale=1080:1920:flags=lanczos,format=rgba,fps=30,"
+            f"scale=eval=frame:w='trunc(1080*(1+0.06*max(0\\,1-t/0.2)+0.012*t)/2)*2':h='trunc(1920*(1+0.06*max(0\\,1-t/0.2)+0.012*t)/2)*2':flags=lanczos,"
+            f"crop=1080:1920,format=yuv420p[v]")
+        run(["ffmpeg","-v","error","-y","-loop","1","-t",str(d),"-i",G+"endcard.webp","-f","lavfi","-t",str(d),"-i","anullsrc=r=44100:cl=stereo",
+             "-filter_complex",fc,"-map","[v]","-map","1:a"]+enc+["-t",str(d),out])
     else:
         src,ss,d,nat,c=s; vf=V+(","+c if c else "")
         cmd=["ffmpeg","-v","error","-y","-ss",str(ss),"-t",str(d),"-i",A+src]
