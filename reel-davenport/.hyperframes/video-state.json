@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "de84009a-240c-4160-aadb-d07a76039ed1",
-  "currentRevision": null,
+  "currentRevision": "1e877b93-d0dc-45ac-8a4f-93959016276c",
   "pendingChanges": false,
   "files": {
     "AGENTS.md": {
@@ -17,8 +17,8 @@
       "content": "/root/.cache/hyperframes/history/de84009a-240c-4160-aadb-d07a76039ed1/blobs/dd/ddd58bfa13c24679cb3b93f9c78f9390e2e8246ac5e861066515af48009e7f70"
     },
     "SPEC.md": {
-      "hash": "035809fb79bb9ff250ca0af5d9189dc3eca5cc6d3c60cf725c71d713f458707b",
-      "content": "/root/.cache/hyperframes/history/de84009a-240c-4160-aadb-d07a76039ed1/blobs/03/035809fb79bb9ff250ca0af5d9189dc3eca5cc6d3c60cf725c71d713f458707b"
+      "hash": "2151901b3560c87113ab3fabfe1b394c59d25bb6c2b452c79453b300d30a7084",
+      "content": "/root/.cache/hyperframes/history/de84009a-240c-4160-aadb-d07a76039ed1/blobs/21/2151901b3560c87113ab3fabfe1b394c59d25bb6c2b452c79453b300d30a7084"
     },
     "assets/app/app-store-badge.svg": {
       "hash": "a26fc5b38380272c92e9019a2eb8b45542a66814b3e2b203772db8904b9fb99f",
@@ -237,8 +237,8 @@
       "content": "/root/.cache/hyperframes/history/de84009a-240c-4160-aadb-d07a76039ed1/blobs/44/44ccc4226d374555d1b927086f5f3ce4da871cb5e25f517753971b8a6b9e84fa"
     },
     "assets/footage/s05-windshield-rinse.mp4": {
-      "hash": "c3be2b76c596a2857dc1ce1dbbe7edaed3d0216d2f1583ace92a551e9fd1251b",
-      "content": "/root/.cache/hyperframes/history/de84009a-240c-4160-aadb-d07a76039ed1/blobs/c3/c3be2b76c596a2857dc1ce1dbbe7edaed3d0216d2f1583ace92a551e9fd1251b"
+      "hash": "70e2b1dbaca096025ee11421881088188df630574abc2f79d5e1c344bfc87eca",
+      "content": "/root/.cache/hyperframes/history/de84009a-240c-4160-aadb-d07a76039ed1/blobs/70/70e2b1dbaca096025ee11421881088188df630574abc2f79d5e1c344bfc87eca"
     },
     "assets/footage/s06-wheel-rinse.mp4": {
       "hash": "fb3cb42bb133d4299767cd3efe6541350be9fe6df758227eced6c169eb562963",
@@ -269,7 +269,27 @@
       "content": "/root/.cache/hyperframes/history/de84009a-240c-4160-aadb-d07a76039ed1/blobs/bd/bde9039691c7f77cb1e8f50a1901659aa1045ed34593a4675b78fd3b96bc39a9"
     }
   },
-  "revisions": {},
+  "revisions": {
+    "1e877b93-d0dc-45ac-8a4f-93959016276c": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1794861746909,
+      "endedAt": 1794861746930,
+      "files": {
+        "assets/footage/s05-windshield-rinse.mp4": {
+          "before": "/root/.cache/hyperframes/history/de84009a-240c-4160-aadb-d07a76039ed1/blobs/c3/c3be2b76c596a2857dc1ce1dbbe7edaed3d0216d2f1583ace92a551e9fd1251b",
+          "after": "/root/.cache/hyperframes/history/de84009a-240c-4160-aadb-d07a76039ed1/blobs/70/70e2b1dbaca096025ee11421881088188df630574abc2f79d5e1c344bfc87eca"
+        },
+        "SPEC.md": {
+          "before": "/root/.cache/hyperframes/history/de84009a-240c-4160-aadb-d07a76039ed1/blobs/03/035809fb79bb9ff250ca0af5d9189dc3eca5cc6d3c60cf725c71d713f458707b",
+          "after": "/root/.cache/hyperframes/history/de84009a-240c-4160-aadb-d07a76039ed1/blobs/21/2151901b3560c87113ab3fabfe1b394c59d25bb6c2b452c79453b300d30a7084"
+        }
+      }
+    }
+  },
   "checks": {
     "latest": {
       "revision": null,
@@ -316,13 +336,15 @@
   },
   "renders": {
     "latest": {
-      "id": "d4960373-2c5c-4598-a2fc-462ce938a51c",
-      "completedAt": 1794861171500,
+      "id": "170bdb44-57c6-4fd5-9394-84c4ad9f0314",
+      "completedAt": 1794861840866,
       "output": "/home/user/quickwash/dist/quickwash-davenport-99.mp4",
       "status": "completed",
-      "revision": null
+      "revision": "1e877b93-d0dc-45ac-8a4f-93959016276c"
     },
-    "retainedRevisions": []
+    "retainedRevisions": [
+      "1e877b93-d0dc-45ac-8a4f-93959016276c"
+    ]
   },
   "pendingArtifactCleanup": []
 }

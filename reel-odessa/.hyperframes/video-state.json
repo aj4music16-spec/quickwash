@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "22a1488a-6c5d-4017-8e77-f44597b8be17",
-  "currentRevision": "bbb65e81-bc9b-47e1-a68a-fa981aaeba62",
+  "currentRevision": "07b98bc2-85c8-4a3b-a877-59fbba07471e",
   "pendingChanges": false,
   "files": {
     "AGENTS.md": {
@@ -17,8 +17,8 @@
       "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/dd/ddd58bfa13c24679cb3b93f9c78f9390e2e8246ac5e861066515af48009e7f70"
     },
     "SPEC.md": {
-      "hash": "ae60409750466da2d0e0c17db055733c8f1952eb6ea8178409880a581169f599",
-      "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/ae/ae60409750466da2d0e0c17db055733c8f1952eb6ea8178409880a581169f599"
+      "hash": "4bfd069fdeee8337b3aa21ce1ae15965e41d91f4e3e77392abe677ce81c04535",
+      "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/4b/4bfd069fdeee8337b3aa21ce1ae15965e41d91f4e3e77392abe677ce81c04535"
     },
     "assets/app/app-store-badge.svg": {
       "hash": "a26fc5b38380272c92e9019a2eb8b45542a66814b3e2b203772db8904b9fb99f",
@@ -241,8 +241,8 @@
       "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/44/44ccc4226d374555d1b927086f5f3ce4da871cb5e25f517753971b8a6b9e84fa"
     },
     "assets/footage/s05-windshield-rinse.mp4": {
-      "hash": "c3be2b76c596a2857dc1ce1dbbe7edaed3d0216d2f1583ace92a551e9fd1251b",
-      "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/c3/c3be2b76c596a2857dc1ce1dbbe7edaed3d0216d2f1583ace92a551e9fd1251b"
+      "hash": "70e2b1dbaca096025ee11421881088188df630574abc2f79d5e1c344bfc87eca",
+      "content": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/70/70e2b1dbaca096025ee11421881088188df630574abc2f79d5e1c344bfc87eca"
     },
     "assets/footage/s06-wheel-rinse.mp4": {
       "hash": "fb3cb42bb133d4299767cd3efe6541350be9fe6df758227eced6c169eb562963",
@@ -317,6 +317,25 @@
         "assets/footage/s09-hero-side.mp4": {
           "before": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/39/39f9fe554745075307f7662ec8f05567094e4ca535fe3567ea91038da2c603fd",
           "after": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/d4/d4f4f9d0b961de2d07cc743016f5faa80d268886fc203a16f616ec32a97a4bd2"
+        }
+      }
+    },
+    "07b98bc2-85c8-4a3b-a877-59fbba07471e": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1794861646115,
+      "endedAt": 1794861646138,
+      "files": {
+        "assets/footage/s05-windshield-rinse.mp4": {
+          "before": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/c3/c3be2b76c596a2857dc1ce1dbbe7edaed3d0216d2f1583ace92a551e9fd1251b",
+          "after": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/70/70e2b1dbaca096025ee11421881088188df630574abc2f79d5e1c344bfc87eca"
+        },
+        "SPEC.md": {
+          "before": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/ae/ae60409750466da2d0e0c17db055733c8f1952eb6ea8178409880a581169f599",
+          "after": "/root/.cache/hyperframes/history/22a1488a-6c5d-4017-8e77-f44597b8be17/blobs/4b/4bfd069fdeee8337b3aa21ce1ae15965e41d91f4e3e77392abe677ce81c04535"
         }
       }
     }
@@ -511,15 +530,15 @@
   },
   "renders": {
     "latest": {
-      "id": "1d8a4726-a559-4272-b85f-dd4597e782aa",
-      "completedAt": 1794861275333,
+      "id": "854cbdec-ac62-485a-9ac4-8afb65d8abf6",
+      "completedAt": 1794861738273,
       "output": "/home/user/quickwash/dist/quickwash-odessa-99.mp4",
       "status": "completed",
-      "revision": "bbb65e81-bc9b-47e1-a68a-fa981aaeba62"
+      "revision": "07b98bc2-85c8-4a3b-a877-59fbba07471e"
     },
     "retainedRevisions": [
-      "bbb65e81-bc9b-47e1-a68a-fa981aaeba62",
-      "841d6ee0-df08-450c-af78-af23c74d0704"
+      "07b98bc2-85c8-4a3b-a877-59fbba07471e",
+      "bbb65e81-bc9b-47e1-a68a-fa981aaeba62"
     ]
   },
   "pendingArtifactCleanup": []

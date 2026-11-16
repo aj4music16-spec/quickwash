@@ -341,3 +341,5 @@ filling up" must be true when the ad runs.
 ## Location-agnostic crops
 
 Five clips (o1-van-logo, s05-windshield-rinse, s06-wheel-rinse, s07-door-wipe, s09-hero-side) are cropped tighter so no city skyline shows.
+
+Glass shot (s05) replaced with the IMG_2041 windshield mitt wash (proxy 11.2-13.4 s): no skyline, shows glass being cleaned.
