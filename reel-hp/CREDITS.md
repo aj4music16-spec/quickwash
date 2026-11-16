@@ -6,17 +6,17 @@ tools/trim.py. "In-out" is the source time on screen.
 
 | Part / shot | Time (s) | File | Source | In-out (s) | Notes |
 |---|---|---|---|---|---|
-| A hook: salt-crusted floor | 0.0-0.9 | h1-salt-floor.mp4 | IMG_2020 (dirty-car shoot) | 0.0-0.9 | filmer's shoe at frame edge; no face |
-| A hook: rear carpet | 0.9-1.8 | h2-rear-carpet.mp4 | IMG_2022 (dirty-car shoot) | 2.3-3.2 | |
-| A hook: bottle + headphones | 1.8-2.7 | h3-bottle-headphones.mp4 | IMG_2022 (dirty-car shoot) | 8.3-9.2 | headphone brand not legible |
-| A hook: "Dirty" on the door | 2.7-3.6 | h4-dirty-door.mp4 | IMG_2028 (dirty-car shoot) | 0.0-0.9 | tiny distant reflection in the mirror only |
+| A hook: crumbs and grit on the carpet | 0.0-0.9 | h1-crumb-carpet.mp4 | IMG_2034 (dirty-car shoot, part A) | p1.2-2.1 (src 4.2-5.1) | |
+| A hook: food chunk by the pedals | 0.9-1.8 | h2-food-chunk.mp4 | IMG_2036 (part A) | p6.7-7.6 (src 17.7-18.6) | gloved hand + drill partly in frame |
+| A hook: trash on the seat | 1.8-2.7 | h3-seat-trash.mp4 | IMG_2034 (part A) | p27.7-28.6 (src 75.2-76.1) | bottle label not legible |
+| A hook: "WASH ME" in the bumper dust | 2.7-3.6 | h4-wash-me.mp4 | IMG_2038 (part A) | 9.0-9.9 | plate edge sliver under a static blur strip |
 | B we come to you | 3.6-4.8 | o1-van-logo.mp4 | IMG_3730 (dirty-car shoot) | 0.0-1.2 | QuickWash van logo; plate appears only after 2.6 s (not in the file) |
 | B your driveway. $99. | 4.8-6.0 | s01-foam-sheet.mp4 | IMG_0012.mp4 | 10.2-11.4 | clip sound at 0.12 |
 | C foam + hand wash | 6.0-7.1 | s03-mitt-bumper.mp4 | IMG_0012_1_21.mp4 | 1.3-2.4 | face in profile |
 | C vacuum (result) | 7.1-8.2 | s04-vacuum-lines.mp4 | IMG_2059 (dirty-car shoot) | 0.2-1.3 | clean mat with fresh vacuum lines |
 | C glass (stand-in) | 8.2-9.3 | s05-windshield-rinse.mp4 | IMG_6397.MOV | 4.4-5.5 | plate blurred; QuickWash van at left |
 | C tires (stand-in) | 9.3-10.4 | s06-wheel-rinse.mp4 | IMG_6386.MOV | 4.8-5.9 | clip sound at 0.12 |
-| C dash (stand-in) | 10.4-11.5 | s07-clean-dash.mp4 | IMG_6439.MOV | 1.8-2.9 | Volvo wheel badge |
+| C interior wiped down | 10.4-11.5 | s07-door-wipe.mp4 | IMG_2034 (part A) | p16.0-17.1 (src 58.5-59.6) | towel wipe of the door panel and handle; air nozzle in the last ~0.3 s |
 | C wax (stand-in) | 11.5-12.6 | s08-spray-hood.mp4 | IMG_6393.MOV | 0.3-1.4 | plate blurred; unlabelled bottle |
 | D payoff hero | 12.6-15.6 | s09-hero-side.mp4 | IMG_6438.MOV | 0.1-3.1 | 1.00-1.05 push in HTML |
 | E urgency | 15.6-18.4 | s11-detailer-logo.mp4 | IMG_0012_1_15.mp4 | 0.3-3.1 | under the end-card wipe 18.0-18.4; clip sound at 0.12 |
@@ -25,7 +25,8 @@ tools/trim.py. "In-out" is the source time on screen.
 already tone-mapped SDR. The customer plate H45-VLA and the van plate P81-RZT appear in other clips of that shoot;
 neither is in any window used here. The other clips come from the May and July B-roll shoots.
 
-Not used in v6: s02-detailer-driveway.mp4, s04-clean-footwell.mp4, s10-detailer-house.mp4 (kept in assets/footage), and the
+Not used in v8: the v6 hook clips (h1-salt-floor, h2-rear-carpet, h3-bottle-headphones, h4-dirty-door), s07-clean-dash,
+s02-detailer-driveway, s04-clean-footwell, s10-detailer-house (all kept in assets/footage), and the
 v5 AI-generated stills in assets/stills (no longer referenced).
 
 People on camera: the May detailer (s03, s11) and the July detailer (s05 small, s06 hand, s08 partial face). No people in the dirty-car windows.
@@ -56,3 +57,9 @@ Fonts: Poppins, Inter, League Gothic (tag print) — all SIL OFL.
 
 - Voiceover: `assets/audio/vo3/` (Chris), new l1 and l4; music `bed_acoustic22.mp3` as v5.
 - Mix: `tools/mix.sh [out.m4a]` → `assets/audio/mix-v6.m4a`; lines at 0.10 / 3.70 / 8.80 / 12.75 / 16.10 s after silence trim.
+
+## v8
+
+Hook and wipe-down clips come from part A of the same "dirty car" shoot (client's Drive folder; grey Dodge Durango);
+IMG_2034/IMG_2036 proxies join several source windows, so "p" times are inside the proxy file and "src" times are the
+original clip. Plates H45-VLA / P81-RZT do not appear readable in any window used.

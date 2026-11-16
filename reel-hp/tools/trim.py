@@ -39,13 +39,21 @@ SHOTS = [
     ("s10-detailer-house",    "IMG_0012_1_12",  0.3,  2.1,
      [(0.0, 540, 1100), (0.35, 488, 1100), (0.7, 495, 1085), (1.05, 485, 1150), (1.4, 435, 1160),
       (1.75, 452, 1162), (2.1, 450, 1155), (2.6, 455, 1120)], 170, 140),
-    # v6 ("dirty car" shoot, client's Drive folder; proxies already tone-mapped SDR). No plate or face in these windows.
+    # v6 hook ("dirty car" shoot, client's Drive folder; proxies already tone-mapped SDR). No plate or face in these windows.
     ("h1-salt-floor",         "B/IMG_2020",     0.0,  0.9, None, 0, 0),
     ("h2-rear-carpet",        "B/IMG_2022",     2.3,  3.2, None, 0, 0),
     ("h3-bottle-headphones",  "B/IMG_2022",     8.3,  9.2, None, 0, 0),
     ("h4-dirty-door",         "B/IMG_2028",     0.0,  0.9, None, 0, 0),
     ("o1-van-logo",           "B/IMG_3730",     0.0,  1.2, None, 0, 0),
     ("s04-vacuum-lines",      "B/IMG_2059",     0.2,  1.3, None, 0, 0),
+    # v8 (dirty-car shoot, part A). Times are inside the proxy file (IMG_2034/IMG_2036 proxies join several source
+    # windows; every window and its handles stay inside one of them). No face; bottle labels are not legible.
+    ("h1-crumb-carpet",       "B/IMG_2034",     1.2,  2.1, None, 0, 0),     # passenger carpet, crumbs and grit
+    ("h2-food-chunk",         "B/IMG_2036",     6.7,  7.6, None, 0, 0),     # food chunk by the pedals
+    ("h3-seat-trash",         "B/IMG_2034",    27.7, 28.6, None, 0, 0),     # wipes, receipts, bottle on the seat
+    ("h4-wash-me",            "B/IMG_2038",     9.0,  9.9,                  # "WASH ME"; plate readable only before 8 s:
+     [(8.5, 60, 1025), (10.4, 60, 1025)], 120, 440),                      # static blur over the plate's edge sliver
+    ("s07-door-wipe",         "B/IMG_2034",    16.0, 17.1, None, 0, 0),     # towel wipe on the door panel and handle (air nozzle in the last ~0.3 s)
     ("s11-detailer-logo",     "IMG_0012_1_15",  0.3,  3.1, None, 0, 0),   # v5: 2.4 s urgency shot + 0.4 s under the wipe
 ]
 

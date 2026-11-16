@@ -291,3 +291,18 @@ l4 "Inside and out. Ninety-nine dollars."; l2, l3, l5 as v5). After silence trim
 **Sources**: the hook footage is real QuickWash footage of one customer's car (grey Dodge Durango), not the AI stills used
 in v5. "Hey High Point" / "Now booking High Point & the Triad" remain **client to confirm**; "Spots this week are
 filling up" must be true when the ad runs.
+
+## v8 (2026-11-16) — hook footage and wipe-down swap; everything else as v6/v7
+
+- **Hook (0-3.6 s), four shots x 0.9 s** from part A of the dirty-car shoot (times inside the proxy files):
+  a) IMG_2034 p1.2-2.1 passenger carpet with crumbs and grit (frame 0; nudged +0.2 s past the seat-side frames);
+  b) IMG_2036 p6.7-7.6 food chunk among crumbs by the pedals: the detailer's gloved hand and red drill are partly in
+     frame (top right) for most of it; they never fully leave this clip, and this window shows the food best;
+  c) IMG_2034 p27.7-28.6 trash on the seat (wipe ball, water bottle, receipts), no hands; bottle label not legible;
+  d) IMG_2038 p9.0-9.9 "WASH ME" in the bumper dust; only the plate's yellow edge (no characters) shows at the far
+     left, covered anyway by a static blur strip (x 0-120, y 805-1245).
+  No faces; no readable plate or brand label.
+- **Wipe-down**: the static clean-dash stand-in is replaced by IMG_2034 p16.0-17.1, a towel wipe of the door panel and
+  handle (an air nozzle enters for the last ~0.3 s). Label "Dash wiped down" -> "Interior wiped down"; it sits higher
+  (text box bottom y 820, over the empty door panel) so it clears the hand and towel.
+- Render: `--quality delivery --max-bitrate 12M` (28.9 MB).
