@@ -8,7 +8,6 @@ This project is a copy of `reel-hp` (High Point v9) with only the location chang
   `tools/mix.sh assets/audio/mix-davenport.m4a`: l1 0.10-2.69 s, l5 16.10-21.23 s (others as v6/v9); -14.2 LUFS, -1.2 dBTP.
 - End card: `assets/app/endcard-davenport.jpg` = the client-supplied "DAVENPORT, FLORIDA" card, scaled to 1080x1920.
   `tools/endcard_pill.py` (old pill erased by per-column background interpolation; new pill in the same style: 7 px cyan
-  outline, Montserrat ExtraBold white caps, centred) reading "ODESSA, TX". Nothing else on the card changed.
 - **Client to confirm**: that QuickWash serves Davenport, FL, and that "spots this week are filling up" is true there.
   The location references in the history below were changed from the High Point originals; the footage was shot in
   NJ/NY, not in Davenport.

@@ -1,0 +1,30 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #000; }
+    .shot { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+    .scrim { position: absolute; left: 0; top: 980px; width: 1080px; height: 940px; z-index: 2;
+      background: linear-gradient(180deg, rgba(0, 0, 20, 0) 0%, rgba(0, 0, 20, 0.42) 60%, rgba(0, 0, 20, 0.55) 100%); }
+    .line { position: absolute; inset: 0; z-index: 3; }
+    .lt { position: absolute; left: 72px; bottom: 620px; max-width: 800px; font-family: Poppins, sans-serif; font-weight: 700; font-size: 84px;
+      line-height: 1.1; letter-spacing: -0.01em; color: #ffffff; text-shadow: 0 3px 18px rgba(0, 0, 10, 0.55), 0 1px 2px rgba(0, 0, 10, 0.5); }
+  </style>
+  <div id="root" data-composition-id="urgency" data-width="1080" data-height="1920">
+    <div id="urgency-scrim" class="scrim" data-layout-ignore></div>
+    <!-- E. URGENCY f468-540: the detailer, logo on his back; runs on under the end-card wipe to f552 -->
+    <video id="urgency-s11" class="clip shot" src="assets/footage/s11-detailer-logo.mp4" data-start="0" data-duration="2.8" data-media-start="0.3"
+      data-track-index="0" playsinline data-has-audio="true" data-volume="0.12"></video>
+    <div id="urgency-l1" class="clip line" data-start="0" data-duration="2.4" data-track-index="1">
+      <div id="urgency-l1-t" class="lt">Spots this week are filling up</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // scene starts at film frame 468 (15.6 s)
+      const F = (f) => f / 30;
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#urgency-l1-t", { y: 24 }, { y: 0, duration: F(5), ease: "power4.out" }, 0);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["urgency"] = tl;
+    })();
+  </script>
+</template>

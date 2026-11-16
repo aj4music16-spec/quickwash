@@ -1,0 +1,43 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #000; }
+    .shot { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+    /* legibility without a box: a soft bottom scrim over the footage (a div, not a filter) plus a soft text shadow */
+    .scrim { position: absolute; left: 0; top: 980px; width: 1080px; height: 940px; z-index: 2;
+      background: linear-gradient(180deg, rgba(0, 0, 20, 0) 0%, rgba(0, 0, 20, 0.42) 60%, rgba(0, 0, 20, 0.55) 100%); }
+    .line { position: absolute; inset: 0; z-index: 3; }
+    /* one line of Poppins 700, left at x 72, bottom of the text box at y 1300 (baseline ~1283), max 800 px wide */
+    .lt { position: absolute; left: 72px; bottom: 620px; max-width: 800px; font-family: Poppins, sans-serif; font-weight: 700; font-size: 84px;
+      line-height: 1.1; letter-spacing: -0.01em; color: #ffffff; text-shadow: 0 3px 18px rgba(0, 0, 10, 0.55), 0 1px 2px rgba(0, 0, 10, 0.5); }
+  </style>
+  <div id="root" data-composition-id="offer" data-width="1080" data-height="1920">
+    <div id="offer-scrim" class="scrim" data-layout-ignore></div>
+    <!-- B. OFFER f108-180: the camera passes the QuickWash van (logo filling the frame), then the foam sheet -->
+    <video id="offer-van" class="clip shot" src="assets/footage/o1-van-logo.mp4" data-start="0" data-duration="1.2" data-media-start="0"
+      data-track-index="0" muted playsinline></video>
+    <video id="offer-s1" class="clip shot" src="assets/footage/s01-foam-sheet.mp4" data-start="1.2" data-duration="1.2" data-media-start="0.5"
+      data-track-index="0" playsinline data-has-audio="true" data-volume="0.12"></video>
+
+    <div id="offer-l1" class="clip line" data-start="0" data-duration="1.2" data-track-index="1">
+      <div id="offer-l1-t" class="lt" style="bottom: 1160px">We come to you</div>
+    </div>
+    <div id="offer-l2" class="clip line" data-start="1.2" data-duration="1.2" data-track-index="1">
+      <div id="offer-l2-t" class="lt">Your driveway. $99.</div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // scene starts at film frame 108 (3.6 s)
+      const F = (f) => f / 30;
+      const tl = gsap.timeline({ paused: true });
+      // a line arrives from 24 px below, opacity binary (the clip window), power4.out over 5 frames. A landed line never moves.
+      const line = (id, t) => {
+        tl.fromTo(`#${id}-t`, { y: 24 }, { y: 0, duration: F(5), ease: "power4.out" }, t);
+      };
+      line("offer-l1", 0);
+      line("offer-l2", F(36));
+      window.__timelines = window.__timelines || {};
+      window.__timelines["offer"] = tl;
+    })();
+  </script>
+</template>
