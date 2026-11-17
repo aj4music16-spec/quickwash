@@ -9,25 +9,27 @@
     #dp-h span { display: block; white-space: nowrap; }
   </style>
   <div id="root" data-composition-id="dispatch" data-width="1080" data-height="1920">
-    <!-- c03 0.4-1.6: the illustrated van on white (before the push into the phone number) -->
+    <!-- c03 1.0-2.55 at 1.6x: the illustrated van pushes in and starts to morph on "pull up" -->
     <div id="dp-cam1" class="cam" data-layout-ignore>
-      <video id="dp-v1" class="clip" src="assets/footage/van-illus.mp4" data-start="0" data-duration="1.2" data-track-index="0" muted playsinline></video>
+      <video id="dp-v1" class="clip" src="assets/footage/van-morph.mp4" data-start="0" data-duration="0.97" data-track-index="0" muted playsinline></video>
     </div>
-    <!-- c03 3.6-4.8: the van on the road, cropped so the bottom-right watermark is out of frame -->
+    <!-- c03 3.8-4.33: the real van on the road (the big phone-number pass is skipped) -->
     <div id="dp-cam2" class="cam" data-layout-ignore>
-      <video id="dp-v2" class="clip" src="assets/footage/van-road.mp4" data-start="1.2" data-duration="1.2" data-track-index="0" muted playsinline></video>
+      <video id="dp-v2" class="clip" src="assets/footage/van-road.mp4" data-start="0.97" data-duration="0.53" data-track-index="0" muted playsinline></video>
     </div>
-    <div id="dp-card" class="clip" data-start="0" data-duration="2.4" data-track-index="1">
-      <div id="dp-h"><span>Then we</span><span>come to <span style="display: inline; color: var(--accent, #ff6600)">you.</span></span></div>
+    <div id="dp-card" class="clip" data-start="0" data-duration="1.5" data-track-index="1">
+      <div id="dp-h"><span>Then we pull</span><span>up to <span style="display: inline; color: var(--accent, #ff6600)">you.</span></span></div>
     </div>
   </div>
   <script>
     (function () {
       const tl = gsap.timeline({ paused: true });
-      tl.fromTo("#dp-cam1", { scale: 1.0, transformOrigin: "50% 62%" }, { scale: 1.12, duration: 1.2, ease: "power2.in" }, 0);
-      tl.fromTo("#dp-cam2", { scale: 1.1, transformOrigin: "50% 60%" }, { scale: 1.0, duration: 1.2, ease: "expo.out" }, 1.2);
-      tl.fromTo("#dp-card", { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.45, ease: "expo.out" }, 0.12);
-      tl.fromTo("#dp-h > span", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.45, ease: "expo.out", stagger: 0.09 }, 0.16);
+      // VO cues, local (film - 13.4): "Then" 0.25 (line 1), "pull" 0.55; line 2 follows at 0.45 so it reads for 1.05 s
+      tl.fromTo("#dp-cam1", { scale: 1.0, transformOrigin: "50% 60%" }, { scale: 1.08, duration: 0.97, ease: "power2.in" }, 0);
+      tl.fromTo("#dp-cam2", { scale: 1.08, transformOrigin: "50% 60%" }, { scale: 1.0, duration: 0.53, ease: "expo.out" }, 0.97);
+      tl.fromTo("#dp-card", { opacity: 0, y: -30 }, { opacity: 1, y: 0, duration: 0.35, ease: "expo.out" }, 0.18);
+      tl.fromTo("#dp-h > span:nth-child(1)", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 0.25);
+      tl.fromTo("#dp-h > span:nth-child(2)", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 0.45);
       window.__timelines = window.__timelines || {};
       window.__timelines["dispatch"] = tl;
     })();

@@ -8,7 +8,9 @@
     #aw-h { position: absolute; left: 64px; top: 186px; color: var(--navy, #000099); font-family: Poppins, sans-serif; font-weight: 700;
       font-size: 100px; line-height: 1.02; letter-spacing: -0.03em; }
     #aw-h span { display: block; white-space: nowrap; }
-    .card { position: absolute; left: 60px; top: 470px; width: 960px; height: 640px; border-radius: 40px; overflow: hidden; background: #e9ecf4;
+    #aw-eb { position: absolute; left: 64px; top: 330px; color: var(--navy, #000099); font-family: Poppins, sans-serif; font-weight: 600; font-size: 64px;
+      letter-spacing: -0.02em; white-space: nowrap; }
+    .card { position: absolute; opacity: 0; left: 60px; top: 470px; width: 960px; height: 640px; border-radius: 40px; overflow: hidden; background: #e9ecf4;
       box-shadow: 0 50px 90px -30px rgba(0, 0, 70, 0.35), 0 16px 36px rgba(0, 0, 70, 0.12); }
     .card video { position: absolute; left: 0; top: 0; width: 960px; height: 640px; object-fit: cover; }
     .chip { position: absolute; left: 28px; bottom: 28px; height: 78px; padding: 0 30px 0 22px; border-radius: 39px; background: #ffffff;
@@ -25,29 +27,30 @@
     .node span { position: absolute; left: -120px; top: 34px; width: 240px; text-align: center; color: #3b4370; font-weight: 600; font-size: 30px; white-space: nowrap; }
   </style>
   <div id="root" data-composition-id="anywhere" data-width="1080" data-height="1920">
-    <div id="aw-bgclip" class="clip" data-start="0" data-duration="4.8" data-track-index="0" style="position: absolute; inset: 0" data-layout-ignore><div id="aw-bg"></div></div>
-    <div id="aw-h" class="clip" data-start="0" data-duration="4.8" data-track-index="1"><span>Wherever</span><span style="color: var(--accent, #ff6600)">you park.</span></div>
+    <div id="aw-bgclip" class="clip" data-start="0" data-duration="6.1" data-track-index="0" style="position: absolute; inset: 0" data-layout-ignore><div id="aw-bg"></div></div>
+    <div id="aw-eb" class="clip" data-start="0" data-duration="6.1" data-track-index="1">We pull up at</div>
+    <div id="aw-h" class="clip" data-start="0" data-duration="6.1" data-track-index="1"><span>Wherever</span><span style="color: var(--accent, #ff6600)">you&rsquo;re parked.</span></div>
 
-    <!-- four 3:2 dioramas, whole (not cropped to vertical); each card pushes the last one away -->
+    <!-- four 3:2 dioramas, whole (not cropped to vertical); each one cuts in on its spoken word -->
     <div id="aw-k0" class="card" data-layout-allow-overlap data-layout-allow-overflow>
-      <video id="aw-v0" class="clip" src="assets/footage/place-home.mp4" data-start="0" data-duration="1.35" data-track-index="2" muted playsinline></video>
+      <video id="aw-v0" class="clip" src="assets/footage/place-home.mp4" data-start="0.25" data-duration="1.08" data-track-index="2" muted playsinline></video>
       <div class="chip"><svg viewBox="0 0 34 44" aria-hidden="true"><path d="M17 1C8.2 1 1 8 1 16.8 1 28.5 17 43 17 43s16-14.5 16-26.2C33 8 25.8 1 17 1z" fill="#ff6600" /><circle cx="17" cy="16.5" r="6" fill="#fff" /></svg>Home</div>
     </div>
     <div id="aw-k1" class="card" data-layout-allow-overlap data-layout-allow-overflow>
-      <video id="aw-v1" class="clip" src="assets/footage/place-office.mp4" data-start="1" data-duration="1.55" data-track-index="2" muted playsinline></video>
+      <video id="aw-v1" class="clip" src="assets/footage/place-office.mp4" data-start="1.33" data-duration="1.16" data-track-index="2" muted playsinline></video>
       <div class="chip"><svg viewBox="0 0 34 44" aria-hidden="true"><path d="M17 1C8.2 1 1 8 1 16.8 1 28.5 17 43 17 43s16-14.5 16-26.2C33 8 25.8 1 17 1z" fill="#ff6600" /><circle cx="17" cy="16.5" r="6" fill="#fff" /></svg>Office</div>
     </div>
     <div id="aw-k2" class="card" data-layout-allow-overlap data-layout-allow-overflow>
-      <video id="aw-v2" class="clip" src="assets/footage/place-gym.mp4" data-start="2.2" data-duration="1.55" data-track-index="2" muted playsinline></video>
+      <video id="aw-v2" class="clip" src="assets/footage/place-gym.mp4" data-start="2.49" data-duration="1.24" data-track-index="2" muted playsinline></video>
       <div class="chip"><svg viewBox="0 0 34 44" aria-hidden="true"><path d="M17 1C8.2 1 1 8 1 16.8 1 28.5 17 43 17 43s16-14.5 16-26.2C33 8 25.8 1 17 1z" fill="#ff6600" /><circle cx="17" cy="16.5" r="6" fill="#fff" /></svg>Gym</div>
     </div>
     <div id="aw-k3" class="card" data-layout-allow-overlap data-layout-allow-overflow>
-      <video id="aw-v3" class="clip" src="assets/footage/place-club.mp4" data-start="3.4" data-duration="1.4" data-track-index="2" muted playsinline></video>
+      <video id="aw-v3" class="clip" src="assets/footage/place-club.mp4" data-start="3.73" data-duration="2.37" data-track-index="2" muted playsinline></video>
       <div class="chip"><svg viewBox="0 0 34 44" aria-hidden="true"><path d="M17 1C8.2 1 1 8 1 16.8 1 28.5 17 43 17 43s16-14.5 16-26.2C33 8 25.8 1 17 1z" fill="#ff6600" /><circle cx="17" cy="16.5" r="6" fill="#fff" /></svg>The club</div>
     </div>
 
     <!-- the route: one stop per card -->
-    <div id="aw-route" class="clip" data-start="0" data-duration="4.8" data-track-index="3">
+    <div id="aw-route" class="clip" data-start="0" data-duration="6.1" data-track-index="3">
       <div id="aw-rail"></div><div id="aw-fill"></div>
       <div class="node" id="aw-n0" style="left: 160px"><i></i><b></b><span>Home</span></div>
       <div class="node" id="aw-n1" style="left: 413px"><i></i><b></b><span>Office</span></div>
@@ -58,23 +61,24 @@
   <script>
     (function () {
       const tl = gsap.timeline({ paused: true });
-      tl.fromTo("#aw-h span", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out", stagger: 0.08 }, 0.02);
-      tl.fromTo("#aw-route", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 0.15);
+      // VO cue words, local (film - 14.9): Home, office, gym, golf (course) -> cards; wherever / you're -> headline
+      const CUT = [0.25, 1.33, 2.49, 3.73], WHEREVER = 4.93, YOURE = 5.33;
+      tl.fromTo("#aw-route", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 0.02);
       tl.fromTo("#aw-fill", { scaleX: 0 }, { scaleX: 0, duration: 0.01 }, 0);
-      // card 0 rises in; cards 1-3 push in from the right at 1.0 / 2.2 / 3.4 (each on screen 1.2 s)
-      tl.fromTo("#aw-k0", { y: 900, rotation: -3 }, { y: 0, rotation: 0, duration: 0.6, ease: "expo.out" }, 0);
-      [1, 2, 3].forEach((k) => {
-        const t = 1.2 * k - 0.2;
-        tl.fromTo("#aw-k" + k, { x: 1150, rotation: 4 }, { x: 0, rotation: 0, duration: 0.6, ease: "expo.out" }, t);
-        tl.to("#aw-k" + (k - 1), { x: -300, scale: 0.86, opacity: 0, duration: 0.35, ease: "power2.in" }, t);
-      });
-      // route: the stop lights up with its card; the fill runs to it
-      [0, 1, 2, 3].forEach((k) => {
-        const t = k === 0 ? 0.25 : 1.2 * k - 0.05;
-        tl.fromTo("#aw-n" + k + " b", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1.25, duration: 0.4, ease: "back.out(2.2)" }, t);
-        if (k > 0) tl.to("#aw-fill", { scaleX: k / 3, duration: 0.5, ease: "expo.out" }, t - 0.1);
+      CUT.forEach((t, k) => {
+        // hard cut on the word, with a short settle so the cut has weight
+        tl.set("#aw-k" + k, { opacity: 1 }, t);
+        tl.fromTo("#aw-k" + k, { scale: 1.06, y: 16 }, { scale: 1, y: 0, duration: 0.45, ease: "expo.out" }, t);
+        if (k > 0) tl.set("#aw-k" + (k - 1), { opacity: 0 }, t);
+        tl.fromTo("#aw-k" + k + " .chip", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.3, ease: "expo.out" }, t + 0.04);
+        tl.fromTo("#aw-n" + k + " b", { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1.25, duration: 0.35, ease: "back.out(2.2)" }, t);
+        if (k > 0) tl.to("#aw-fill", { scaleX: k / 3, duration: 0.4, ease: "expo.out" }, t);
         if (k > 0) tl.to("#aw-n" + (k - 1) + " b", { scale: 0.8, duration: 0.3, ease: "power2.out" }, t);
       });
+      tl.fromTo("#aw-eb", { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 0.05);
+      tl.to("#aw-eb", { opacity: 0, y: -20, duration: 0.2, ease: "power2.in" }, WHEREVER - 0.2);
+      tl.fromTo("#aw-h span:nth-child(1)", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "expo.out" }, WHEREVER);
+      tl.fromTo("#aw-h span:nth-child(2)", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "expo.out" }, YOURE);
       window.__timelines = window.__timelines || {};
       window.__timelines["anywhere"] = tl;
     })();

@@ -1,0 +1,622 @@
+{
+ "film_end": 24.5,
+ "beat_starts": [
+  0.0,
+  2.8,
+  9.3,
+  13.4,
+  14.9,
+  21.0
+ ],
+ "speech_end": [
+  2.59,
+  9.19,
+  13.12,
+  14.61,
+  20.75,
+  23.02
+ ],
+ "cues": [
+  {
+   "beat": 1,
+   "word": "Okay",
+   "t": 0.25,
+   "words": [
+    [
+     "Okay",
+     0.25
+    ],
+    [
+     "your",
+     0.71
+    ],
+    [
+     "car",
+     0.89
+    ],
+    [
+     "wash",
+     1.17
+    ],
+    [
+     "It's",
+     1.91
+    ],
+    [
+     "an",
+     2.05
+    ],
+    [
+     "app",
+     2.17
+    ],
+    [
+     "now",
+     2.43
+    ]
+   ]
+  },
+  {
+   "beat": 2,
+   "word": "car",
+   "t": 3.51,
+   "words": [
+    [
+     "Pick",
+     3.15
+    ],
+    [
+     "your",
+     3.35
+    ],
+    [
+     "car",
+     3.51
+    ]
+   ]
+  },
+  {
+   "beat": 2,
+   "word": "wash",
+   "t": 4.56,
+   "words": [
+    [
+     "pick",
+     4.18
+    ],
+    [
+     "your",
+     4.38
+    ],
+    [
+     "wash",
+     4.56
+    ]
+   ]
+  },
+  {
+   "beat": 2,
+   "word": "time",
+   "t": 5.53,
+   "words": [
+    [
+     "pick",
+     5.27
+    ],
+    [
+     "a",
+     5.43
+    ],
+    [
+     "time",
+     5.53
+    ]
+   ]
+  },
+  {
+   "beat": 2,
+   "word": "booked",
+   "t": 7.58,
+   "words": [
+    [
+     "and",
+     6.2
+    ],
+    [
+     "booked",
+     7.58
+    ]
+   ]
+  },
+  {
+   "beat": 2,
+   "word": "20",
+   "t": 8.59,
+   "words": [
+    [
+     "About",
+     8.23
+    ],
+    [
+     "20",
+     8.59
+    ],
+    [
+     "seconds",
+     8.77
+    ]
+   ]
+  },
+  {
+   "beat": 3,
+   "word": "Every",
+   "t": 9.9,
+   "words": [
+    [
+     "Every",
+     9.9
+    ],
+    [
+     "car",
+     10.1
+    ],
+    [
+     "you",
+     10.34
+    ],
+    [
+     "own",
+     10.48
+    ]
+   ]
+  },
+  {
+   "beat": 3,
+   "word": "Right",
+   "t": 11.1,
+   "words": [
+    [
+     "Right",
+     11.1
+    ],
+    [
+     "here",
+     11.3
+    ]
+   ]
+  },
+  {
+   "beat": 3,
+   "word": "repeat",
+   "t": 12.38,
+   "words": [
+    [
+     "Put",
+     12.02
+    ],
+    [
+     "'em",
+     12.14
+    ],
+    [
+     "on",
+     12.26
+    ],
+    [
+     "repeat",
+     12.38
+    ],
+    [
+     "if",
+     12.74
+    ],
+    [
+     "you",
+     12.84
+    ],
+    [
+     "want",
+     12.94
+    ]
+   ]
+  },
+  {
+   "beat": 4,
+   "word": "Then",
+   "t": 13.65,
+   "words": [
+    [
+     "Then",
+     13.65
+    ],
+    [
+     "we",
+     13.81
+    ],
+    [
+     "pull",
+     13.95
+    ],
+    [
+     "up",
+     14.21
+    ],
+    [
+     "to",
+     14.39
+    ],
+    [
+     "you",
+     14.53
+    ]
+   ]
+  },
+  {
+   "beat": 5,
+   "word": "Home",
+   "t": 15.15,
+   "words": [
+    [
+     "Home",
+     15.15
+    ]
+   ]
+  },
+  {
+   "beat": 5,
+   "word": "office",
+   "t": 16.23,
+   "words": [
+    [
+     "the",
+     15.99
+    ],
+    [
+     "office",
+     16.23
+    ]
+   ]
+  },
+  {
+   "beat": 5,
+   "word": "gym",
+   "t": 17.39,
+   "words": [
+    [
+     "the",
+     17.17
+    ],
+    [
+     "gym",
+     17.39
+    ]
+   ]
+  },
+  {
+   "beat": 5,
+   "word": "golf",
+   "t": 18.63,
+   "words": [
+    [
+     "even",
+     18.27
+    ],
+    [
+     "the",
+     18.51
+    ],
+    [
+     "golf",
+     18.63
+    ],
+    [
+     "course",
+     18.95
+    ]
+   ]
+  },
+  {
+   "beat": 5,
+   "word": "wherever",
+   "t": 19.83,
+   "words": [
+    [
+     "wherever",
+     19.83
+    ],
+    [
+     "you're",
+     20.23
+    ],
+    [
+     "parked",
+     20.41
+    ]
+   ]
+  },
+  {
+   "beat": 6,
+   "word": "Quick",
+   "t": 21.3,
+   "words": [
+    [
+     "Quick",
+     21.3
+    ],
+    [
+     "Wash",
+     21.54
+    ],
+    [
+     "Go",
+     22.24
+    ],
+    [
+     "grab",
+     22.42
+    ],
+    [
+     "the",
+     22.66
+    ],
+    [
+     "app",
+     22.82
+    ]
+   ]
+  }
+ ],
+ "plan": {
+  "liam": [
+   {
+    "beat": 1,
+    "file": "liam_b1_t2",
+    "src_from": 0.1,
+    "src_to": 2.66,
+    "at": 0.17
+   },
+   {
+    "beat": 2,
+    "file": "liam_b2_t2",
+    "src_from": 0.02,
+    "src_to": 0.92,
+    "at": 3.07
+   },
+   {
+    "beat": 2,
+    "file": "liam_b2_t2",
+    "src_from": 1.16,
+    "src_to": 2.12,
+    "at": 4.1
+   },
+   {
+    "beat": 2,
+    "file": "liam_b2_t2",
+    "src_from": 2.36,
+    "src_to": 3.16,
+    "at": 5.19
+   },
+   {
+    "beat": 2,
+    "file": "liam_b2_t2",
+    "src_from": 3.66,
+    "src_to": 5.56,
+    "at": 6.12
+   },
+   {
+    "beat": 2,
+    "file": "liam_b2_t2",
+    "src_from": 5.84,
+    "src_to": 7.02,
+    "at": 8.15
+   },
+   {
+    "beat": 3,
+    "file": "liam_b3_t1",
+    "src_from": 0.02,
+    "src_to": 1.04,
+    "at": 9.82
+   },
+   {
+    "beat": 3,
+    "file": "liam_b3_t1",
+    "src_from": 1.22,
+    "src_to": 1.88,
+    "at": 11.02
+   },
+   {
+    "beat": 3,
+    "file": "liam_b3_t1",
+    "src_from": 2.14,
+    "src_to": 3.46,
+    "at": 11.94
+   },
+   {
+    "beat": 4,
+    "file": "liam_b4_t3",
+    "src_from": 0.14,
+    "src_to": 1.32,
+    "at": 13.57
+   },
+   {
+    "beat": 5,
+    "file": "liam_b5_t2",
+    "src_from": 0.1,
+    "src_to": 0.72,
+    "at": 15.07
+   },
+   {
+    "beat": 5,
+    "file": "liam_b5_t2",
+    "src_from": 0.94,
+    "src_to": 1.92,
+    "at": 15.91
+   },
+   {
+    "beat": 5,
+    "file": "liam_b5_t2",
+    "src_from": 2.12,
+    "src_to": 2.94,
+    "at": 17.09
+   },
+   {
+    "beat": 5,
+    "file": "liam_b5_t2",
+    "src_from": 3.4,
+    "src_to": 4.68,
+    "at": 18.19
+   },
+   {
+    "beat": 5,
+    "file": "liam_b5_t2",
+    "src_from": 5.04,
+    "src_to": 6.18,
+    "at": 19.75
+   },
+   {
+    "beat": 6,
+    "file": "liam_b6_t2",
+    "src_from": 0.08,
+    "src_to": 2.02,
+    "at": 21.22
+   }
+  ],
+  "jessica": [
+   {
+    "beat": 1,
+    "file": "jessica_b1_t2",
+    "src_from": 0.0,
+    "src_to": 2.66,
+    "at": 0.17,
+    "speech_end": 2.69
+   },
+   {
+    "beat": 2,
+    "file": "jessica_b2_t1",
+    "src_from": 0.08,
+    "src_to": 1.01,
+    "at": 3.02,
+    "speech_end": 3.82
+   },
+   {
+    "beat": 2,
+    "file": "jessica_b2_t1",
+    "src_from": 1.06,
+    "src_to": 2.03,
+    "at": 4.07,
+    "speech_end": 4.93
+   },
+   {
+    "beat": 2,
+    "file": "jessica_b2_t1",
+    "src_from": 2.06,
+    "src_to": 2.96,
+    "at": 5.14,
+    "speech_end": 5.9
+   },
+   {
+    "beat": 2,
+    "file": "jessica_b2_t1",
+    "src_from": 3.4,
+    "src_to": 5.12,
+    "at": 6.31,
+    "speech_end": 7.89
+   },
+   {
+    "beat": 2,
+    "file": "jessica_b2_t1",
+    "src_from": 5.74,
+    "src_to": 7.02,
+    "at": 8.06,
+    "speech_end": 9.2
+   },
+   {
+    "beat": 3,
+    "file": "jessica_b3_t1",
+    "src_from": 0.04,
+    "src_to": 1.18,
+    "at": 9.82,
+    "speech_end": 10.82
+   },
+   {
+    "beat": 3,
+    "file": "jessica_b3_t1",
+    "src_from": 1.62,
+    "src_to": 2.28,
+    "at": 11.02,
+    "speech_end": 11.54
+   },
+   {
+    "beat": 3,
+    "file": "jessica_b3_t1",
+    "src_from": 2.4,
+    "src_to": 3.76,
+    "at": 11.96,
+    "speech_end": 13.18
+   },
+   {
+    "beat": 4,
+    "file": "jessica_b4_t2",
+    "src_from": 0.08,
+    "src_to": 1.58,
+    "at": 13.44,
+    "speech_end": 14.8
+   },
+   {
+    "beat": 5,
+    "file": "jessica_b5_t2",
+    "src_from": 0.04,
+    "src_to": 0.6,
+    "at": 15.09,
+    "speech_end": 15.51
+   },
+   {
+    "beat": 5,
+    "file": "jessica_b5_t2",
+    "src_from": 1.12,
+    "src_to": 1.94,
+    "at": 15.96,
+    "speech_end": 16.64
+   },
+   {
+    "beat": 5,
+    "file": "jessica_b5_t2",
+    "src_from": 2.42,
+    "src_to": 3.0,
+    "at": 17.16,
+    "speech_end": 17.6
+   },
+   {
+    "beat": 5,
+    "file": "jessica_b5_t2",
+    "src_from": 3.56,
+    "src_to": 4.88,
+    "at": 18.161,
+    "speech_end": 19.341
+   },
+   {
+    "beat": 5,
+    "file": "jessica_b5_t2",
+    "src_from": 5.14,
+    "src_to": 6.44,
+    "at": 19.74,
+    "speech_end": 20.9
+   },
+   {
+    "beat": 6,
+    "file": "jessica_b6_t2",
+    "src_from": 0.06,
+    "src_to": 2.4,
+    "at": 21.22,
+    "speech_end": 23.42
+   }
+  ]
+ },
+ "alt_warnings": [
+  "b2 20: pushed 0.02 s",
+  "b2: alt line 0.05 s too long, whole beat moved 0.05 s earlier",
+  "b4: alt line 0.13 s too long, whole beat moved 0.13 s earlier",
+  "b5 Home: pushed 0.03 s",
+  "b5: alt line 0.01 s too long, whole beat moved 0.01 s earlier"
+ ]
+}
