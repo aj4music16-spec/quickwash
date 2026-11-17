@@ -1,0 +1,49 @@
+<!doctype html>
+<html
+  lang="en"
+  data-composition-variables='[
+    {"id":"navy","type":"color","label":"Brand navy","default":"#000099"},
+    {"id":"accent","type":"color","label":"Brand orange","default":"#ff6600"}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #f4f6fb; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #f4f6fb; font-family: Inter, sans-serif; }
+      #stage { position: absolute; inset: 0; background: #f4f6fb; }
+    </style>
+  </head>
+  <body>
+    <!-- "Your car wash is now an app" - QuickWash app product film. 1080x1920, 30 fps, 21.6 s (648 frames). -->
+    <div id="root" data-composition-id="main" data-start="0" data-duration="21.6" data-width="1080" data-height="1920">
+      <div id="stage" data-layout-ignore></div>
+
+      <!-- 1. HOOK 0-2.4: c14 floating phone; the clean home screen is corner-pinned onto it from 0.9 s -->
+      <div id="hook" data-composition-id="hook" data-composition-src="compositions/hook.html" data-start="0" data-duration="2.4"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 1"></div>
+      <!-- 2+3. BOOK 2.4-8.4 and GARAGE 8.4-10.4: our CSS phone with the real screens, taps, callouts, timer -->
+      <div id="app" data-composition-id="app" data-composition-src="compositions/app.html" data-start="2.4" data-duration="8"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 2"></div>
+      <!-- 4. DISPATCH 10.4-12.8: c03 illustrated van, then the van on the road -->
+      <div id="dispatch" data-composition-id="dispatch" data-composition-src="compositions/dispatch.html" data-start="10.4" data-duration="2.4"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 3"></div>
+      <!-- 5. ANYWHERE 12.8-17.6: four 3:2 diorama cards, 1.2 s each -->
+      <div id="anywhere" data-composition-id="anywhere" data-composition-src="compositions/anywhere.html" data-start="12.8" data-duration="4.8"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 4"></div>
+      <!-- 6. END 17.6-21.6 -->
+      <div id="end" data-composition-id="end" data-composition-src="compositions/end.html" data-start="17.6" data-duration="4"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 5"></div>
+
+      <!-- premix: ElevenLabs bed + VO + UI sounds, ducked, -14 LUFS (tools/mix.sh) -->
+      <audio id="mix" class="clip" data-start="0" data-duration="21.6" data-track-index="4" data-volume="1" src="assets/audio/mix.m4a"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

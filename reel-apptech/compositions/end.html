@@ -1,0 +1,45 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #ffffff; font-family: Inter, sans-serif; }
+    #en-bg { position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 50% 26%, rgba(0, 0, 153, 0.09) 0%, rgba(0, 0, 153, 0) 34%),
+        radial-gradient(circle at 50% 70%, rgba(255, 102, 0, 0.08) 0%, rgba(255, 102, 0, 0) 36%),
+        linear-gradient(rgba(0, 0, 153, 0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 153, 0.045) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 60px 60px, 60px 60px; background-position: 0 0, 0 0, 30px 30px, 30px 30px; }
+    #en-logo { position: absolute; left: 340px; top: 200px; width: 400px; height: 400px; }
+    #en-logo img { width: 400px; height: 400px; display: block; }
+    #en-ring { position: absolute; left: 290px; top: 150px; width: 500px; height: 500px; border-radius: 50%; border: 3px solid rgba(0, 0, 153, 0.12); }
+    #en-h { position: absolute; left: 60px; width: 960px; top: 660px; text-align: center; color: var(--navy, #000099); font-family: Poppins, sans-serif;
+      font-weight: 700; font-size: 84px; line-height: 1.06; letter-spacing: -0.03em; }
+    #en-h span { display: block; white-space: nowrap; }
+    #en-dl { position: absolute; left: 0; width: 1080px; top: 900px; text-align: center; color: var(--accent, #ff6600); font-weight: 700; font-size: 38px;
+      letter-spacing: 0.12em; text-transform: uppercase; }
+    #en-badges { position: absolute; left: 0; width: 1080px; top: 980px; display: flex; justify-content: center; gap: 28px; }
+    #en-badges img { height: 112px; display: block; }
+  </style>
+  <div id="root" data-composition-id="end" data-width="1080" data-height="1920">
+    <div id="en-bgclip" class="clip" data-start="0" data-duration="4" data-track-index="0" style="position: absolute; inset: 0" data-layout-ignore><div id="en-bg"></div></div>
+    <div id="en-ringclip" class="clip" data-start="0" data-duration="4" data-track-index="1" style="position: absolute; inset: 0" data-layout-ignore><div id="en-ring"></div></div>
+    <div id="en-logoclip" class="clip" data-start="0" data-duration="4" data-track-index="2" style="position: absolute; inset: 0" data-layout-ignore>
+      <div id="en-logo"><img src="assets/app/logo.png" alt="QuickWash" /></div>
+    </div>
+    <div id="en-h" class="clip" data-start="0" data-duration="4" data-track-index="3"><span>The car wash that</span><span>comes to <span style="display: inline; color: var(--accent, #ff6600)">you.</span></span></div>
+    <div id="en-dl" class="clip" data-start="0" data-duration="4" data-track-index="4">Download QuickWash</div>
+    <div id="en-badges" class="clip" data-start="0" data-duration="4" data-track-index="5">
+      <img id="en-ios" src="assets/app/app-store-badge.svg" alt="Download on the App Store" />
+      <img id="en-and" src="assets/app/google-play-badge.svg" alt="Get it on Google Play" />
+    </div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#en-logo", { scale: 0.55, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.7, ease: "back.out(1.6)" }, 0.05);
+      tl.fromTo("#en-ring", { scale: 0.6, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.9, ease: "expo.out" }, 0.12);
+      tl.fromTo("#en-h > span", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.55, ease: "expo.out", stagger: 0.1 }, 0.3);
+      tl.fromTo("#en-dl", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.45, ease: "expo.out" }, 0.6);
+      tl.fromTo(["#en-ios", "#en-and"], { opacity: 0, y: 40, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "back.out(1.5)", stagger: 0.08 }, 0.7);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["end"] = tl;
+    })();
+  </script>
+</template>

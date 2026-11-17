@@ -1,0 +1,197 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #f4f6fb; font-family: Inter, sans-serif; }
+    #ap-bg { position: absolute; inset: 0; }
+    #ap-grid { position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(0, 0, 153, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 153, 0.05) 1px, transparent 1px);
+      background-size: 60px 60px; background-position: 30px 30px; }
+    #ap-glow { position: absolute; inset: 0;
+      background: radial-gradient(circle at 78% 58%, rgba(255, 102, 0, 0.11) 0%, rgba(255, 102, 0, 0) 38%),
+                  radial-gradient(circle at 12% 18%, rgba(0, 0, 153, 0.08) 0%, rgba(0, 0, 153, 0) 42%); }
+
+    /* the device: 632x1336, screen 600x1304 (screenshot 1320x2868 at 0.4545) */
+    #ap-phone { position: absolute; left: 424px; top: 500px; width: 632px; height: 1336px; padding: 16px; border-radius: 96px;
+      background: linear-gradient(160deg, #2a2d35 0%, #0c0d10 60%);
+      box-shadow: 0 0 0 3px #d4d1ca, 0 0 0 6px #eceae5, 0 70px 120px -30px rgba(0, 0, 70, 0.32), 0 24px 48px rgba(0, 0, 70, 0.12); }
+    #ap-screen { position: relative; width: 600px; height: 1304px; border-radius: 80px; overflow: hidden; background: #ffffff; }
+    #ap-ui { position: absolute; left: 0; top: 0; width: 1320px; height: 2868px; transform: scale(0.4545454); transform-origin: 0 0; }
+    #ap-ui > img { position: absolute; left: 0; top: 0; width: 1320px; height: 2868px; display: block; }
+    #ap-island { position: absolute; left: 240px; top: 16px; width: 120px; height: 36px; border-radius: 18px; background: #050507; }
+    /* overlays in screenshot pixels */
+    .hl { position: absolute; }
+    #ap-hl-card { left: 54px; top: 504px; width: 578px; height: 571px; border-radius: 52px; box-shadow: 0 0 0 16px rgba(0, 0, 153, 0.28), 0 0 60px 20px rgba(255, 255, 255, 0.6); }
+    #ap-hl-row { left: 54px; top: 1738px; width: 1211px; height: 254px; border-radius: 34px; border: 9px solid #000099; background: rgba(0, 0, 153, 0.08); }
+    #ap-hl-time { left: 186px; top: 1201px; width: 948px; height: 158px; border-radius: 40px; box-shadow: 0 0 0 14px rgba(255, 102, 0, 0.45); }
+    #ap-hl-book { left: 186px; top: 2055px; width: 948px; height: 161px; border-radius: 40px; background: rgba(0, 0, 40, 0.2); }
+    #ap-booked { position: absolute; left: 290px; top: 1560px; width: 740px; height: 200px; border-radius: 100px; background: #000099;
+      display: flex; align-items: center; justify-content: center; gap: 34px; color: #ffffff; font-family: Poppins, sans-serif; font-weight: 700;
+      font-size: 92px; letter-spacing: -0.01em; box-shadow: 0 40px 80px rgba(0, 0, 60, 0.35); }
+    #ap-booked i { width: 120px; height: 120px; border-radius: 50%; background: var(--accent, #ff6600); display: grid; place-items: center; }
+    #ap-booked svg { width: 70px; height: 70px; }
+    #ap-tap { position: absolute; left: 0; top: 0; width: 160px; height: 160px; margin: -80px 0 0 -80px; }
+    #ap-tap b { position: absolute; inset: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.55); border: 7px solid rgba(0, 0, 153, 0.7);
+      box-shadow: 0 10px 30px rgba(0, 0, 60, 0.3); }
+    #ap-tap s { position: absolute; inset: 0; border-radius: 50%; border: 7px solid #000099; }
+
+    /* frame-space UI around the phone */
+    #ap-timer { position: absolute; left: 64px; top: 190px; height: 84px; padding: 0 30px 0 20px; border-radius: 42px; background: #ffffff;
+      display: flex; align-items: center; gap: 14px; box-shadow: 0 12px 30px rgba(0, 0, 70, 0.1), 0 0 0 1px rgba(0, 0, 153, 0.08); }
+    #ap-timer svg { width: 44px; height: 44px; display: block; }
+    #ap-count { color: var(--navy, #000099); font-weight: 700; font-size: 46px; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+    #ap-timer small { color: #5a6185; font-weight: 600; font-size: 28px; }
+    #ap-head { position: absolute; left: 64px; top: 292px; color: var(--navy, #000099); font-family: Poppins, sans-serif; font-weight: 700;
+      font-size: 100px; line-height: 1.0; letter-spacing: -0.03em; }
+    #ap-head span { display: block; white-space: nowrap; }
+    .co { position: absolute; left: 64px; width: 346px; }
+    .co small { display: block; color: #d95300; font-weight: 700; font-size: 28px; letter-spacing: 0.14em; }
+    .co b { display: block; margin-top: 8px; color: var(--navy, #000099); font-family: Poppins, sans-serif; font-weight: 600; font-size: 42px;
+      line-height: 1.1; letter-spacing: -0.015em; white-space: nowrap; }
+    /* hidden until their beat; revealed by the timeline */
+    #ap-s-book, #ap-s-garage, .hl, #ap-tap, #ap-booked, #ap-head, #ap-l1, #ap-l2, #ap-l3 { opacity: 0; }
+    #ap-lines { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+    #ap-gh { position: absolute; left: 64px; top: 166px; color: var(--navy, #000099); font-family: Poppins, sans-serif; font-weight: 700;
+      font-size: 92px; line-height: 1.02; letter-spacing: -0.03em; }
+    #ap-gh span { display: block; white-space: nowrap; }
+    .gc { position: absolute; top: 1242px; height: 58px; padding: 0 22px; border-radius: 29px; background: var(--navy, #000099); color: #ffffff;
+      font-weight: 600; font-size: 30px; line-height: 58px; white-space: nowrap; opacity: 0; box-shadow: 0 10px 24px rgba(0, 0, 80, 0.25); }
+  </style>
+  <div id="root" data-composition-id="app" data-width="1080" data-height="1920">
+    <div id="ap-bg" class="clip" data-start="0" data-duration="8" data-track-index="0" data-layout-ignore>
+      <div id="ap-grid"></div><div id="ap-glow"></div>
+    </div>
+
+    <div id="ap-dev" class="clip" data-start="0" data-duration="8" data-track-index="1" style="position: absolute; inset: 0" data-layout-allow-overflow data-layout-allow-overlap>
+      <div id="ap-phone">
+        <div id="ap-screen">
+          <div id="ap-ui">
+            <img id="ap-s-home" src="assets/app/screen-home-clean.png" alt="QuickWash home screen" />
+            <img id="ap-s-book" src="assets/app/screen-booktime.png" alt="QuickWash Book an Appointment sheet" />
+            <div id="ap-hl-card" class="hl"></div>
+            <div id="ap-hl-row" class="hl"></div>
+            <div id="ap-hl-time" class="hl"></div>
+            <div id="ap-hl-book" class="hl"></div>
+            <div id="ap-booked"><span>Booked</span><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /></svg></i></div>
+            <div id="ap-tap"><s></s><b></b></div>
+            <img id="ap-s-garage" src="assets/app/screen-garage.png" alt="QuickWash My Garage screen" />
+          </div>
+          <div id="ap-island"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BOOK 0-6: stopwatch, the three steps with leader lines, the payoff headline -->
+    <div id="ap-timer" class="clip" data-start="0" data-duration="6" data-track-index="2">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13.5" r="8" fill="none" stroke="#000099" stroke-width="2.2" /><path d="M12 13.5V9.5M9.5 2.8h5M18.6 6.4l1.4-1.4" stroke="#ff6600" stroke-width="2.2" stroke-linecap="round" fill="none" /></svg>
+      <span id="ap-count">0:00</span><small>to book</small>
+    </div>
+    <div id="ap-c1" class="clip co" data-start="0" data-duration="6" data-track-index="3" style="top: 690px"><small>STEP 1</small><b>Pick your car</b></div>
+    <div id="ap-c2" class="clip co" data-start="0" data-duration="6" data-track-index="3" style="top: 905px"><small>STEP 2</small><b>Pick a service</b></div>
+    <div id="ap-c3" class="clip co" data-start="0" data-duration="6" data-track-index="3" style="top: 1120px"><small>STEP 3</small><b>Pick a time</b></div>
+    <svg id="ap-lines" class="clip" data-start="0" data-duration="6" data-track-index="4" viewBox="0 0 1080 1920" data-layout-ignore aria-hidden="true">
+      <g id="ap-l1"><path class="u" d="M64 792 H408 L596 834" /><path class="l" d="M64 792 H408 L596 834" /><circle cx="596" cy="834" r="10" /></g>
+      <g id="ap-l2"><path class="u" d="M64 1007 H408 L758 1363" /><path class="l" d="M64 1007 H408 L758 1363" /><circle cx="758" cy="1363" r="10" /></g>
+      <g id="ap-l3"><path class="u" d="M64 1222 H408 L739 1097" /><path class="l" d="M64 1222 H408 L739 1097" /><circle cx="739" cy="1097" r="10" /></g>
+      <style>
+        #ap-lines path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        #ap-lines .u { stroke: #ffffff; stroke-width: 8; }
+        #ap-lines .l { stroke: #000099; stroke-width: 3; }
+        #ap-lines circle { fill: #000099; stroke: #ffffff; stroke-width: 4; }
+      </style>
+    </svg>
+    <div id="ap-head" class="clip" data-start="0" data-duration="6" data-track-index="5"><span>Booked in</span><span style="color: var(--accent, #ff6600)">20 seconds.</span></div>
+
+    <!-- GARAGE 6-8 -->
+    <div id="ap-gh" class="clip" data-start="6" data-duration="2" data-track-index="2"><span>Every car.</span><span style="color: var(--accent, #ff6600)">One garage.</span></div>
+    <svg id="ap-glines" class="clip" data-start="6" data-duration="2" data-track-index="4" viewBox="0 0 1080 1920" style="position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible" data-layout-ignore aria-hidden="true">
+      <g id="ap-g1"><path d="M298 1170 V1242" /><circle cx="298" cy="1170" r="8" /></g>
+      <g id="ap-g2"><path d="M539 1170 V1242" /><circle cx="539" cy="1170" r="8" /></g>
+      <g id="ap-g3"><path d="M781 1170 V1242" /><circle cx="781" cy="1170" r="8" /></g>
+      <style>
+        #ap-glines path { fill: none; stroke: #000099; stroke-width: 3; }
+        #ap-glines circle { fill: #ff6600; stroke: #ffffff; stroke-width: 4; }
+      </style>
+    </svg>
+    <div id="ap-gc1" class="clip gc" data-start="6" data-duration="2" data-track-index="3" style="left: 298px">Book Wash</div>
+    <div id="ap-gc2" class="clip gc" data-start="6" data-duration="2" data-track-index="3" style="left: 539px">History</div>
+    <div id="ap-gc3" class="clip gc" data-start="6" data-duration="2" data-track-index="3" style="left: 781px">Set Recurring</div>
+  </div>
+  <script>
+    (function () {
+      const tl = gsap.timeline({ paused: true });
+      // ---------- intro: the phone arrives from the hook phone's place and settles (expo) ----------
+      tl.fromTo("#ap-grid", { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "power2.out" }, 0);
+      tl.fromTo("#ap-phone", { x: -102, y: 36, scale: 0.8, rotation: 3, transformOrigin: "0 0" },
+        { x: 0, y: 0, scale: 1, rotation: 0, duration: 0.6, ease: "expo.out" }, 0);
+      tl.fromTo("#ap-timer", { opacity: 0, y: -24 }, { opacity: 1, y: 0, duration: 0.35, ease: "expo.out" }, 0.25);
+
+      // hidden states (set at 0 so the first frame is right)
+      // leader lines draw on with stroke-dashoffset (dash 1200 > the longest path, ~850)
+      const drawLine = (g, t) => {
+        tl.set(g, { opacity: 1 }, t);
+        tl.fromTo(g + " path", { strokeDasharray: 1200, strokeDashoffset: 1200 }, { strokeDashoffset: 0, duration: 0.4, ease: "expo.out" }, t);
+        tl.fromTo(g + " circle", { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.3, ease: "back.out(2.4)" }, t + 0.28);
+      };
+      const callout = (c, t) => tl.fromTo(c, { opacity: 0, x: -36 }, { opacity: 1, x: 0, duration: 0.4, ease: "expo.out" }, t);
+      // tap: soft ring ripple at a point in screenshot pixels
+      const tap = (x, y, t) => {
+        tl.set("#ap-tap", { x, y, opacity: 1 }, t);
+        tl.fromTo("#ap-tap b", { scale: 1.35, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.12, ease: "power2.out" }, t);
+        tl.to("#ap-tap b", { scale: 0.82, duration: 0.08, ease: "power2.in" }, t + 0.14);
+        tl.to("#ap-tap b", { scale: 1, duration: 0.16, ease: "power2.out" }, t + 0.22);
+        tl.fromTo("#ap-tap s", { scale: 1, opacity: 0.8 }, { scale: 2.5, opacity: 0, duration: 0.55, ease: "expo.out" }, t + 0.16);
+        tl.to("#ap-tap b", { opacity: 0, duration: 0.18, ease: "power2.out" }, t + 0.42);
+      };
+
+      // ---------- STEP 1 pick your car (VO "Pick your car" 0.80) ----------
+      callout("#ap-c1", 0.75); drawLine("#ap-l1", 0.8);
+      tap(344, 700, 0.85);
+      tl.fromTo("#ap-hl-card", { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "power2.out" }, 1.0);
+      tl.to("#ap-hl-card", { opacity: 0, duration: 0.4, ease: "power2.inOut" }, 1.55);
+      tl.to("#ap-l1", { opacity: 0, duration: 0.25, ease: "power2.out" }, 1.6);
+      // ---------- STEP 2 pick a service (VO 1.77) ----------
+      callout("#ap-c2", 1.7); drawLine("#ap-l2", 1.72);
+      tap(700, 1863, 1.8);
+      tl.fromTo("#ap-hl-row", { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "power2.out" }, 1.95);
+      tl.to("#ap-l2", { opacity: 0, duration: 0.2, ease: "power2.out" }, 2.05);
+      // the sheet opens: Book an Appointment
+      tl.to("#ap-s-book", { opacity: 1, duration: 0.16, ease: "power2.out" }, 2.15);
+      tl.fromTo("#ap-s-book", { scale: 1.03, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.4, ease: "expo.out" }, 2.15);
+      tl.to("#ap-hl-row", { opacity: 0, duration: 0.2, ease: "power2.out" }, 2.2);
+      // ---------- STEP 3 pick a time (VO 2.49) ----------
+      callout("#ap-c3", 2.45); drawLine("#ap-l3", 2.5);
+      tap(659, 1278, 2.6);
+      tl.fromTo("#ap-hl-time", { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "power2.out" }, 2.75);
+      tl.to("#ap-l3", { opacity: 0, duration: 0.25, ease: "power2.out" }, 3.2);
+      // Book This Slot
+      tap(659, 2135, 3.25);
+      tl.fromTo("#ap-hl-book", { opacity: 0 }, { opacity: 1, duration: 0.08, ease: "power2.in" }, 3.38);
+      tl.to("#ap-hl-book", { opacity: 0, duration: 0.25, ease: "power2.out" }, 3.5);
+      tl.to("#ap-hl-time", { opacity: 0, duration: 0.3, ease: "power2.out" }, 3.55);
+      // Booked ✓ (VO "Booked in twenty seconds" 3.63)
+      tl.fromTo("#ap-booked", { opacity: 0, scale: 0.6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.8)" }, 3.55);
+      tl.fromTo("#ap-booked i", { scale: 0, rotation: -60 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.2)" }, 3.68);
+      tl.fromTo("#ap-head", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 3.65);
+      // the stopwatch: 0:00 -> 0:20 between the first tap and the booking
+      const c = { v: 0 }, el = document.querySelector("#ap-count");
+      tl.fromTo(c, { v: 0 }, { v: 20, duration: 2.95, ease: "none", onUpdate: () => { el.textContent = "0:" + String(Math.floor(c.v + 1e-6)).padStart(2, "0"); } }, 0.6);
+      tl.to("#ap-count", { color: "#ff6600", duration: 0.2, ease: "power2.out" }, 3.55);
+      // hold: the phone takes a slow push toward the confirmation
+      tl.to("#ap-phone", { scale: 1.035, x: -12, y: 0, duration: 2.0, ease: "power1.inOut" }, 3.7);
+
+      // ---------- to GARAGE ----------
+      tl.to(["#ap-timer", "#ap-head", "#ap-c1", "#ap-c2", "#ap-c3"], { opacity: 0, y: -30, duration: 0.25, ease: "power3.in", stagger: 0.02 }, 5.72);
+      tl.to("#ap-phone", { x: -311, y: -110, scale: 1.35, duration: 0.7, ease: "expo.inOut" }, 5.75);
+      tl.set("#ap-s-garage", { opacity: 1 }, 5.95);
+      tl.fromTo("#ap-s-garage", { xPercent: 100 }, { xPercent: 0, duration: 0.5, ease: "expo.out" }, 5.95);
+      tl.fromTo("#ap-gh span", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out", stagger: 0.1 }, 6.08);
+      [["#ap-g1", "#ap-gc1"], ["#ap-g2", "#ap-gc2"], ["#ap-g3", "#ap-gc3"]].forEach(([g, chip], i) => {
+        const t = 6.55 + i * 0.16;
+        tl.fromTo(g + " circle", { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: 0.3, ease: "back.out(2.4)" }, t);
+        tl.fromTo(g + " path", { strokeDasharray: 72, strokeDashoffset: 72 }, { strokeDashoffset: 0, duration: 0.3, ease: "expo.out" }, t + 0.05);
+        tl.fromTo(chip, { opacity: 0, xPercent: -50, y: 20 }, { opacity: 1, xPercent: -50, y: 0, duration: 0.4, ease: "expo.out" }, t + 0.12);
+      });
+      window.__timelines = window.__timelines || {};
+      window.__timelines["app"] = tl;
+    })();
+  </script>
+</template>
