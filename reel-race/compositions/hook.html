@@ -1,0 +1,35 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #000; }
+    .shot { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; }
+    .tscrim { position: absolute; left: 0; top: 0; width: 1080px; height: 1000px;
+      background: linear-gradient(180deg, rgba(0, 0, 20, 0.6) 0%, rgba(0, 0, 20, 0.45) 60%, rgba(0, 0, 20, 0) 100%); }
+    #hk-h { position: absolute; left: 72px; top: 360px; width: 860px; font-family: Poppins, sans-serif; color: #ffffff;
+      text-shadow: 0 3px 18px rgba(0, 0, 10, 0.55), 0 1px 2px rgba(0, 0, 10, 0.5); }
+    #hk-h1 { font-weight: 700; font-size: 100px; line-height: 1.02; letter-spacing: -0.025em; }
+    #hk-h2 { margin-top: 26px; font-weight: 600; font-size: 58px; line-height: 1.12; letter-spacing: -0.015em; }
+    #hk-h span { display: block; white-space: nowrap; }
+    #hk-h2 em { font-style: normal; background: var(--accent, #ff6600); border-radius: 10px; padding: 0 12px; margin-left: -4px; text-shadow: none; }
+  </style>
+  <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
+    <!-- foam pre-soak sheeting down the side (IMG_0012 7.4-12.5 s, reel-hp grade), with its own foam sound -->
+    <video id="hk-v" class="clip shot" src="assets/footage/s01-foam-long.mp4" data-start="0" data-duration="4.7687" data-track-index="0"
+      playsinline data-has-audio="true" data-volume="0.12"></video>
+    <div id="hk-scrim" class="tscrim" data-layout-ignore></div>
+    <!-- frame 0 is the thumbnail: the promise is already on screen -->
+    <div id="hk-h" class="clip" data-start="0" data-duration="4.7687" data-track-index="1">
+      <div id="hk-h1"><span>Everything in</span><span>a QuickWash.</span></div>
+      <div id="hk-h2"><span><em>Faster</em> than it takes</span><span>to book it.</span></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // VO "Everything ..." at 0.30; "Go" at 4.267 starts the timer (timer.html). Nothing moves but the footage
+      // until "Go", when the line kicks once with the timer.
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#hk-h", { scale: 1 }, { scale: 1.04, duration: 0.08, ease: "power2.out", yoyo: true, repeat: 1, transformOrigin: "0% 50%" }, 4.2);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["hook"] = tl;
+    })();
+  </script>
+</template>

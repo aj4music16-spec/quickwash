@@ -1,0 +1,56 @@
+<!doctype html>
+<html
+  lang="en"
+  data-composition-variables='[
+    {"id":"navy","type":"color","label":"Brand navy","default":"#000099"},
+    {"id":"accent","type":"color","label":"Brand orange","default":"#ff6600"}
+  ]'
+>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; font-family: Inter, sans-serif; }
+      #stage { position: absolute; inset: 0; background: #000; }
+    </style>
+  </head>
+  <body>
+    <!-- "The race": everything in a $99 QuickWash, faster than it takes to book it. 1080x1920, 30 fps, 25.0 s (750 frames).
+         Every cut and reveal sits on a VO word onset (tools/cues.json, frame-snapped). -->
+    <div id="root" data-composition-id="main" data-start="0" data-duration="24.9667" data-width="1080" data-height="1920">
+      <div id="stage" data-layout-ignore></div>
+
+      <!-- 1. HOOK 0-4.867: foam sheeting down the side; "Ready? Go." starts the timer -->
+      <div id="hook" data-composition-id="hook" data-composition-src="compositions/hook.html" data-start="0" data-duration="4.7687"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 1"></div>
+      <!-- 2. RACE 4.867-17.733: six shots, each cut on its item's first word -->
+      <div id="race" data-composition-id="race" data-composition-src="compositions/race.html" data-start="4.7667" data-duration="13.002"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 2"></div>
+      <!-- 3. PAYOFF 17.733-20.067: the finished car; the timer stops on "Done" -->
+      <div id="payoff" data-composition-id="payoff" data-composition-src="compositions/payoff.html" data-start="17.7667" data-duration="2.302"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 3"></div>
+      <!-- the checklist over the race and the payoff -->
+      <div id="checklist" data-composition-id="checklist" data-composition-src="compositions/checklist.html" data-start="4.7667" data-duration="15.302"
+        data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 6"></div>
+      <!-- the race timer, real time from "Go" (4.267) to "Done" (18.667) -->
+      <div id="timer" data-composition-id="timer" data-composition-src="compositions/timer.html" data-start="0" data-duration="20.0687"
+        data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 7"></div>
+      <!-- 4. BOOK 20.067-21.967 -->
+      <div id="book" data-composition-id="book" data-composition-src="compositions/book.html" data-start="20.0667" data-duration="1.902"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 8"></div>
+      <!-- 5. END 21.967-25.0 -->
+      <div id="end" data-composition-id="end" data-composition-src="compositions/end.html" data-start="21.9667" data-duration="3"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 9"></div>
+
+      <!-- premix: ElevenLabs bed + eleven_v3 VO (Liam) + ticks/ding/UI sounds, ducked, -14 LUFS (tools/mix.py) -->
+      <audio id="mix" class="clip" data-start="0" data-duration="24.9667" data-track-index="4" data-volume="1" src="assets/audio/mix.m4a"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

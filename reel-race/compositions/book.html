@@ -1,0 +1,75 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #f4f6fb; font-family: Inter, sans-serif; }
+    #bk-grid { position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 50% 62%, rgba(255, 102, 0, 0.12) 0%, rgba(255, 102, 0, 0) 40%),
+        radial-gradient(circle at 15% 12%, rgba(0, 0, 153, 0.08) 0%, rgba(0, 0, 153, 0) 40%),
+        linear-gradient(rgba(0, 0, 153, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 153, 0.05) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 60px 60px, 60px 60px; background-position: 0 0, 0 0, 30px 30px, 30px 30px; }
+    #bk-h { position: absolute; left: 64px; top: 186px; color: var(--navy, #000099); font-family: Poppins, sans-serif; font-weight: 700;
+      font-size: 100px; line-height: 1.02; letter-spacing: -0.03em; }
+    #bk-h span { display: block; white-space: nowrap; }
+    /* the device, as in reel-apptech: 632x1336, screen 600x1304 (screenshot 1320x2868 at 0.4545) */
+    #bk-phone { position: absolute; left: 224px; top: 470px; width: 632px; height: 1336px; padding: 16px; border-radius: 96px;
+      background: linear-gradient(160deg, #2a2d35 0%, #0c0d10 60%);
+      box-shadow: 0 0 0 3px #d4d1ca, 0 0 0 6px #eceae5, 0 70px 120px -30px rgba(0, 0, 70, 0.32), 0 24px 48px rgba(0, 0, 70, 0.12); }
+    #bk-screen { position: relative; width: 600px; height: 1304px; border-radius: 80px; overflow: hidden; background: #ffffff; }
+    #bk-ui { position: absolute; left: 0; top: 0; width: 1320px; height: 2868px; transform: scale(0.4545454); transform-origin: 0 0; }
+    #bk-ui > img { position: absolute; left: 0; top: 0; width: 1320px; height: 2868px; display: block; }
+    #bk-island { position: absolute; left: 240px; top: 16px; width: 120px; height: 36px; border-radius: 18px; background: #050507; }
+    .hl { position: absolute; }
+    #bk-hl-time { left: 186px; top: 1201px; width: 948px; height: 158px; border-radius: 40px; box-shadow: 0 0 0 14px rgba(255, 102, 0, 0.45); }
+    #bk-hl-book { left: 186px; top: 2055px; width: 948px; height: 161px; border-radius: 40px; background: rgba(0, 0, 40, 0.2); }
+    #bk-booked { position: absolute; left: 290px; top: 1560px; width: 740px; height: 200px; border-radius: 100px; background: #000099;
+      display: flex; align-items: center; justify-content: center; gap: 34px; color: #ffffff; font-family: Poppins, sans-serif; font-weight: 700;
+      font-size: 92px; letter-spacing: -0.01em; box-shadow: 0 40px 80px rgba(0, 0, 60, 0.35); }
+    #bk-booked i { width: 120px; height: 120px; border-radius: 50%; background: var(--accent, #ff6600); display: grid; place-items: center; }
+    #bk-booked svg { width: 70px; height: 70px; }
+    #bk-tap { position: absolute; left: 0; top: 0; width: 160px; height: 160px; margin: -80px 0 0 -80px; }
+    #bk-tap b { position: absolute; inset: 0; border-radius: 50%; background: rgba(255, 255, 255, 0.55); border: 7px solid rgba(0, 0, 153, 0.7);
+      box-shadow: 0 10px 30px rgba(0, 0, 60, 0.3); }
+    #bk-tap s { position: absolute; inset: 0; border-radius: 50%; border: 7px solid #000099; }
+    #bk-hl-book, #bk-tap, #bk-booked, #bk-h2 { opacity: 0; }
+  </style>
+  <div id="root" data-composition-id="book" data-width="1080" data-height="1920">
+    <div id="bk-bg" class="clip" data-start="0" data-duration="1.902" data-track-index="0" style="position: absolute; inset: 0" data-layout-ignore><div id="bk-grid"></div></div>
+    <div id="bk-dev" class="clip" data-start="0" data-duration="1.902" data-track-index="1" style="position: absolute; inset: 0" data-layout-allow-overflow data-layout-allow-overlap>
+      <div id="bk-phone">
+        <div id="bk-screen">
+          <div id="bk-ui">
+            <img src="assets/app/screen-booktime.png" alt="QuickWash Book an Appointment sheet" />
+            <div id="bk-hl-time" class="hl"></div>
+            <div id="bk-hl-book" class="hl"></div>
+            <div id="bk-booked"><span>Booked</span><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /></svg></i></div>
+            <div id="bk-tap"><s></s><b></b></div>
+          </div>
+          <div id="bk-island"></div>
+        </div>
+      </div>
+    </div>
+    <div id="bk-h" class="clip" data-start="0" data-duration="1.902" data-track-index="2"><span id="bk-h1">Booking it?</span><span id="bk-h2" style="color: var(--accent, #ff6600)">20 seconds.</span></div>
+  </div>
+  <script>
+    (function () {
+      // VO cues (tools/cues.json), local to this scene: "Booking" -> tap on Book This Slot; "Twenty" -> Booked chip + "20 seconds."
+      const BOOKING = 0.3, TWENTY = 1.0667;
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#bk-phone", { y: 900, rotation: -4 }, { y: 0, rotation: 0, duration: 0.5, ease: "expo.out" }, 0);
+      tl.fromTo("#bk-h1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 0.05);
+      // tap: the ring arrives 0.14 s early and presses on the word
+      tl.set("#bk-tap", { x: 659, y: 2135, opacity: 1 }, BOOKING - 0.14);
+      tl.fromTo("#bk-tap b", { scale: 1.35, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.12, ease: "power2.out" }, BOOKING - 0.14);
+      tl.to("#bk-tap b", { scale: 0.82, duration: 0.07, ease: "power2.in" }, BOOKING - 0.02);
+      tl.to("#bk-tap b", { scale: 1, duration: 0.16, ease: "power2.out" }, BOOKING + 0.06);
+      tl.fromTo("#bk-tap s", { scale: 1, opacity: 0.8 }, { scale: 2.5, opacity: 0, duration: 0.55, ease: "expo.out" }, BOOKING + 0.02);
+      tl.to("#bk-tap b", { opacity: 0, duration: 0.18, ease: "power2.out" }, BOOKING + 0.3);
+      tl.fromTo("#bk-hl-book", { opacity: 0 }, { opacity: 1, duration: 0.06, ease: "power2.in" }, BOOKING - 0.02);
+      tl.to("#bk-hl-book", { opacity: 0, duration: 0.25, ease: "power2.out" }, BOOKING + 0.12);
+      tl.fromTo("#bk-booked", { opacity: 0, scale: 0.6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.8)" }, TWENTY);
+      tl.fromTo("#bk-booked i", { scale: 0, rotation: -60 }, { scale: 1, rotation: 0, duration: 0.4, ease: "back.out(2.2)" }, TWENTY + 0.08);
+      tl.fromTo("#bk-h2", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, TWENTY);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["book"] = tl;
+    })();
+  </script>
+</template>

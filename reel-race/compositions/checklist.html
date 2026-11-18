@@ -1,0 +1,43 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #ck-clip { position: absolute; inset: 0; }
+    /* as reel-hp v9: six fixed rows, left x 72, pitch 70 px, block y 890-1300, on the shot's bottom scrim, no slab */
+    .ck-row { position: absolute; left: 72px; height: 60px; display: flex; align-items: center; gap: 18px; opacity: 0; }
+    .ck-badge { width: 48px; height: 48px; flex: none; border-radius: 50%; background: #ff6600; }
+    .ck-badge svg { width: 48px; height: 48px; display: block; }
+    .ck-badge path { fill: none; stroke: #ffffff; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 15; stroke-dashoffset: 15; }
+    .ck-label { font-family: Poppins, sans-serif; font-weight: 600; font-size: 50px; line-height: 60px; letter-spacing: -0.01em; color: #ffffff;
+      white-space: nowrap; max-width: 800px; text-shadow: 0 3px 18px rgba(0, 0, 10, 0.55), 0 1px 2px rgba(0, 0, 10, 0.5); }
+  </style>
+  <div id="root" data-composition-id="checklist" data-width="1080" data-height="1920">
+    <!-- mounted at film 4.867 (the race cut); leaves with the booking cut at 20.067 -->
+    <div id="ck-clip" class="clip" data-start="0" data-duration="15.302" data-layout-allow-overflow>
+      <div id="ck-r1" class="ck-row" style="top: 890px"><div class="ck-badge"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.5 3.5 6.5-7" /></svg></div><div class="ck-label">Foam + hand wash</div></div>
+      <div id="ck-r2" class="ck-row" style="top: 960px"><div class="ck-badge"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.5 3.5 6.5-7" /></svg></div><div class="ck-label">Vacuum: seats, floors, trunk</div></div>
+      <div id="ck-r3" class="ck-row" style="top: 1030px"><div class="ck-badge"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.5 3.5 6.5-7" /></svg></div><div class="ck-label">Glass, in + out</div></div>
+      <div id="ck-r4" class="ck-row" style="top: 1100px"><div class="ck-badge"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.5 3.5 6.5-7" /></svg></div><div class="ck-label">Tire shine + door jambs</div></div>
+      <div id="ck-r5" class="ck-row" style="top: 1170px"><div class="ck-badge"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.5 3.5 6.5-7" /></svg></div><div class="ck-label">Interior wiped down</div></div>
+      <div id="ck-r6" class="ck-row" style="top: 1240px"><div class="ck-badge"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.5 3.5 6.5-7" /></svg></div><div class="ck-label">Ceramic spray wax</div></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // Row N lands on the first frame of race shot N = its item's first spoken word (local = film - 4.867):
+      // Foam 0, Vacuum 1.9667, Glass 5.2, Tire 7.2333, Interior 9.5, Ceramic 11.2667; payoff cut ("Ninety-nine") 12.8667.
+      const F = (f) => f / 30, ROW = [0, 1.9667, 5.1667, 7.2, 9.4667, 11.2333], PAYOFF = 13;
+      const tl = gsap.timeline({ paused: true });
+      ROW.forEach((t, i) => {
+        const n = i + 1, r = `#ck-r${n}`;
+        tl.set(r, { opacity: 1 }, t);                                                     // binary reveal
+        tl.fromTo(`${r} .ck-label`, { y: 20 }, { y: 0, duration: F(5), ease: "power4.out" }, t);
+        tl.fromTo(`${r} .ck-badge`, { scale: 0, transformOrigin: "50% 50%" }, { scale: 1, duration: F(6), ease: "back.out(1.7)" }, t);
+        tl.fromTo(`${r} path`, { strokeDashoffset: 15 }, { strokeDashoffset: 0, duration: F(5), ease: "power2.out" }, t + F(6));
+        if (n > 1) tl.fromTo(`#ck-r${n - 1}`, { opacity: 1 }, { opacity: 0.78, duration: F(4), ease: "power1.out", immediateRender: false }, t);
+      });
+      tl.fromTo("#ck-r1, #ck-r2, #ck-r3, #ck-r4, #ck-r5", { opacity: 0.78 }, { opacity: 1, duration: F(4), ease: "power1.out", immediateRender: false }, PAYOFF);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["checklist"] = tl;
+    })();
+  </script>
+</template>

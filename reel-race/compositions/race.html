@@ -1,0 +1,30 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #000; }
+    .shot { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+    /* the checklist (checklist.html) sits on this bottom scrim; the timer on the top one */
+    .bscrim { position: absolute; left: 0; top: 820px; width: 1080px; height: 1100px; z-index: 2;
+      background: linear-gradient(180deg, rgba(0, 0, 20, 0) 0%, rgba(0, 0, 20, 0.42) 60%, rgba(0, 0, 20, 0.55) 100%); }
+    .tscrim { position: absolute; left: 0; top: 0; width: 1080px; height: 520px; z-index: 2;
+      background: linear-gradient(180deg, rgba(0, 0, 20, 0.45) 0%, rgba(0, 0, 20, 0) 100%); }
+  </style>
+  <div id="root" data-composition-id="race" data-width="1080" data-height="1920">
+    <div id="rc-bscrim" class="bscrim" data-layout-ignore></div>
+    <div id="rc-tscrim" class="tscrim" data-layout-ignore></div>
+    <!-- one shot per item, each cut on the item's first spoken word (film frames 146 / 205 / 302 / 363 / 431 / 484; ends 532) -->
+    <video id="rc-s1" class="clip shot" src="assets/footage/s03-mitt-bumper.mp4" data-start="0" data-duration="1.9687" data-media-start="0.1" data-track-index="0" muted playsinline></video>
+    <video id="rc-s2" class="clip shot" src="assets/footage/s04-vacuum-long.mp4" data-start="1.9667" data-duration="3.202" data-media-start="0" data-track-index="0" muted playsinline></video>
+    <video id="rc-s3" class="clip shot" src="assets/footage/s05-windshield-rinse.mp4" data-start="5.1667" data-duration="2.0353" data-media-start="0.1" data-track-index="0" muted playsinline></video>
+    <video id="rc-s4" class="clip shot" src="assets/footage/s06-wheel-long.mp4" data-start="7.2" data-duration="2.2687" data-media-start="0.2" data-track-index="0" playsinline data-has-audio="true" data-volume="0.12"></video>
+    <video id="rc-s5" class="clip shot" src="assets/footage/s07-door-wipe.mp4" data-start="9.4667" data-duration="1.7687" data-media-start="0" data-track-index="0" muted playsinline></video>
+    <video id="rc-s6" class="clip shot" src="assets/footage/s08-spray-hood.mp4" data-start="11.2333" data-duration="1.7687" data-media-start="0.2" data-track-index="0" muted playsinline></video>
+  </div>
+  <script>
+    (function () {
+      // hard cuts only; the footage carries the motion
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines = window.__timelines || {};
+      window.__timelines["race"] = tl;
+    })();
+  </script>
+</template>
