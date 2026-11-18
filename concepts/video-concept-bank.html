@@ -1,0 +1,326 @@
+<title>QuickWash Concept Bank</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Rubik:wght@400;500;600&display=swap">
+<style>
+/* Layout: a working board. Summary strip, "make first" shortlist, then a filterable grid of concept cards, then reference sheets (claims, footage, gaps). */
+:root{
+  --bg:#f6f8fc; --surface:#ffffff; --ink:#0d1440; --muted:#59618a; --line:#dde3f2;
+  --navy:#01009a; --sky:#2d9bcd; --orange:#ff6501; --orange-ink:#c44a00;
+  --chip:#eef2fb; --qw:#2d9bcd; --dos:#ff6501; --both:#6b5bd6;
+  --ok:#1f8a4c; --warn:#b26a00; --ok-bg:#e7f6ee; --warn-bg:#fff3e0;
+  --display:"Fredoka","Rubik",system-ui,sans-serif; --body:"Rubik",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0b0f24; --surface:#141a38; --ink:#e9ecfb; --muted:#a3abd0; --line:#262e57;
+  --navy:#8d93ff; --sky:#5bbbe6; --orange:#ff8a3d; --orange-ink:#ffab73;
+  --chip:#1c2348; --qw:#5bbbe6; --dos:#ff8a3d; --both:#a396ff;
+  --ok:#5fd394; --warn:#ffbf5e; --ok-bg:#12301f; --warn-bg:#33240c; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0b0f24; --surface:#141a38; --ink:#e9ecfb; --muted:#a3abd0; --line:#262e57;
+  --navy:#8d93ff; --sky:#5bbbe6; --orange:#ff8a3d; --orange-ink:#ffab73;
+  --chip:#1c2348; --qw:#5bbbe6; --dos:#ff8a3d; --both:#a396ff;
+  --ok:#5fd394; --warn:#ffbf5e; --ok-bg:#12301f; --warn-bg:#33240c; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1180px;margin:0 auto;padding-block:32px 64px;display:flex;flex-direction:column;gap:40px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.15}
+h1{font-size:clamp(30px,5vw,44px);color:var(--navy);font-weight:700}
+h2{font-size:24px;font-weight:600}
+h3{font-size:18px;font-weight:600}
+p{margin:0}
+.lede{max-width:70ch;color:var(--muted);font-size:16px}
+header{display:flex;flex-direction:column;gap:14px}
+.eyebrow{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.stats{display:flex;flex-wrap:wrap;gap:10px 24px;font-size:14px;color:var(--muted)}
+.stats b{color:var(--ink);font-variant-numeric:tabular-nums}
+section{display:flex;flex-direction:column;gap:16px}
+.sec-head{display:flex;flex-direction:column;gap:6px}
+.sec-head p{color:var(--muted);max-width:75ch}
+/* shortlist */
+.short{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.short a{display:flex;flex-direction:column;gap:6px;padding:14px 16px;background:var(--surface);border:1px solid var(--line);border-radius:12px;color:inherit;text-decoration:none}
+.short a:hover,.short a:focus-visible{border-color:var(--sky);outline:none}
+.short .why{font-size:13px;color:var(--muted)}
+/* filters */
+.filters{display:flex;flex-direction:column;gap:10px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;border-bottom:1px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.frow{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.frow .lbl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;min-width:70px}
+.fbtn{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:5px 12px;border-radius:999px;cursor:pointer}
+.fbtn[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:var(--bg)}
+.fbtn:focus-visible{outline:2px solid var(--sky);outline-offset:2px}
+#search{font:inherit;font-size:14px;padding:7px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);min-width:0;flex:1 1 220px;max-width:360px}
+.count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+/* cards */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px}
+@media (max-width:420px){.grid{grid-template-columns:1fr}}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-width:0;scroll-margin-top:140px}
+.card:target{border-color:var(--orange);box-shadow:0 0 0 2px var(--orange)}
+.top{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.id{font-family:var(--display);font-weight:600;font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.tag{font-size:12px;padding:2px 8px;border-radius:999px;background:var(--chip);color:var(--ink);white-space:nowrap}
+.tag.qw{box-shadow:inset 3px 0 0 var(--qw)}
+.tag.dos{box-shadow:inset 3px 0 0 var(--dos)}
+.tag.both{box-shadow:inset 3px 0 0 var(--both)}
+.tag.ship{background:var(--warn-bg);color:var(--warn)}
+.hook{font-family:var(--display);font-size:17px;font-weight:500;color:var(--navy)}
+.card dl{margin:0;display:grid;grid-template-columns:78px 1fr;gap:6px 10px;font-size:14px}
+.card dt{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.05em;padding-top:2px}
+.card dd{margin:0;min-width:0;overflow-wrap:anywhere}
+.flag{font-size:13px;background:var(--warn-bg);color:var(--warn);padding:6px 10px;border-radius:8px}
+code{font-size:12px;background:var(--chip);padding:1px 5px;border-radius:4px;overflow-wrap:anywhere}
+.empty{color:var(--muted);padding:24px 0}
+/* reference tables */
+.tbl{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:620px}
+th,td{text-align:left;padding:9px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);font-weight:600}
+tr:last-child td{border-bottom:0}
+.ok{color:var(--ok);font-weight:600}.no{color:var(--warn);font-weight:600}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.box ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px}
+footer{color:var(--muted);font-size:13px}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+
+<div class="wrap">
+<header>
+  <span class="eyebrow">QuickWash · DetailerOS · video planning</span>
+  <h1>Video Concept Bank</h1>
+  <p class="lede">Concepts for the consumer app (QuickWash) and the detailer software (DetailerOS), built from what is actually on the team's Drive and the live website. Every card says what footage already exists, what still needs shooting, and which claims need a sign-off first.</p>
+  <div class="stats">
+    <span><b id="n-total">0</b> concepts</span>
+    <span><b id="n-qw">0</b> QuickWash</span>
+    <span><b id="n-dos">0</b> DetailerOS</span>
+    <span><b id="n-hand">0</b> buildable from footage on hand</span>
+    <span>Sources reviewed 18 Nov 2026: 10 Drive locations, ~1,700 files, 40+ docs, quickwashtech.com</span>
+  </div>
+</header>
+
+<section>
+  <div class="sec-head">
+    <h2>Make these first</h2>
+    <p>Highest payoff for the least new production. Each one can be cut mostly from footage that already exists.</p>
+  </div>
+  <div class="short" id="short"></div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <h2>All concepts</h2>
+    <p>Filter by product or by what it takes to make. Cards marked <span class="tag ship">when shipped</span> advertise features that are proposed, not live.</p>
+  </div>
+  <div class="filters" role="region" aria-label="Filters">
+    <div class="frow"><span class="lbl">Product</span>
+      <button class="fbtn" data-k="product" data-v="all" aria-pressed="true">All</button>
+      <button class="fbtn" data-k="product" data-v="qw" aria-pressed="false">QuickWash</button>
+      <button class="fbtn" data-k="product" data-v="dos" aria-pressed="false">DetailerOS</button>
+      <button class="fbtn" data-k="product" data-v="both" aria-pressed="false">Both</button>
+    </div>
+    <div class="frow"><span class="lbl">Effort</span>
+      <button class="fbtn" data-k="effort" data-v="all" aria-pressed="true">Any</button>
+      <button class="fbtn" data-k="effort" data-v="hand" aria-pressed="false">Footage on hand</button>
+      <button class="fbtn" data-k="effort" data-v="light" aria-pressed="false">Light shoot</button>
+      <button class="fbtn" data-k="effort" data-v="shoot" aria-pressed="false">New shoot</button>
+      <button class="fbtn" data-k="effort" data-v="motion" aria-pressed="false">Motion / generated</button>
+    </div>
+    <div class="frow"><input id="search" type="search" placeholder="Search hooks, footage, offers…" aria-label="Search concepts"><span class="count" id="count"></span></div>
+  </div>
+  <div class="grid" id="grid"></div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <h2>Claims cheat sheet</h2>
+    <p>Sources disagree on several numbers. The live website wins unless the team says otherwise.</p>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Topic</th><th>Say this</th><th>Don't say (yet)</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td>Prices</td><td>$99 QuickWash · $249 Detail · $399 Full Detail (standard vehicle)</td><td>$69 / $199 as list price (that is WashClub member pricing); $69.99/$349.99/$999.99 (old)</td><td>quickwashtech.com/pricing</td></tr>
+      <tr><td>WashClub</td><td>$4.99/mo, members pay $69 / $199 / $349, 5% QuickBucks back (3% standard), cancel anytime</td><td>10% back, $20 cashback, $25 referral</td><td>/washclub; not found in any app screen, so confirm it is in the app</td></tr>
+      <tr><td>Booking speed</td><td>Book in under 20 seconds</td><td>10, 30, 45 or 60 seconds (all appear somewhere)</td><td>Home + About pages</td></tr>
+      <tr><td>Trust</td><td>Vetted, trained and insured · Wash Cover Protection (payment held until you're satisfied) · before/after photos · live tracking · we bring water and power · you don't have to be home</td><td>"Certified", "largest in Jersey", paint-damage claims about tunnel washes</td><td>FAQ, About, WashCover graphic</td></tr>
+      <tr><td>Proof</td><td>200+ five-star Google reviews · 10,000+ services · 4+ years · 3 states</td><td>Revenue, user counts, growth % (internal)</td><td>/testimonials</td></tr>
+      <tr><td>Where</td><td>13 NJ counties, Bronx, Staten Island, Upstate NY, Orlando</td><td>PA; High Point, Odessa, Davenport, Glendale (not on the site)</td><td>/mobile-detailing-new-jersey and city pages</td></tr>
+      <tr><td>Vehicle size</td><td>Prices shown are for a standard vehicle</td><td>"Any vehicle, any size, same price"</td><td>Pricing + FAQ Q10</td></tr>
+      <tr><td>DetailerOS price</td><td>Free to get started · $0/month · no upfront costs</td><td>"Free forever"; revenue splits; "hundreds of detailers" (15 active per June docs)</td><td>Join-as-detailer page; DetailerOS ads</td></tr>
+      <tr><td>DetailerOS name</td><td>Confirm one spelling: "DetailerOS" (ads, icon) vs "Detailer OS" (scripts) vs "QuickWash Detailer" (website, App Store, testimonials)</td><td>—</td><td>Ad folder vs website</td></tr>
+      <tr><td>Partners</td><td>"Trusted by leading organizations"; employee codes</td><td>Naming Atlantic Health, GAF, etc. without written OK</td><td>Partner page; internal dashboard</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <h2>DetailerOS: what is live vs proposed</h2>
+    <p>Only advertise the left column. The right column is ready for "coming soon" or launch ads once it ships.</p>
+  </div>
+  <div class="two">
+    <div class="box"><h3>Live (screen recordings, App Store, pitch)</h3><ul>
+      <li>Calendar with day / week / month and job cards</li>
+      <li>Create booking for your own client: packages, extras, upsell chips, tap-to-pay or invoice link, SMS / email notify</li>
+      <li>Client list with send offer / reschedule / cancel</li>
+      <li>Public storefront with your prices and a book-now link (Apple Pay, card, Klarna, Affirm, Cash App)</li>
+      <li>QuickWash jobs sent to your area, accept or decline</li>
+      <li>Payouts and earnings, tips, withdraw to bank</li>
+      <li>On-my-way / arrived notifications, routing, ratings</li>
+      <li>Detailer code so clients rebook you</li>
+      <li>Supply Center (Detailing World store) in the older app; confirm it is still in DetailerOS</li>
+    </ul></div>
+    <div class="box"><h3>Proposed (when shipped)</h3><ul>
+      <li>Home dashboard: paid / unpaid cards, own-client vs QuickWash-client markers, SMS payment reminder</li>
+      <li>Client Rolodex: sorted by time since last wash, VIP tags, wash history</li>
+      <li>Rewards: "1 job away from $50" challenges, leaderboards</li>
+      <li>Business Code bookings for clubs and offices</li>
+      <li>Deposits and invoices from sales reps</li>
+      <li>Crew / employee management</li>
+      <li>Recurring holds and time-block redesign</li>
+    </ul></div>
+  </div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <h2>Best footage already on Drive</h2>
+    <p>File ids are Google Drive ids. Clips marked private could only be read through transcripts; see the access list below.</p>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>Asset</th><th>What it shows</th><th>Where</th></tr></thead>
+    <tbody>
+      <tr><td>Tim's "5/1 Content Day"</td><td>119 4K vertical clips of one full driveway job on a black Pathfinder, already sorted by step: van arrives, before, wash, interior, finished, AJ running</td><td>Tim's Content / 2026 / 5. May</td></tr>
+      <tr><td>Jersey City Durango</td><td>"Dirty" finger-written in dust (<code>1TzHNtUTS1Fg2nQZCyia210IlHs7kDQP3</code>), van logo pan to foam with the Manhattan skyline (<code>1k5eyOgVhml3n2CkOPGmFbey57p8x23Rf</code>), detailer talking to customer</td><td>QW Videos Pipeline / Raw Vids</td></tr>
+      <tr><td>Jose detailing a Volvo</td><td>Foamed black S60 on the NYC waterfront, glossy tracking shot, skyline walk (43 clips)</td><td>QW Videos Pipeline</td></tr>
+      <tr><td>Gym shoot (Signature Fitness)</td><td>Key handoff, workout, detailing, reveal with live audio. Already cut into the NJ workout reel</td><td>Gym folder; repo reel-nj-gym</td></tr>
+      <tr><td>Booking-flow UGC takes</td><td>11 takes of a creator booking on her phone ("booked in under 45 seconds", cashback reaction, "can't believe it's that easy", "Oops, wrong app")</td><td>Video Content (marketing) / Hooks &amp; Reactions (private)</td></tr>
+      <tr><td>Parking-garage hooks</td><td>"What if I told you all it takes is forty-five seconds…", "Moms, make your lives easier…" plus a booking screen recording that shows a real customer address (blur it)</td><td>QW Videos Pipeline / Need Capcut</td></tr>
+      <tr><td>Office skit (3/06)</td><td>"Heading out to lunch", "My car could totally use one", three takes of "I hate that guy"</td><td>QW Videos Pipeline / Raw Vids / 03/06</td></tr>
+      <tr><td>Detailer testimonials (June)</td><td>Mayor Motives, Jose, Yorgo: "no more chasing leads", "it's basically a CRM", "flows clients right into my calendar"</td><td>Root Drive folder (private)</td></tr>
+      <tr><td>DetailerOS ads + screen recordings</td><td>JP Auto and Matthew's testimonials, Jobber/Urable presenter, silent recordings of booking/invoice (<code>1NPRlo9JYdmm0iMlAlFAM-Ag-fY3Dr7XN</code>) and storefront (<code>1ta_JESPVuGBwEwVHM_QWwb6kKLSUCW8e</code>)</td><td>New Mkt Consumer Ads / DetailerOS Ads</td></tr>
+      <tr><td>OLD marketing archive</td><td>545 link-shared files: Ferrari under high-rises, red Camaro beading, Jeep, Durango, Jasmine running, foam beside the wrapped van (<code>1cza47aRroAdHJlbqU8tZzM-oCY3jDJDz</code>)</td><td>OLD QuickWash Marketing Content</td></tr>
+      <tr><td>App Store screenshots</td><td>Tracking map with ETA, chat with detailer, QuickBucks checkout, "3 taps", detailer code</td><td>QuickWash Preview Images</td></tr>
+      <tr><td>Mascot set</td><td>12 mascot-car moods: dirty, dead with flies, RIP, hosed off, knight, lightning, money, working, premium</td><td>AI static Content / QW car in different Types</td></tr>
+      <tr><td>Founder + archive</td><td>Founder press set (3/05), 2021–2024 photos of the orange-hoodie van era, van on the highway, drone shot of a detailer at the van</td><td>QW Videos Pipeline; Tim's Content</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <div class="sec-head">
+    <h2>Couldn't open, and how to fix it</h2>
+    <p>Google's connector only downloads files under 10 MB, and most of these are private. Sharing them as "Anyone with the link" (view only) lets me watch and cut them.</p>
+  </div>
+  <div class="two">
+    <div class="box"><h3>Private and over 10 MB</h3><ul>
+      <li>QW Videos Pipeline: about 330 clips, including Founder Press, Cuco interview, Craig Carton, Already Posted, Ready2Post</li>
+      <li>Tim's Content: 13 drone videos (2023) and the larger 5/1 clips</li>
+      <li>Video Content (marketing): all 12 files</li>
+      <li>Root folder: 3 detailer testimonials, "Joe the Detailer Take 1", 5 AI ad versions</li>
+      <li>Ad 1–5 (July) and the four $99 city ads</li>
+      <li>Meyra Motive Content: clips over 10 MB</li>
+    </ul></div>
+    <div class="box"><h3>Other gaps</h3><ul>
+      <li>No DetailerOS app footage beyond two silent recordings. A 10-minute screen-recording session covers most of the DetailerOS cards.</li>
+      <li>No winter footage yet for the salt-season concepts.</li>
+      <li>No written consent on file for customers shown (gym reel, booking recordings).</li>
+      <li>ElevenLabs Assets library: blocked by plan level on the connected key.</li>
+      <li>"WashClub" does not appear in any app screen found.</li>
+    </ul></div>
+  </div>
+</section>
+
+<footer>Compiled from the team's Google Drive, quickwashtech.com and the quickwash repo. Concepts avoid financials and internal numbers by design. Copy lives in the repo at <code>concepts/video-concept-bank.html</code>.</footer>
+</div>
+
+<script>
+const E={hand:"Footage on hand",light:"Light shoot",shoot:"New shoot",motion:"Motion / generated"};
+const P={qw:"QuickWash",dos:"DetailerOS",both:"Both"};
+const C=[
+// ---------- QuickWash ----------
+{id:"Q01",p:"qw",e:"hand",fmt:"Reel 15s",t:"Dirty",hook:"Someone wrote “Dirty” on your car. Here's the comeback.",beats:"Finger-written “Dirty” in the dust → van logo pan → foam with the Manhattan skyline → glossy finish → detailer and customer chat. End: book in under 20 seconds.",foot:"Jersey City Durango clips 1TzHNtUTS1Fg2nQZCyia210IlHs7kDQP3, 1k5eyOgVhml3n2CkOPGmFbey57p8x23Rf, 1lG348svPG513G0ydllEKyINl3RUzkbZc",cta:"Download QuickWash"},
+{id:"Q02",p:"qw",e:"hand",fmt:"Reel 20s",t:"What $99 gets you",hook:"Here's everything in a $99 QuickWash, in 20 seconds.",beats:"Each of the six inclusions ticks onto a checklist while the matching 5/1 Content Day clip plays: foam pre-soak, vacuum, glass, tire shine and jambs, interior wipe-down, ceramic-infused spray wax.",foot:"Tim's 5/1 Content Day, already sorted by step",cta:"Book your QuickWash",flag:"Confirm $99 list price is the one to lead with (vs $69 member price)."},
+{id:"Q03",p:"qw",e:"hand",fmt:"Reel 15s",t:"Like ordering a ride",hook:"You track your food. Now track your car wash.",beats:"Phone shows the live tracking map with ETA → cut to the van pulling up to the curb → detailer steps out → “Detailer arrived” notification.",foot:"Tracking screenshot 118zGMnEQ95vsBbsX5hIFdp-yYsD1djXt; van arrival 1Y5HQRw0I1qNtnd4xLyO6BZekwm-QOfOq",cta:"Download QuickWash"},
+{id:"Q04",p:"qw",e:"hand",fmt:"UGC 20–30s",t:"Booked before the ad ends",hook:"Booking a full detail before this video ends. Go.",beats:"On-screen stopwatch over the creator's booking takes: address, package, time slot, Apple Pay, confirmation. Freeze on the timer. Ends on her reaction “Can't believe it's that easy.”",foot:"Video Content (marketing) / Hooks & Reactions takes (private)",cta:"Try it yourself",flag:"Takes say “45 seconds”; site says “under 20”. Re-record the line or let the on-screen timer make the point."},
+{id:"Q05",p:"qw",e:"hand",fmt:"UGC 15s",t:"Oops, wrong app",hook:"Opens on the blooper: “Oops. Wrong app.”",beats:"Creator opens the wrong app, laughs, switches to QuickWash, books in a few taps. Bloopers make paid UGC feel less like an ad.",foot:"Blooper 1wc3wSDB9U6Laqmmi6K8Fp-2chlS8qhRJ plus booking takes",cta:"Download QuickWash"},
+{id:"Q06",p:"qw",e:"hand",fmt:"Skit 20–30s",t:"I hate that guy",hook:"“I'm heading out to lunch. You want anything?”",beats:"Finish the 3/06 office skit: one coworker's car gets detailed in the office lot during lunch, the other is jealous (“I hate that guy”). Payoff: he books one for tomorrow.",foot:"03/06 takes 1okz_URDqOdS83UyWLrZbkFOg8W0OhjL8, 1U5OwC-_l8j-WHEv4_1Cv9jx4Zb3j-_NZ, 1wHJHy5JF55eVdh45szJlnZAiHGIOuKTf",cta:"Book from your desk"},
+{id:"Q07",p:"qw",e:"hand",fmt:"Reel 15s",t:"Successful people optimize everything",hook:"“Successful people optimize everything. Then spend Saturday at a car wash?”",beats:"Tim's concept. Fast montage of calendar, gym, Hoboken/Jersey City apartment life → dirty car → van outside the building while they work.",foot:"Gym shoot, office skit lot, Volvo waterfront, Ferrari under high-rises (OLD archive)",cta:"Book now"},
+{id:"Q08",p:"qw",e:"hand",fmt:"Reel 15s",t:"Pet hair, gone",hook:"Dog owners of New Jersey, this one's for you.",beats:"Before/after wipe from a floor mat covered in fur to spotless red stitched seats. Mention the Pet Hair add-on.",foot:"IG before/after stills 1hRojKYf8tPHrm62ilkTdRVfJGBtgQWRp → 1h2Blm_vguCjBgfVt3TCT3cMI8ZpSPrQr",cta:"Add Pet Hair to your booking"},
+{id:"Q09",p:"qw",e:"hand",fmt:"Reel 15s · no VO",t:"Detailer ASMR",hook:"Turn your sound on.",beats:"No talking. Foam, brush, steam, extraction and vacuum sounds over close-ups. Already in storyboard per the marketing dashboard; this gives it footage.",foot:"5/1 Canon clips (near-silent, add foley), Red Camaro beading 1SW2aI5NKtrN6rzaZQVcn-cFEFL2FPAqI, vacuum POV 1yAONjHZMh-5drZuo3dVs5_vOIOBxvqcr",cta:"Book a detail"},
+{id:"Q10",p:"qw",e:"hand",fmt:"Reel 20s",t:"Skyline detail",hook:"Full detail. Best view in the business.",beats:"Premium cut for Full Detail and ceramic add-ons: Volvo on the NYC waterfront, Jersey City skyline, Ferrari under high-rises, Audi RS5 at golden hour.",foot:"Jose Detailing Volvo (43 clips), Ferrari Content, Tim's 2022 RS5 photo",cta:"Book a Full Detail"},
+{id:"Q11",p:"qw",e:"hand",fmt:"Carousel → Reel",t:"Meet your detailer",hook:"This is Jose. He's washed 5 years of New Jersey's cars.",beats:"20s profiles of real detailers: name, years in business, why they love it, their rating. Ends on “Rebook your favorite with their Detailer Code.”",foot:"June testimonials (Jose, Yorgo, Mayor Motives) for audio; job footage for B-roll",cta:"Rebook your detailer",flag:"Testimonials were shot for detailer recruiting; get each detailer's OK to use them consumer-side."},
+{id:"Q12",p:"qw",e:"hand",fmt:"Reel 20s",t:"We were detailers first",hook:"We ran vans for three years before we built the app.",beats:"Founder on mic from the press set over 2021–2024 archive photos of the orange-hoodie era → van on the highway → today's app.",foot:"03/05 Founder Press (mostly private), Tim's 2021–2024 photos, rolling van shot",cta:"Download QuickWash"},
+{id:"Q13",p:"qw",e:"hand",fmt:"UGC 20s",t:"Moms, make your lives easier",hook:"“Moms, make your lives easier.”",beats:"Finish the parking-garage hook: snacks and car seats → book from the couch → van in the driveway during nap time. Feeds the mom-influencer and Facebook-group push.",foot:"12--NKUMCKVLH-sE56KNYHO_Hd6QN5sb2; messy back seat 1oeA2HojlyNF20mJHRqTz-aiSmECEQnzt (AI) or a real one",cta:"Download QuickWash",flag:"Blur the real customer name and Clifton address in the booking screen recording."},
+{id:"Q14",p:"qw",e:"light",fmt:"Reel 15s",t:"You don't even have to be home",hook:"Your car got detailed. You were at work.",beats:"Morning: keys in the console, message to the detailer in chat. Day: you at work. Evening: before/after photos land in the app, car is spotless.",foot:"Chat screenshot 1IqUZW98lSmtmk_MztQHmUmEmnUUhqSjF; need a short shoot of the drop and return",cta:"Book for tomorrow"},
+{id:"Q15",p:"qw",e:"light",fmt:"Reel 20s",t:"Arrive to work, leave in a clean car",hook:"Arrive to work. Leave in a clean car.",beats:"Line from the 1 Bridge Plaza flyer. Office lot at 9am, van working through the lot, employees walking out to clean cars at 5pm, company code on screen.",foot:"Office-park lot from 3/06; need one partner wash-day shoot",cta:"Ask HR about a QuickWash day",flag:"Don't name a partner company on screen without written approval."},
+{id:"Q16",p:"qw",e:"light",fmt:"Reel 15s",t:"What's under your seats?",hook:"Jersey, what's living under your seats right now?",beats:"Vacuum POV and a running tally of what turns up (fries, coins, a hair tie, a lost AirPod). Ends on the clean floor.",foot:"Vacuum clips 1hBYskUmcoXCrqEcdu36LIIKPDVtRBUsH, 1yAONjHZMh-5drZuo3dVs5_vOIOBxvqcr; shoot the found items",cta:"Book a Detail"},
+{id:"Q17",p:"qw",e:"light",fmt:"Series · weekly",t:"Dirtiest car of the week",hook:"You nominated it. We cleaned it.",beats:"Followers nominate a friend's car; the winner gets a free wash and a before/after reel. Every job already has before/after photos.",foot:"Uses each week's job photos; needs a nomination post and consent form",cta:"Nominate a car",flag:"Needs written consent from each featured owner; no legible plates."},
+{id:"Q18",p:"qw",e:"light",fmt:"Reel 15s · split screen",t:"Same Saturday",hook:"Same Saturday. Two very different mornings.",beats:"Left: idling in a car-wash line. Right: same person on the couch while the van works in the driveway. Ends with both cars clean, one person still in line.",foot:"Right half from the 5/1 Content Day; left half needs a short shoot or licensed stock",cta:"Skip the line"},
+{id:"Q19",p:"qw",e:"light",fmt:"Series · town",t:"Hey Montclair",hook:"Hey Montclair, we're already on your street.",beats:"Town-by-town swaps for Hoboken, Jersey City, Montclair, Clifton, Wayne: one landmark shot, the van in a local driveway, county named on screen. Matches the SEO city pages.",foot:"Van and job footage on hand; one landmark shot per town",cta:"Book in [town]"},
+{id:"Q20",p:"qw",e:"light",fmt:"Reel 20s",t:"Selling your car? Detail it first",hook:"Listing your car this weekend? Do this first.",beats:"Lease returns and private sales. Dull car in listing photos vs the same car after a Full Detail. Retake the listing photo.",foot:"Glossy finish shots on hand; need one before/after listing-photo pair",cta:"Book a Full Detail",flag:"Avoid promising a higher sale price."},
+{id:"Q21",p:"qw",e:"light",fmt:"Retargeting 10s",t:"It's been six weeks",hook:"Your car's been waiting six weeks.",beats:"Aimed at past customers. Mascot car slowly getting dirtier on a calendar, then one-tap rebook of the last service.",foot:"Mascot set + rebook screen (record)",cta:"Rebook in one tap"},
+{id:"Q22",p:"qw",e:"shoot",fmt:"Street interview 30s",t:"How long do you wait?",hook:"“How long do you usually wait at the car wash?”",beats:"Street interviews outside a busy NJ spot. Answers get longer and funnier. Last person learns the car wash can come to them. Script already exists in the app-ad docs.",foot:"New shoot",cta:"Download QuickWash"},
+{id:"Q23",p:"qw",e:"shoot",fmt:"Reel 30s",t:"Ceramic, in your driveway",hook:"Six to eight hours. One driveway. Five years of protection.",beats:"High-ticket split screen from “Ideas for Marketing”: detailer at work on one side, package menu filling the other. Paint correction, coating, final gloss.",foot:"Needs a ceramic job shoot; Red Camaro beading for inserts",cta:"Get a quote",flag:"Ad 5 said $1,999 ceramic; site lists ceramic as a $400 / $600 add-on. Pick one before launch."},
+{id:"Q24",p:"qw",e:"shoot",fmt:"Reel 20s",t:"Night shift, clean car",hook:"You worked a 12-hour shift. Your car didn't wait for you.",beats:"Healthcare workers: car detailed in the hospital lot during the shift, walk out to a clean car at dawn.",foot:"New shoot at a partner site",cta:"Use your company code",flag:"Partner and staff consent required; don't name the hospital."},
+{id:"Q25",p:"qw",e:"shoot",fmt:"Launch reel",t:"Orlando, we're here",hook:"Orlando: theme parks, suburbs or downtown, we come to you.",beats:"Market launch using the Orlando page's own line. Lake Nona and Winter Park driveways, van arrival, local proof.",foot:"Needs Florida footage",cta:"Download QuickWash",flag:"Confirm Orlando is taking bookings; investor docs say Q1 2027."},
+{id:"Q26",p:"qw",e:"motion",fmt:"Reel 15s",t:"WashClub math",hook:"$4.99 a month. Pays for itself on your first booking.",beats:"Animated receipt: $99 → $69 as a member, minus $4.99, plus 5% back in QuickBucks. Cancel anytime.",foot:"Motion graphic + app screens",cta:"Join WashClub",flag:"WashClub isn't in any app screenshot found. Confirm it's in the app before running."},
+{id:"Q27",p:"qw",e:"motion",fmt:"Reel 15s",t:"What if they don't show?",hook:"“What if the detailer doesn't show?” Fair question.",beats:"Objection buster built on WashCover: no-show, quality, refund, payment held until you're satisfied, 24/7 support, insured detailers.",foot:"WashCover graphic 1DPmCQwjSS2aFuRgWx6C8b5mITxwlziP-",cta:"Book with confidence"},
+{id:"Q28",p:"qw",e:"motion",fmt:"Reel 15s",t:"Which package are you?",hook:"Kids? Dog? Selling the car? Here's your package.",beats:"Quiz format that points each answer to QuickWash, Detail or Full Detail, using the package-ladder graphic and real clips.",foot:"Package ladder 1-qH-3K9ivV_anfbJWT2uBKmlhuGgn5uc + job footage",cta:"Pick yours in the app"},
+{id:"Q29",p:"qw",e:"motion",fmt:"Stickers + 6s loops",t:"Your car right now",hook:"Tag a friend whose car is this one.",beats:"Animate the 12 mascot moods as a meme series (dead with flies, RIP, knight, lightning). Also usable as IG story stickers.",foot:"AI static Content / QW car in different Types",cta:"Fix it in the app"},
+{id:"Q30",p:"qw",e:"motion",fmt:"Reel 20s · Dec–Mar",t:"Salt season",hook:"The salt is winning.",beats:"Animated salt-cube villain from the existing storyboard eats the underbody, then the wash wins. Fix the final frame so the car ends protected, not rusted. Ties to the ceramic-infused wax (1-month protection).",foot:"Salt storyboard frames; real foam and underbody clips; winter shoot later",cta:"Book a Detail",flag:"Avoid rust or damage-prevention claims beyond the 1-month wax protection on the site."},
+{id:"Q31",p:"qw",e:"motion",fmt:"Reel 15s · Nov–Dec",t:"Gift a clean car",hook:"Stuck on gift ideas? Give a clean car.",beats:"Turn the 2025 gift-card statics into motion: bow on the van, card reveal, recipient's reaction.",foot:"Gift-card PNGs 14Em6AfIcNFTOZJQ9UkiqEgP9Dqpj9_hA and V2–V4; van footage",cta:"Buy a gift card in the app",flag:"2025 discounts (25% off) need re-approval."},
+{id:"Q32",p:"qw",e:"motion",fmt:"Reel 15s",t:"The talking car, take two",hook:"A dirty car finally says what it's been thinking.",beats:"Rework of the Rachel AI ad using the brand mascot instead of a photoreal car. Brand appears in the first 2 seconds; the complaint is about waiting in line, not paint damage.",foot:"Mascot set + voice generation",cta:"Download QuickWash"},
+// ---------- DetailerOS ----------
+{id:"D01",p:"dos",e:"hand",fmt:"Testimonial series 20s",t:"Real detailers, real lines",hook:"“No more chasing leads.”",beats:"Cut each June testimonial to its best 20 seconds with captions: Mayor Motives (“it's basically a CRM”), Jose (“handles the logistics on the back end”), Yorgo (“turns a stressful job into an easy one”).",foot:"Root folder testimonials 1CawhFBQMV6_F5P7u-x6GBqkUwbpcTDAk, 1syb5gocFdJGWMPI0jjvgXU-ONsR91rk8, 1O3dhpk45bUHnlgMERizoxnsd82MY71nK (private)",cta:"Create your free account",flag:"They say “QuickWash Detailer app”. Caption the product as the confirmed name; trim the profanity and interviewer questions."},
+{id:"D02",p:"dos",e:"hand",fmt:"Reel 30s",t:"A day on DetailerOS",hook:"6:40am. First job's already booked.",beats:"Follow one detailer through the 5/1 job with an app insert at each step: booking notification, navigation, on-my-way text, job done, tap-to-pay, payout.",foot:"5/1 Content Day (detailer checks phone 1UrCFbvgiin3LaczX75tAXxJvWXKeyZm7, van arrival, job); screen recordings",cta:"Run your day from one app"},
+{id:"D03",p:"dos",e:"hand",fmt:"Reel 20s",t:"Your storefront vs your DMs",hook:"“How much for an SUV?” × 47.",beats:"DM questions pile up on screen, then one storefront link answers them all: prices, add-ons, time slots, checkout.",foot:"Storefront recording 1ta_JESPVuGBwEwVHM_QWwb6kKLSUCW8e + motion DMs",cta:"Get your free booking link"},
+{id:"D04",p:"dos",e:"hand",fmt:"Reel 20s",t:"Empty Tuesday",hook:"Nothing on the calendar Tuesday?",beats:"Empty week view, then QuickWash jobs in your area drop in. Accept by price, location and distance (Matthew's line).",foot:"Calendar recording 1NPRlo9JYdmm0iMlAlFAM-Ag-fY3Dr7XN; Matthew's testimonial ~15–22s",cta:"Get jobs sent to you"},
+{id:"D05",p:"dos",e:"hand",fmt:"Hook variants 10–15s",t:"$0 vs $200 a month",hook:"Still paying $200+ a month for your CRM?",beats:"Recut the garage presenter into three short hooks for testing, each landing on the $0 end card.",foot:"Presenter cuts 1gmvxVH65onXlwJQDCP-cONps7h-CsAsK, 1DK0DUdJ0eZjFtLT3PRPLvJCATU4TCsWt",cta:"Create your free account",flag:"Comparative pricing must match Jobber and Urable's current published plans."},
+{id:"D06",p:"dos",e:"hand",fmt:"Reel 20s",t:"Book your regulars by text",hook:"Your regular texts you. You book them in 10 seconds.",beats:"Create Booking for an existing client, pick package, toggle SMS, the client gets a text and pays in the app.",foot:"Create Booking recording 1NPRlo9JYdmm0iMlAlFAM-Ag-fY3Dr7XN (4–22s)",cta:"Bring your clients with you"},
+{id:"D07",p:"dos",e:"light",fmt:"Reel 15s",t:"Who owes you money?",hook:"Quick: who still owes you for last week?",beats:"Script 3 from Script Development. Cash, Zelle, Venmo and IOUs scattered on screen, then one payments view. Tap-to-pay and invoice links.",foot:"Screen recording on hand; one presenter line to shoot",cta:"Get paid in the app"},
+{id:"D08",p:"dos",e:"light",fmt:"Reel 15s",t:"Payday",hook:"Job done at 2pm. Money's in the app at 2pm.",beats:"Earnings chart, tips, withdraw to bank. The money-mascot car can carry it.",foot:"Banking screenshot 1IijnIfjFdduXxqa1B1KpruLp8NkR0eh_ (older app); record the DetailerOS version",cta:"See your earnings in one place",flag:"Confirm payout timing (docs say weekly and bi-weekly in different places)."},
+{id:"D09",p:"dos",e:"light",fmt:"Meme series",t:"Detailer problems",hook:"“Can you do a quick wipe for $20?”",beats:"Relatable detailer humor: “it's not that dirty”, paying in quarters, ghosting after a quote. Each ends with the app feature that fixes it. Cheap to make, good for recruiting reach.",foot:"Shoot with a detailer and phone; app inserts on hand",cta:"Built by detailers, for detailers"},
+{id:"D10",p:"dos",e:"light",fmt:"Reel 30s",t:"Your tool stack, replaced",hook:"Google Calendar, Venmo, Notes, IG DMs, a CRM. Or one app.",beats:"Each app icon flies off the phone screen and the DetailerOS screen that replaces it slides in.",foot:"Motion + screen recordings",cta:"Try it free"},
+{id:"D11",p:"dos",e:"light",fmt:"Founder 30s",t:"Built by detailers",hook:"We ran detailing vans for three years. Then we built the software we wished we had.",beats:"Founder to camera with archive van photos. Why it's free to start and how QuickWash jobs come with it.",foot:"Founder Press set; Tim's 2021–2024 archive",cta:"Create your free account"},
+{id:"D12",p:"dos",e:"light",fmt:"Market template",t:"Detailers in [city], get booked",hook:"Mobile detailers in Orlando, we're sending jobs your way.",beats:"Recruit supply before a consumer launch (the playbook's order). City-swap template like the $99 ads: map pin, job notifications, local detailer if available.",foot:"Screen recordings + motion; local B-roll optional",cta:"Join as a detailer",flag:"Only run where QuickWash actually has demand to send."},
+{id:"D13",p:"dos",e:"shoot",fmt:"Mini-doc 60–90s",t:"One-van to two",hook:"Mayor Motives started with one van and word of mouth.",beats:"A longer YouTube / LinkedIn piece on one partner detailer: before (Meta ads, word of mouth), after (calendar full, client profiles, payouts). Cut 3 shorts from it.",foot:"Mayor Motives / Meyra Motive footage (private) + new interview",cta:"Grow with DetailerOS"},
+{id:"D14",p:"dos",e:"motion",fmt:"Explainer 30s",t:"Notifications your clients love",hook:"Your client knows you're 10 minutes out. You didn't text them.",beats:"Split view: detailer taps “on my way”; the client's phone shows the tracking map and ETA. Professional without extra work.",foot:"Tracking screenshot + detailer app recording",cta:"Look like a bigger shop"},
+{id:"D15",p:"dos",e:"motion",ship:true,fmt:"Reel 15s",t:"Who's overdue?",hook:"Sarah hasn't booked in 9 weeks. Send her an offer.",beats:"Client Rolodex sorted by time since last wash, VIP tags, one-tap offer.",foot:"Needs the shipped feature",cta:"Keep your regulars coming back"},
+{id:"D16",p:"dos",e:"motion",ship:true,fmt:"Reel 15s",t:"One job away from $50",hook:"You're one job away from a $50 bonus.",beats:"Rewards challenges with progress bars and payout, using the money-mascot car.",foot:"Needs the shipped feature; mascot set",cta:"Start earning rewards"},
+{id:"D17",p:"dos",e:"motion",ship:true,fmt:"Reel 20s",t:"Green means paid",hook:"Green is paid. Orange isn't. That's your whole week.",beats:"Home dashboard: paid vs unpaid job cards, own-client vs QuickWash-client markers, SMS payment reminder.",foot:"Needs the shipped feature",cta:"See your week at a glance"},
+{id:"D18",p:"dos",e:"motion",ship:true,fmt:"Reel 20s",t:"Office wash days",hook:"One office park. Twelve cars. One morning.",beats:"Business Code bookings: rules set by the partner, jobs batched in one lot, less driving.",foot:"Needs the shipped feature; office lot footage",cta:"Get business jobs"},
+// ---------- Both ----------
+{id:"B01",p:"both",e:"hand",fmt:"Brand film 30s",t:"Two sides of one wash",hook:"She booked in 20 seconds. He got the job in one.",beats:"Split screen at the same moment: customer books in QuickWash / detailer accepts in DetailerOS; customer tracks / detailer navigates; customer sees before/after photos / detailer gets paid.",foot:"5/1 Content Day + gym shoot + both apps' screens",cta:"Two end cards: Download QuickWash / Join as a detailer"},
+{id:"B02",p:"both",e:"light",fmt:"Reel 20s",t:"Rebook your detailer",hook:"Found a detailer you love? Keep them.",beats:"Customer side: detailer code at checkout. Detailer side: the same booking lands on their calendar from their own client.",foot:"Detailer-code screenshot 1ca-zOHJdAbRCfuaoozMMmYz7JG3UQp1L; record detailer side",cta:"Use their Detailer Code"},
+{id:"B03",p:"both",e:"light",fmt:"Podcast clips",t:"Founder press cutdowns",hook:"Best 3 answers from the founder press session.",beats:"Cut the 03/05 two-mic session into 30–45s clips: why mobile, why detailers keep their clients, what's next.",foot:"03/05 Founder Press (10 clips, mostly private)",cta:"Varies by clip"}
+];
+const SHORT=["Q02","Q01","Q06","D01","D02","B01","Q04","D03"];
+const WHY={Q02:"119 sorted clips already shot; sells the core $99 product",Q01:"Best hook frame in the whole Drive",Q06:"Skit is fully shot, just needs the edit",D01:"Three real detailers with strong lines; nothing like it is running",D02:"Turns consumer B-roll into a DetailerOS story",B01:"One shoot's worth of footage sells both apps",Q04:"11 takes exist; the stopwatch makes the speed claim visible",D03:"Silent storefront recording + motion DMs, no shoot"};
+const state={product:"all",effort:"all",q:""};
+const grid=document.getElementById("grid");
+function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+function card(c){return `<article class="card" id="${c.id}">
+<div class="top"><span class="id">${c.id}</span><span class="tag ${c.p}">${P[c.p]}</span><span class="tag">${E[c.e]}</span><span class="tag">${esc(c.fmt)}</span>${c.ship?'<span class="tag ship">when shipped</span>':''}</div>
+<h3>${esc(c.t)}</h3><p class="hook">${esc(c.hook)}</p>
+<dl><dt>Beats</dt><dd>${esc(c.beats)}</dd><dt>Footage</dt><dd>${esc(c.foot)}</dd><dt>CTA</dt><dd>${esc(c.cta)}</dd></dl>
+${c.flag?`<p class="flag">${esc(c.flag)}</p>`:''}</article>`}
+function render(){const q=state.q.toLowerCase();
+ const list=C.filter(c=>(state.product==="all"||c.p===state.product)&&(state.effort==="all"||c.e===state.effort)&&(!q||[c.t,c.hook,c.beats,c.foot,c.cta,c.flag||"",c.fmt].join(" ").toLowerCase().includes(q)));
+ grid.innerHTML=list.length?list.map(card).join(""):'<p class="empty">No concepts match these filters.</p>';
+ document.getElementById("count").textContent=`${list.length} of ${C.length} shown`;}
+document.querySelectorAll(".fbtn").forEach(b=>b.addEventListener("click",()=>{state[b.dataset.k]=b.dataset.v;
+ document.querySelectorAll(`.fbtn[data-k="${b.dataset.k}"]`).forEach(x=>x.setAttribute("aria-pressed",String(x===b)));render();}));
+document.getElementById("search").addEventListener("input",e=>{state.q=e.target.value;render();});
+document.getElementById("short").innerHTML=SHORT.map(id=>{const c=C.find(x=>x.id===id);return `<a href="#${id}"><span class="top"><span class="id">${id}</span><span class="tag ${c.p}">${P[c.p]}</span></span><h3>${esc(c.t)}</h3><span class="why">${esc(WHY[id])}</span></a>`}).join("");
+document.getElementById("short").addEventListener("click",e=>{const a=e.target.closest("a");if(!a)return;
+ state.product="all";state.effort="all";state.q="";document.getElementById("search").value="";
+ document.querySelectorAll(".fbtn").forEach(x=>x.setAttribute("aria-pressed",String(x.dataset.v==="all")));render();});
+document.getElementById("n-total").textContent=C.length;
+document.getElementById("n-qw").textContent=C.filter(c=>c.p==="qw").length;
+document.getElementById("n-dos").textContent=C.filter(c=>c.p==="dos").length;
+document.getElementById("n-hand").textContent=C.filter(c=>c.e==="hand").length;
+render();
+if(location.hash){const el=document.getElementById(location.hash.slice(1));if(el)el.scrollIntoView();}
+</script>
