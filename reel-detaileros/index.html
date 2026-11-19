@@ -1,0 +1,168 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<title>DetailerOS reel</title>
+<style>
+  html,body{margin:0;background:#000}
+  #stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#fff}
+  .scene{position:absolute;inset:0;overflow:hidden;will-change:transform,opacity}
+  .cam{position:absolute;left:0;top:0;width:941px;height:1672px;transform-origin:0 0}
+  .cam img{position:absolute;display:block;will-change:transform,opacity,filter}
+  .plate{left:0;top:0;width:941px;height:1672px}
+  .flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+  .ripple{position:absolute;border-radius:50%;border:5px solid rgba(255,255,255,.95);background:rgba(255,255,255,.25);opacity:0;transform:translate(-50%,-50%)}
+  .ripple.dark{border-color:rgba(1,0,154,.55);background:rgba(1,0,154,.12)}
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <filter id="mbx" x="-20%" y="-5%" width="140%" height="110%"><feGaussianBlur id="mbx-b" stdDeviation="0 0"/></filter>
+  <filter id="mby" x="-5%" y="-20%" width="110%" height="140%"><feGaussianBlur id="mby-b" stdDeviation="0 0"/></filter>
+</svg>
+<div id="stage"></div>
+<script>
+// Source images are 941x1672; every layer keeps its source position and the stage scales by K.
+const K = 1080/941, FPS = 30, DUR = 18.0;
+const META = {"1":{"notif":[26,700,890,232]},"2":{"logo":[266,90,406,104],"h1":[75,226,447,126],"h2":[522,226,360,136],"phone":[82,372,744,1140]},"3":{"logo":[290,94,358,92],"head":[108,220,724,168],"sub":[148,403,644,99],"card":[242,546,464,466],"paid":[356,894,234,84],"check":[404,648,136,96]},"4":{"logo":[243,205,455,117],"h1":[62,374,826,90],"h2":[234,466,474,150],"phones":[34,628,878,610],"row":[110,1274,720,54],"cta":[62,1376,816,148]},"5":{"logo":[98,213,744,139],"t1":[84,444,802,108],"t2":[88,552,794,118],"t3":[88,670,794,136],"btn":[66,852,808,246],"search":[98,1098,749,56],"walk":[108,1253,724,139]}};
+const ORDER = {1:["notif"],2:["logo","h1","h2","phone"],3:["logo","head","sub","card","check","paid"],4:["logo","h1","h2","phones","row","cta"],5:["logo","t1","t2","t3","btn","search","walk"]};
+
+// ---------- easing ----------
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const prog=(t,t0,d)=>clamp((t-t0)/d);
+const outCubic=p=>1-Math.pow(1-p,3);
+const inCubic=p=>p*p*p;
+const inOutCubic=p=>p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
+const outBack=(p,s=1.6)=>1+(s+1)*Math.pow(p-1,3)+s*Math.pow(p-1,2);
+const spring=p=>p>=1?1:1-Math.exp(-6.5*p)*Math.cos(10.5*p);   // settles with one small overshoot
+const lerp=(a,b,p)=>a+(b-a)*p;
+
+// ---------- build DOM ----------
+const stage=document.getElementById('stage');
+const S={}, L={};
+for (const s of [1,2,3,4,5]){
+  const sc=document.createElement('div'); sc.className='scene'; sc.id='sc'+s;
+  const cam=document.createElement('div'); cam.className='cam';
+  const pl=document.createElement('img'); pl.className='plate'; pl.src=`assets/layers/s${s}_plate.jpg`; cam.appendChild(pl);
+  L[s]={};
+  for (const n of ORDER[s]){
+    const [x,y,w,h]=META[s][n]; const im=document.createElement('img');
+    im.src=`assets/layers/s${s}_${n}.png`; Object.assign(im.style,{left:x+'px',top:y+'px',width:w+'px',height:h+'px'});
+    cam.appendChild(im); L[s][n]=im;
+  }
+  sc.appendChild(cam); stage.appendChild(sc); S[s]={sc,cam};
+}
+function ripple(cls){const r=document.createElement('div'); r.className='ripple '+(cls||''); return r;}
+const rip2=ripple('dark'); S[2].cam.appendChild(rip2);
+const rip4=ripple(); S[4].cam.appendChild(rip4);
+const flash=document.createElement('div'); flash.className='flash'; stage.appendChild(flash);
+const mbx=document.getElementById('mbx-b'), mby=document.getElementById('mby-b');
+
+// ---------- helpers ----------
+function camSet(s, scale, ox, oy, extra){ // scale around source point (ox,oy), then fit to stage
+  S[s].cam.style.transform=`scale(${K}) translate(${ox}px,${oy}px) scale(${scale}) translate(${-ox}px,${-oy}px)`+(extra||'');
+}
+function lay(s,n,{x=0,y=0,sc=1,rot=0,op=1,blur=0,bright=1}={}){
+  const e=L[s][n]; e.style.transform=`translate(${x}px,${y}px) rotate(${rot}deg) scale(${sc})`;
+  e.style.opacity=op; e.style.filter=(blur>0.05?`blur(${blur}px) `:'')+(bright!==1?`brightness(${bright})`:'');
+}
+function show(s,on){S[s].sc.style.display=on?'block':'none';}
+function sceneXf(s,{x=0,y=0,sc=1,op=1,filter=''}={}){
+  const e=S[s].sc; e.style.transform=`translate(${x}px,${y}px) scale(${sc})`; e.style.opacity=op; e.style.filter=filter;
+}
+// standard entrance: fade + rise, with back-ease
+function enter(t,t0,d,dist=60,s0=1){const p=prog(t,t0,d);return {y:lerp(dist,0,outCubic(p)),op:clamp(p*2.2),sc:lerp(s0,1,outBack(p))};}
+
+// ---------- timeline ----------
+window.seek=function(t){
+  for (const s of [1,2,3,4,5]) show(s,false);
+  flash.style.opacity=0; mbx.setAttribute('stdDeviation','0 0'); mby.setAttribute('stdDeviation','0 0');
+
+  // ===== Scene 1: the text arrives (0 – 3.0) =====
+  if (t<3.0){
+    show(1,true); sceneXf(1);
+    const push=outCubic(prog(t,0,3));
+    let scale=lerp(1.16,1.03,push), oy=816;
+    // zoom-through into the notification
+    const z=prog(t,2.45,0.55); scale*=lerp(1,3.2,inCubic(z));
+    camSet(1,scale,471,oy);
+    const d=prog(t,0.35,0.75);
+    lay(1,'notif',{y:lerp(-520,0,spring(d)),sc:lerp(.92,1,outCubic(d)),op:clamp((t-0.35)/0.12),blur:z*10});
+    L[1].notif.style.filter=(z>0?`blur(${z*10}px) `:'')+'drop-shadow(0 18px 30px rgba(0,0,0,.35))';
+    flash.style.opacity=clamp((t-2.82)/0.18);
+  }
+
+  // ===== Scene 2: Text the quote (3.0 – 6.45) =====
+  if (t>=3.0 && t<6.45){
+    show(2,true);
+    flash.style.opacity=t<3.2?1-clamp((t-3.0)/0.2):0;
+    camSet(2,lerp(1.04,1.0,outCubic(prog(t,3.0,3.2))),471,700);
+    const lg=enter(t,3.05,0.45,-50,.9); lay(2,'logo',{y:lg.y,op:lg.op,sc:lg.sc});
+    const a=enter(t,3.15,0.45,70); lay(2,'h1',{y:a.y,op:a.op});
+    const b=prog(t,3.4,0.5); lay(2,'h2',{sc:lerp(1.5,1,outBack(b,2.2)),op:clamp(b*3),rot:lerp(-6,0,outCubic(b))});
+    // phone rises, then floats
+    const ph=prog(t,3.45,0.9); const fl=Math.max(0,t-4.35);
+    const press=Math.sin(Math.PI*clamp((t-5.35)/0.18));   // tap press
+    lay(2,'phone',{y:lerp(950,0,outCubic(ph))+Math.sin(fl*2.2)*7,rot:lerp(9,0,outCubic(ph))+Math.sin(fl*1.6)*0.5,sc:1-press*0.012,op:clamp(ph*4)});
+    // tap ripple on Send (source ~651,1326)
+    const r=prog(t,5.35,0.5); Object.assign(rip2.style,{left:'651px',top:'1326px',width:lerp(30,190,outCubic(r))+'px',height:lerp(30,190,outCubic(r))+'px',opacity:r>0&&r<1?(1-r)*0.9:0});
+    // whip out to the left
+    const w=prog(t,6.0,0.45); const we=inOutCubic(w);
+    sceneXf(2,{x:-1080*we}); mbx.setAttribute('stdDeviation',`${Math.sin(Math.PI*w)*60} 0`);
+    if (w>0) S[2].sc.style.filter='url(#mbx)';
+  }
+
+  // ===== Scene 3: From "How much?" to paid (6.0 – 9.95) =====
+  if (t>=6.0 && t<9.95){
+    show(3,true);
+    const w=prog(t,6.0,0.45); const we=inOutCubic(w);
+    let x=1080*(1-we), y=0, filter=w<1?'url(#mbx)':'';
+    const up=prog(t,9.5,0.45); const ue=inOutCubic(up);
+    if (up>0){ y=-1920*ue; filter='url(#mby)'; mby.setAttribute('stdDeviation',`0 ${Math.sin(Math.PI*up)*70}`);}
+    sceneXf(3,{x,y,filter});
+    camSet(3,lerp(1.1,1.0,outCubic(prog(t,6.0,3.9))),471,836);
+    const lg=enter(t,6.3,0.45,-45,.9); lay(3,'logo',{y:lg.y,op:lg.op,sc:lg.sc});
+    const hd=enter(t,6.4,0.5,60); lay(3,'head',{y:hd.y,op:hd.op});
+    const sb=enter(t,6.65,0.45,30); lay(3,'sub',{y:sb.y,op:sb.op});
+    const c=prog(t,6.35,0.6); const cf=Math.max(0,t-6.95);
+    const cardY=lerp(120,0,outCubic(c))+Math.sin(cf*2)*5;
+    lay(3,'card',{y:cardY,sc:lerp(.72,1,outBack(c,1.4)),op:clamp(c*3)});
+    L[3].card.style.filter='drop-shadow(0 22px 40px rgba(0,0,0,.30))';
+    const ck=prog(t,7.25,0.4); lay(3,'check',{y:cardY,sc:lerp(0,1,outBack(ck,2.4)),op:clamp(ck*4),rot:lerp(-40,0,outCubic(ck))});
+    const pd=prog(t,7.7,0.32); lay(3,'paid',{y:cardY,sc:lerp(2.3,1,outBack(pd,1.2)),op:clamp(pd*3),rot:lerp(-10,-0,outCubic(pd))});
+  }
+
+  // ===== Scene 4: Quote · Book · Invoice (9.5 – 13.85) =====
+  if (t>=9.5 && t<13.85){
+    show(4,true);
+    const up=prog(t,9.5,0.45); const ue=inOutCubic(up);
+    let y=1920*(1-ue), sc=1, op=1, filter=up<1?'url(#mby)':'';
+    const out=prog(t,13.4,0.45); if (out>0){ sc=lerp(1,1.7,inCubic(out)); op=1-clamp((out-0.35)/0.65); filter=`blur(${out*8}px)`; }
+    sceneXf(4,{y,sc,op,filter});
+    camSet(4,lerp(1.05,1.0,outCubic(prog(t,9.6,3.8))),471,900);
+    const lg=enter(t,9.9,0.45,-45,.9); lay(4,'logo',{y:lg.y,op:lg.op,sc:lg.sc});
+    const a=enter(t,10.0,0.45,60); lay(4,'h1',{y:a.y,op:a.op});
+    const b=prog(t,10.25,0.5); lay(4,'h2',{sc:lerp(1.45,1,outBack(b,2)),op:clamp(b*3)});
+    const ph=prog(t,10.4,0.85); const fl=Math.max(0,t-11.25);
+    lay(4,'phones',{y:lerp(700,0,outCubic(ph))+Math.sin(fl*2)*6,sc:lerp(.86,1,outCubic(ph)),op:clamp(ph*4)});
+    // Quote — Book — Invoice wipes on left to right
+    const rw=prog(t,11.35,0.9); L[4].row.style.clipPath=`inset(0 ${100-100*inOutCubic(rw)}% 0 0)`; lay(4,'row',{op:rw>0?1:0});
+    const ct=prog(t,12.35,0.45); const pulse=Math.sin(Math.PI*clamp((t-12.95)/0.3));
+    lay(4,'cta',{sc:lerp(.6,1,outBack(ct,1.8))+pulse*0.05,op:clamp(ct*3)});
+    const r=prog(t,12.95,0.5); Object.assign(rip4.style,{left:'470px',top:'1450px',width:lerp(40,240,outCubic(r))+'px',height:lerp(40,240,outCubic(r))+'px',opacity:r>0&&r<1?(1-r)*0.9:0});
+  }
+
+  // ===== Scene 5: end card (13.4 – 18.0) =====
+  if (t>=13.4){
+    show(5,true);
+    const inn=prog(t,13.4,0.5); sceneXf(5,{sc:lerp(1.35,1,outCubic(inn)),op:clamp(inn*1.6)});
+    camSet(5,lerp(1.08,1.0,outCubic(prog(t,13.4,4.6))),471,836);
+    const lg=prog(t,13.75,0.55); lay(5,'logo',{sc:lerp(1.18,1,outCubic(lg)),op:clamp(lg*2),blur:(1-outCubic(lg))*14});
+    [['t1',14.2],['t2',14.42],['t3',14.64]].forEach(([n,t0])=>{const p=prog(t,t0,0.45); lay(5,n,{y:lerp(36,0,outCubic(p)),op:clamp(p*2.4),blur:(1-p)*6});});
+    const bt=prog(t,15.15,0.5); const glow=t>15.7?(Math.sin((t-15.7)*3.2)*0.5+0.5):0;
+    lay(5,'btn',{sc:lerp(.65,1,outBack(bt,1.8))+glow*0.018,op:clamp(bt*3),bright:1+glow*0.12});
+    const se=enter(t,15.65,0.4,20); lay(5,'search',{y:se.y,op:se.op});
+    const wk=enter(t,15.95,0.45,24); lay(5,'walk',{y:wk.y,op:wk.op});
+  }
+};
+window.DURATION=DUR; window.FPS=FPS;
+const q=new URLSearchParams(location.search); seek(parseFloat(q.get('t')||'0'));
+</script>
+</body></html>
