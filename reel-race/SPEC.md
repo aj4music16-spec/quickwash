@@ -1,14 +1,60 @@
 # QuickWash "The race": everything in a $99 QuickWash, faster than it takes to book it
 
-Main cut (v2, Laura): 1080x1920, 30 fps, 24.5 s (735 frames), `../dist/quickwash-race.mp4`.
-Alternate (v1, Liam): 24.967 s (749 frames), `../dist/quickwash-race-alt-liam.mp4`; its plan is `tools/cues-liam.json` and its
-premix is `assets/audio/mix-liam.m4a`. To re-render it, copy cues-liam.json to cues.json, run `tools/apply_cues.py`, point
-the `<audio>` at mix-liam.m4a, and restore the hook re-cut to IMG_0012 7.4 s +5.1 s.
-Render: `npx --yes hyperframes@0.9.27 render -o ../dist/quickwash-race.mp4 --quality delivery --max-bitrate 12M`
-(env `HYPERFRAMES_NO_TELEMETRY=1 DO_NOT_TRACK=1`).
-Pipeline: `tools/gen-audio.sh` (takes, bed, sfx) -> `tools/stt_words.sh` (Scribe word onsets) -> `tools/vo_plan.py`
-(places the VO, writes `tools/cues.json`) -> `tools/apply_cues.py` (writes the frame-snapped cue times into index.html and
-compositions) -> `tools/mix.py` -> check -> render. Footage: `tools/trim.sh`.
+Main cut (v3, Liam): 1080x1920, 30 fps, 27.567 s (827 frames), `../dist/quickwash-race.mp4`.
+Superseded renders: `../dist/quickwash-race-alt-laura.mp4` (v2, Laura, no b4 line) and `../dist/quickwash-race-alt-liam.mp4`
+(v1, Liam, before the shot changes and the WashClub beat).
+v3 pipeline: `tools/cues_v3.py` (Liam's placed VO from tools/cues-liam.json + the mid-line cuts + the WashClub insert)
+-> `tools/apply_cues.py` -> `tools/mix.py` -> check -> render. `tools/verify_cues.py <mp4>` checks the result.
+
+## v3 (client feedback): every phrase over its own action, plus the WashClub beat
+
+| spoken (Liam) | frames | clip / source window | what is visible |
+|---|---|---|---|
+| "Foam ..." | 143-166 | r1-foam-cannon: IMG_0012_1_17 1.0 s +1.0 | a foam cannon blasting snow foam onto the dark SUV's side |
+| "... and a hand wash" | 166-202 (cut on "hand") | s03-mitt-bumper (reel-hp) | the detailer mitt-washing the foamed rear bumper |
+| "Vacuum: seats, floors, trunk" | 202-298 | s04-vacuum-long: IMG_2059 at 0.91x | fresh vacuum lines in the 2nd-row carpet (the only vacuum footage) |
+| "Glass, inside and out" | 298-359 | r3-glass-mitt: IMG_2041 15.0 +2.25 | gloved hand and mitt washing the foamed windshield, close POV |
+| "Tire shine ..." | 359-391 | r4-tire-spray: IMG_2040 4.6 +1.3 | spray bottle working the wheel and tyre |
+| "... and door jambs" | 391-427 (cut on "door") | r4-door-jamb: IMG_2040 61.9 +1.4 | door open, gloved hand and wand rinsing the jamb and sill |
+| "Interior wiped down" | 427-480 | r5-console-wipe: IMG_2034 35.5 +1.95 | gloved hand wiping the centre console by the shifter |
+| "Ceramic spray wax" | 480-533 | s08-spray-hood (reel-hp, plate blurred) | spray wax misting onto the hood |
+
+Re-cut windows use reel-hp's grade (eq contrast 1.05, saturation 1.08); there are no plates, faces or legible labels.
+The tyre shot shows the wheel's centre-cap emblem. The checklist rows are unchanged; a row still lands on the first word of its item.
+
+WashClub beat (`compositions/washclub.html`): frames 602-680 (2.6 s), light grid background, after the payoff.
+- "$99" carries over from the payoff (same place and size), is struck (6 frames, 0.15 s in), then steps up, shrinks and dims.
+- "$69" pops in with back.out at the "Sixty" cue (planned 0.75 s in), with "with WashClub" beside it.
+- The client's WashClub badge (880 px wide) follows 4 frames later, then "WashClub membership $4.99/mo".
+- Sources: quickwashtech.com/washclub: QuickWash $99, member $69, membership $4.99/mo. The client confirmed 5% Quickbucks back.
+- Badge: `assets/app/washclub-badge-5.png` is the client's PNG (real alpha) with the two "8"s changed to "5" (`tools/fix_badge.py`,
+  Poppins Bold, the closest weight, with the same thin navy edge; painted with the local navy, no visible patch). Only the
+  corrected crop `assets/app/washclub-badge-5-crop.png` is used.
+- Sound: soft whooshes on the cut and the strike, the success chime on "$69"; the music runs through.
+
+Timing: the timer still runs from "Go" f126 to "Done" f561 (14.5 s, reads 0:14). The WashClub beat shifts the booking beat
+(f680), the end card (f737; 3.0 s) and Liam's b4/b5 lines by 2.6 s.
+Measured: all 13 hard cuts in the MP4 fall on their cue frames. Voice onsets on a VO stem rebuilt as the mix places it are 0-1
+frames from their cues. Two exceptions:
+- "Ninety-nine" cuts 4 frames after the acoustic onset of the "N", 1 frame before Scribe's word start.
+- "hand" has no pause before it, so it is cut on Scribe's word start.
+Scribe on Liam's v1 render put every cue word 0-2 frames after its visual; the placement is unchanged, and b4/b5 are shifted
+whole. Mix: -13.8 LUFS, true peak -1.6 dBFS (limiter now 4x oversampled).
+
+### Pickup lines (ElevenLabs credits were 0)
+Reserved: b3b "And if you join WashClub? Sixty-nine." (Liam), first word 0.2 s into the WashClub beat; its "Sixty" becomes
+the $69 cue. When credits return:
+
+    cd reel-race
+    VOICE=liam tools/gen-audio.sh pickup 3            # assets/audio/vo/b3b_t1..3
+    tools/stt_words.sh assets/audio/vo/b3b_t1 assets/audio/vo/b3b_t2 assets/audio/vo/b3b_t3
+    python3 -I tools/vo_analyze.py assets/audio/vo/b3b_t1 assets/audio/vo/b3b_t2 assets/audio/vo/b3b_t3   # pick the liveliest
+    B3B=b3b_t2 python3 -I tools/cues_v3.py             # places the line, sets "Sixty" from its word onset
+    python3 -I tools/apply_cues.py && python3 -I tools/mix.py
+    npx --yes hyperframes@0.9.27 check && npx --yes hyperframes@0.9.27 render -o ../dist/quickwash-race.mp4 --quality delivery --max-bitrate 12M
+
+`cues_v3.py` refuses a line that runs past the booking cut. For Laura's missing b4, run `VOICE=laura tools/gen-audio.sh pickup 3`
+(it also generates her b3b).
 
 ## v2: Laura (main cut)
 

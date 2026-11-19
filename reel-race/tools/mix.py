@@ -24,7 +24,7 @@ fc.append(f"{''.join(vo)}amix=inputs={len(vo)}:normalize=0,highpass=f=80,acompre
 fc.append(f"{''.join(fx)}amix=inputs={len(fx)}:normalize=0,apad=whole_dur={FILM},atrim=0:{FILM}[fx]")
 fc.append(f"[0]aformat=sample_rates=48000:channel_layouts=stereo,atrim=0:{FILM},afade=t=in:d=0.02,afade=t=out:st={FILM - 1.0}:d=1.0,volume=0.45[mus]")
 fc.append("[mus][sc]sidechaincompress=threshold=0.025:ratio=5:attack=15:release=300:makeup=1[duck]")
-fc.append(f"[duck][fx][vo]amix=inputs=3:normalize=0,loudnorm=I=-14:TP=-2:LRA=9,alimiter=limit=0.7:level=false,atrim=0:{FILM}[out]")
+fc.append(f"[duck][fx][vo]amix=inputs=3:normalize=0,loudnorm=I=-14:TP=-2:LRA=9,aresample=192000,alimiter=limit=0.7:level=false,aresample=48000,atrim=0:{FILM}[out]")
 subprocess.run(["ffmpeg", "-hide_banner", "-loglevel", "error", "-y", *ins, "-filter_complex", ";\n".join(fc), "-map", "[out]", "-c:a", "aac", "-b:a", "192k", out], check=True)
 r = subprocess.run(["ffmpeg", "-hide_banner", "-nostats", "-i", out, "-af", "ebur128=peak=true", "-f", "null", "-"], capture_output=True, text=True).stderr
 print(f"wrote {out}", " | ".join(l.strip() for l in r.splitlines() if l.strip().startswith(("I:", "Peak:"))), f"ticks {len([s for s in SFX if s[0] == 'tick'])}")

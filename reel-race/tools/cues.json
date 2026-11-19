@@ -1,252 +1,498 @@
 {
- "voice": "laura",
  "cues": {
-  "Go": 4.72,
-  "Foam": 5.59,
-  "Vacuum": 7.07,
-  "Glass": 9.68,
-  "Tire": 11.37,
-  "Interior": 13.36,
-  "Ceramic": 14.92,
-  "Ninety": 16.66,
-  "Done": 17.94,
-  "Booking": 19.88,
-  "Twenty": 20.647,
-  "Quick": 21.78,
-  "Grab": 22.63
+  "Go": 4.21,
+  "Foam": 4.78,
+  "Vacuum": 6.737,
+  "Glass": 9.94,
+  "Tire": 11.957,
+  "Interior": 14.237,
+  "Ceramic": 15.997,
+  "Ninety": 17.767,
+  "Done": 18.71,
+  "Booking": 22.97,
+  "Twenty": 23.737,
+  "Quick": 24.86,
+  "Grab": 25.84,
+  "hand": 5.5333,
+  "door": 13.0333,
+  "Sixty": 20.82
  },
  "cuts": {
-  "race": 5.59,
-  "payoff": 16.66,
-  "book": 19.58,
-  "end": 21.48
+  "race": 4.78,
+  "payoff": 17.767,
+  "book": 22.67,
+  "end": 24.56,
+  "washclub": 20.07
  },
- "film_end": 24.5,
+ "film_end": 27.5667,
  "speech_end": {
-  "b1_end": 5.04,
-  "b2_end": 16.11,
-  "b3_end": 19.33,
-  "book_cut": 19.58,
-  "end_cut": 21.48,
-  "b5_end": 23.28
+  "b1_end": 4.38,
+  "b2_end": 17.33,
+  "b3_end": 19.92,
+  "b4_end": 21.71,
+  "b5_end": 23.82
  },
- "timer_stop": 13.22,
+ "timer_stop": 14.5,
  "segments": [
   {
    "beat": 1,
-   "file": "b1_t2",
-   "dir": "assets/audio/vo-laura",
-   "src_from": 0.07,
-   "src_to": 3.68,
-   "at": 0.22
-  },
-  {
-   "beat": 1,
-   "file": "b1_t2",
-   "dir": "assets/audio/vo-laura",
-   "src_from": 3.99,
-   "src_to": 4.51,
-   "at": 4.0
-  },
-  {
-   "beat": 1,
-   "file": "b1_t2",
-   "dir": "assets/audio/vo-laura",
-   "src_from": 4.76,
-   "src_to": 5.21,
-   "at": 4.69
-  },
-  {
-   "beat": 2,
-   "file": "b2_t3",
-   "dir": "assets/audio/vo-laura",
-   "src_from": 0.07,
-   "src_to": 1.33,
-   "at": 5.56
-  },
-  {
-   "beat": 2,
-   "file": "b2_t3",
-   "dir": "assets/audio/vo-laura",
-   "src_from": 1.51,
-   "src_to": 2.16,
-   "at": 7.04
-  },
-  {
-   "beat": 2,
-   "file": "b2_t3",
-   "dir": "assets/audio/vo-laura",
-   "src_from": 2.2,
-   "src_to": 3.67,
-   "at": 7.94
-  },
-  {
-   "beat": 2,
-   "file": "b2_t3",
-   "dir": "assets/audio/vo-laura",
-   "src_from": 3.91,
-   "src_to": 5.35,
-   "at": 9.65
-  },
-  {
-   "beat": 2,
-   "file": "b2_t3",
-   "dir": "assets/audio/vo-laura",
-   "src_from": 5.6,
-   "src_to": 7.365,
-   "at": 11.34
-  },
-  {
-   "beat": 2,
-   "file": "b2_t3",
-   "dir": "assets/audio/vo-laura",
-   "src_from": 7.43,
-   "src_to": 8.75,
-   "at": 13.33
-  },
-  {
-   "beat": 2,
-   "file": "b2_t3",
-   "dir": "assets/audio/vo-laura",
-   "src_from": 8.8,
-   "src_to": 10.12,
-   "at": 14.89
-  },
-  {
-   "beat": 3,
-   "file": "b3_t1",
-   "dir": "assets/audio/vo-laura",
-   "src_from": 0.01,
-   "src_to": 1.05,
-   "at": 16.63
-  },
-  {
-   "beat": 3,
-   "file": "b3_t1",
-   "dir": "assets/audio/vo-laura",
-   "src_from": 1.29,
-   "src_to": 1.7,
-   "at": 17.91
-  },
-  {
-   "beat": 3,
-   "file": "b3_t1",
-   "dir": "assets/audio/vo-laura",
-   "src_from": 1.86,
-   "src_to": 2.81,
-   "at": 18.48
-  },
-  {
-   "beat": 5,
-   "file": "b5_t4",
-   "dir": "assets/audio/vo-laura",
+   "file": "b1_t1",
    "src_from": 0.02,
-   "src_to": 0.76,
-   "at": 21.75
+   "src_to": 3.42,
+   "at": 0.21
+  },
+  {
+   "beat": 1,
+   "file": "b1_t1",
+   "src_from": 3.55,
+   "src_to": 3.98,
+   "at": 3.6
+  },
+  {
+   "beat": 1,
+   "file": "b1_t1",
+   "src_from": 4.39,
+   "src_to": 4.72,
+   "at": 4.17
+  },
+  {
+   "beat": 2,
+   "file": "b2_t1",
+   "src_from": 0.05,
+   "src_to": 1.58,
+   "at": 4.74
+  },
+  {
+   "beat": 2,
+   "file": "b2_t1",
+   "src_from": 2.13,
+   "src_to": 2.86,
+   "at": 6.66
+  },
+  {
+   "beat": 2,
+   "file": "b2_t1",
+   "src_from": 3.01,
+   "src_to": 4.98,
+   "at": 7.54
+  },
+  {
+   "beat": 2,
+   "file": "b2_t1",
+   "src_from": 5.46,
+   "src_to": 7.08,
+   "at": 9.9
+  },
+  {
+   "beat": 2,
+   "file": "b2_t1",
+   "src_from": 7.52,
+   "src_to": 9.52,
+   "at": 11.91
+  },
+  {
+   "beat": 2,
+   "file": "b2_t1",
+   "src_from": 9.79,
+   "src_to": 11.26,
+   "at": 14.18
+  },
+  {
+   "beat": 2,
+   "file": "b2_t1",
+   "src_from": 11.54,
+   "src_to": 13.06,
+   "at": 15.93
+  },
+  {
+   "beat": 3,
+   "file": "b3_t1",
+   "src_from": 0.05,
+   "src_to": 1.065,
+   "at": 17.59
+  },
+  {
+   "beat": 3,
+   "file": "b3_t1",
+   "src_from": 1.13,
+   "src_to": 1.485,
+   "at": 18.67
+  },
+  {
+   "beat": 3,
+   "file": "b3_t1",
+   "src_from": 1.49,
+   "src_to": 2.5,
+   "at": 19.03
+  },
+  {
+   "beat": 4,
+   "file": "b4_t1",
+   "src_from": 0.06,
+   "src_to": 0.68,
+   "at": 22.93
+  },
+  {
+   "beat": 4,
+   "file": "b4_t1",
+   "src_from": 0.9,
+   "src_to": 1.64,
+   "at": 23.69
   },
   {
    "beat": 5,
-   "file": "b5_t4",
-   "dir": "assets/audio/vo-laura",
-   "src_from": 0.87,
-   "src_to": 1.65,
-   "at": 22.6
+   "file": "b5_t2",
+   "src_from": 0.04,
+   "src_to": 1.76,
+   "at": 24.82
   }
  ],
  "words": [
   [
    1,
    "Everything",
-   0.25,
-   3.73
+   0.257,
+   0.71
+  ],
+  [
+   1,
+   "you",
+   0.75,
+   0.85
+  ],
+  [
+   1,
+   "get",
+   0.87,
+   0.99
+  ],
+  [
+   1,
+   "in",
+   1.01,
+   1.07
+  ],
+  [
+   1,
+   "a",
+   1.11,
+   1.17
+  ],
+  [
+   1,
+   "quick",
+   1.21,
+   1.41
+  ],
+  [
+   1,
+   "wash",
+   1.45,
+   1.77
+  ],
+  [
+   1,
+   "faster",
+   1.99,
+   2.41
+  ],
+  [
+   1,
+   "than",
+   2.43,
+   2.51
+  ],
+  [
+   1,
+   "it",
+   2.53,
+   2.61
+  ],
+  [
+   1,
+   "takes",
+   2.65,
+   2.85
+  ],
+  [
+   1,
+   "to",
+   2.89,
+   2.97
+  ],
+  [
+   1,
+   "book",
+   3.01,
+   3.21
+  ],
+  [
+   1,
+   "one",
+   3.25,
+   3.49
   ],
   [
    1,
    "Ready",
-   4.03,
-   4.42
+   3.657,
+   3.91
   ],
   [
    1,
    "Go",
-   4.72,
-   5.04
+   4.21,
+   4.38
   ],
   [
    2,
    "Foam",
-   5.59,
-   6.72
+   4.78,
+   5.11
+  ],
+  [
+   2,
+   "and",
+   5.37,
+   5.43
+  ],
+  [
+   2,
+   "a",
+   5.49,
+   5.51
+  ],
+  [
+   2,
+   "hand",
+   5.55,
+   5.77
+  ],
+  [
+   2,
+   "wash",
+   5.83,
+   6.15
   ],
   [
    2,
    "Vacuum",
-   7.07,
-   7.62
+   6.737,
+   7.27
   ],
   [
    2,
    "seats",
-   7.97,
-   9.31
+   7.637,
+   8.01
+  ],
+  [
+   2,
+   "floors",
+   8.31,
+   8.77
+  ],
+  [
+   2,
+   "trunk",
+   9.05,
+   9.39
   ],
   [
    2,
    "Glass",
-   9.68,
-   10.99
+   9.94,
+   10.42
+  ],
+  [
+   2,
+   "inside",
+   10.64,
+   10.98
+  ],
+  [
+   2,
+   "and",
+   11.0,
+   11.1
+  ],
+  [
+   2,
+   "out",
+   11.2,
+   11.4
   ],
   [
    2,
    "Tire",
-   11.37,
-   13.01
+   11.957,
+   12.25
+  ],
+  [
+   2,
+   "shine",
+   12.35,
+   12.81
+  ],
+  [
+   2,
+   "and",
+   12.85,
+   12.95
+  ],
+  [
+   2,
+   "door",
+   13.05,
+   13.25
+  ],
+  [
+   2,
+   "jams",
+   13.37,
+   13.79
   ],
   [
    2,
    "Interior",
-   13.36,
-   14.57
+   14.237,
+   14.79
+  ],
+  [
+   2,
+   "wipe",
+   14.91,
+   15.15
+  ],
+  [
+   2,
+   "down",
+   15.21,
+   15.53
   ],
   [
    2,
    "Ceramic",
-   14.92,
-   16.11
+   15.997,
+   16.49
+  ],
+  [
+   2,
+   "spray",
+   16.65,
+   16.85
+  ],
+  [
+   2,
+   "wax",
+   16.95,
+   17.33
   ],
   [
    3,
-   "Ninety",
-   16.66,
-   17.57
+   "99",
+   17.767,
+   18.1
+  ],
+  [
+   3,
+   "bucks",
+   18.18,
+   18.5
   ],
   [
    3,
    "Done",
-   17.94,
-   18.22
+   18.71,
+   18.98
   ],
   [
    3,
    "with",
-   18.51,
-   19.33
+   19.07,
+   19.24
+  ],
+  [
+   3,
+   "time",
+   19.28,
+   19.5
+  ],
+  [
+   3,
+   "to",
+   19.54,
+   19.62
+  ],
+  [
+   3,
+   "spare",
+   19.7,
+   19.92
+  ],
+  [
+   4,
+   "Booking",
+   22.97,
+   23.21
+  ],
+  [
+   4,
+   "it",
+   23.27,
+   23.43
+  ],
+  [
+   4,
+   "20",
+   23.737,
+   23.87
+  ],
+  [
+   4,
+   "seconds",
+   23.95,
+   24.31
   ],
   [
    5,
    "Quick",
-   21.78,
-   22.39
+   24.86,
+   25.06
+  ],
+  [
+   5,
+   "wash",
+   25.12,
+   25.4
   ],
   [
    5,
    "Grab",
-   22.63,
-   23.28
+   25.84,
+   26.04
+  ],
+  [
+   5,
+   "the",
+   26.08,
+   26.16
+  ],
+  [
+   5,
+   "app",
+   26.22,
+   26.42
   ]
  ],
+ "reserved": {
+  "b3b": {
+   "line": "And if you join WashClub? Sixty-nine.",
+   "first_word_at": 20.27,
+   "cue_word": "Sixty"
+  }
+ },
  "no_vo": [
-  "Booking",
-  "Twenty"
+  "Sixty"
  ]
 }

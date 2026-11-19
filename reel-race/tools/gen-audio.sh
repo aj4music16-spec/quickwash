@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ElevenLabs audio for reel-race (the proxy injects the API key; no auth header; one request at a time; mp3_44100_128).
-# Usage: tools/gen-audio.sh vo|items|music|sfx [takes]
+# Usage: tools/gen-audio.sh vo|items|music|sfx|pickup [takes]
 #   VOICE=laura tools/gen-audio.sh vo 4  -> Laura FGY2WhTYpPnrIDTdsKH5 into assets/audio/vo-laura (speed-run tags);
 #   default VOICE=liam (TX3LPaxmHKxFdv7VOQHJ, assets/audio/vo, the alt cut)
 #   vo    : eleven_v3 voice Liam, beats b1-b5, with-timestamps (alignment JSON kept; cues use Scribe, tools/stt_words.sh)
@@ -36,9 +36,13 @@ if [ "$VOICE" = laura ]; then LINES=(
   "Booking it? Twenty seconds."
   "[playful] QuickWash. Grab the app!"
 ); fi
+# pickup lines for the reserved slots (credits were exhausted): b3b for both voices, b4 for Laura
+PICKUP_B3B="And if you join WashClub? Sixty-nine."
 ITEMS=("Foam and a hand wash." "Vacuum: seats, floors, trunk." "Glass, inside and out." "Tire shine and door jambs." "Interior wiped down." "Ceramic spray wax.")
 case "$1" in
   vo) for b in 1 2 3 4 5; do for k in $(seq 1 "$T"); do tts "${LINES[$((b-1))]}" "$VD/b${b}_t$k"; done; done ;;
+  pickup) for k in $(seq 1 "$T"); do tts "$PICKUP_B3B" "$VD/b3b_t$k"; done
+          if [ "$VOICE" = laura ]; then for k in $(seq 1 "$T"); do tts "${LINES[3]}" "$VD/b4_t$k"; done; fi ;;
   items) for i in 1 2 3 4 5 6; do for k in $(seq 1 "$T"); do tts "${ITEMS[$((i-1))]}" "$VD/i${i}_t$k"; done; done ;;
   music) for n in 1 2 3; do sfx "Driving playful upbeat electronic pop instrumental, 128 BPM, punchy kick and claps, bright synth stabs, fast energetic speed-run feel, clean modern commercial music, steady energy throughout, no vocals" 26 0.6 "$A/music/bed$n.mp3"; done ;;
   sfx) sfx "single soft clock tick, short clean mechanical click, dry, no reverb" 0.5 0.8 "$A/sfx/tick.mp3"

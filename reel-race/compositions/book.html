@@ -52,7 +52,7 @@
   <script>
     (function () {
       // VO cues (tools/cues.json), local to this scene: "Booking" -> tap on Book This Slot; "Twenty" -> Booked chip + "20 seconds."
-      const BOOKING = 0.3, TWENTY = 1.0667;
+      const BOOKING = 0.3, TWENTY = 1.0666;
       const tl = gsap.timeline({ paused: true });
       tl.fromTo("#bk-phone", { y: 900, rotation: -4 }, { y: 0, rotation: 0, duration: 0.5, ease: "expo.out" }, 0);
       tl.fromTo("#bk-h1", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 0.05);

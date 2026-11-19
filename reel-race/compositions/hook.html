@@ -13,11 +13,11 @@
   </style>
   <div id="root" data-composition-id="hook" data-width="1080" data-height="1920">
     <!-- foam pre-soak sheeting down the side (IMG_0012 7.4-12.5 s, reel-hp grade), with its own foam sound -->
-    <video id="hk-v" class="clip shot" src="assets/footage/s01-foam-long.mp4" data-start="0" data-duration="5.602" data-track-index="0"
+    <video id="hk-v" class="clip shot" src="assets/footage/s01-foam-long.mp4" data-start="0" data-duration="4.7687" data-track-index="0"
       playsinline data-has-audio="true" data-volume="0.12"></video>
     <div id="hk-scrim" class="tscrim" data-layout-ignore></div>
     <!-- frame 0 is the thumbnail: the promise is already on screen -->
-    <div id="hk-h" class="clip" data-start="0" data-duration="5.602" data-track-index="1">
+    <div id="hk-h" class="clip" data-start="0" data-duration="4.7687" data-track-index="1">
       <div id="hk-h1"><span>Everything in</span><span>a QuickWash.</span></div>
       <div id="hk-h2"><span><em>Faster</em> than it takes</span><span>to book it.</span></div>
     </div>
@@ -27,7 +27,7 @@
       // VO "Everything ..." at 0.30; "Go" at 4.267 starts the timer (timer.html). Nothing moves but the footage
       // until "Go", when the line kicks once with the timer.
       const tl = gsap.timeline({ paused: true });
-      tl.fromTo("#hk-h", { scale: 1 }, { scale: 1.04, duration: 0.08, ease: "power2.out", yoyo: true, repeat: 1, transformOrigin: "0% 50%" }, 4.7333);
+      tl.fromTo("#hk-h", { scale: 1 }, { scale: 1.04, duration: 0.08, ease: "power2.out", yoyo: true, repeat: 1, transformOrigin: "0% 50%" }, 4.2);
       window.__timelines = window.__timelines || {};
       window.__timelines["hook"] = tl;
     })();

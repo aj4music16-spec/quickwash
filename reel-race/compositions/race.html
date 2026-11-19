@@ -11,13 +11,24 @@
   <div id="root" data-composition-id="race" data-width="1080" data-height="1920">
     <div id="rc-bscrim" class="bscrim" data-layout-ignore></div>
     <div id="rc-tscrim" class="tscrim" data-layout-ignore></div>
-    <!-- one shot per item, each cut on the item's first spoken word (film frames 146 / 205 / 302 / 363 / 431 / 484; ends 532) -->
-    <video id="rc-s1" class="clip shot" src="assets/footage/s03-mitt-bumper.mp4" data-start="0" data-duration="1.4687" data-media-start="0.1" data-track-index="0" muted playsinline></video>
-    <video id="rc-s2" class="clip shot" src="assets/footage/s04-vacuum-long.mp4" data-start="1.4667" data-duration="2.602" data-media-start="0" data-track-index="0" muted playsinline></video>
-    <video id="rc-s3" class="clip shot" src="assets/footage/s05-windshield-rinse.mp4" data-start="4.0667" data-duration="1.702" data-media-start="0.1" data-track-index="0" muted playsinline></video>
-    <video id="rc-s4" class="clip shot" src="assets/footage/s06-wheel-long.mp4" data-start="5.7667" data-duration="2.002" data-media-start="0.2" data-track-index="0" playsinline data-has-audio="true" data-volume="0.12"></video>
-    <video id="rc-s5" class="clip shot" src="assets/footage/s07-door-wipe.mp4" data-start="7.7667" data-duration="1.5687" data-media-start="0" data-track-index="0" muted playsinline></video>
-    <video id="rc-s6" class="clip shot" src="assets/footage/s08-spray-hood.mp4" data-start="9.3333" data-duration="1.7353" data-media-start="0.2" data-track-index="0" muted playsinline></video>
+    <!-- v3: every phrase over footage of exactly that action; a line that names two things is two shots, cut on the word.
+         Times are written by tools/apply_cues.py from tools/cues.json. -->
+    <!-- "Foam ..." foam cannon blasting snow foam onto the SUV -->
+    <video id="rc-s1a" class="clip shot" src="assets/footage/r1-foam-cannon.mp4" data-start="0" data-duration="0.7687" data-media-start="0" data-track-index="0" muted playsinline></video>
+    <!-- "... and a hand wash" mitt hand wash in the foam -->
+    <video id="rc-s1b" class="clip shot" src="assets/footage/s03-mitt-bumper.mp4" data-start="0.7666" data-duration="1.202" data-media-start="0.1" data-track-index="0" muted playsinline></video>
+    <!-- "Vacuum: seats, floors, trunk" fresh vacuum lines in the carpet -->
+    <video id="rc-s2" class="clip shot" src="assets/footage/s04-vacuum-long.mp4" data-start="1.9666" data-duration="3.202" data-media-start="0" data-track-index="0" muted playsinline></video>
+    <!-- "Glass, inside and out" mitt washing the windshield -->
+    <video id="rc-s3" class="clip shot" src="assets/footage/r3-glass-mitt.mp4" data-start="5.1666" data-duration="2.0353" data-media-start="0" data-track-index="0" muted playsinline></video>
+    <!-- "Tire shine ..." spray bottle working the wheel and tire -->
+    <video id="rc-s4a" class="clip shot" src="assets/footage/r4-tire-spray.mp4" data-start="7.2" data-duration="1.0687" data-media-start="0" data-track-index="0" muted playsinline></video>
+    <!-- "... and door jambs" wand rinsing the open door's jamb and sill -->
+    <video id="rc-s4b" class="clip shot" src="assets/footage/r4-door-jamb.mp4" data-start="8.2666" data-duration="1.202" data-media-start="0" data-track-index="0" muted playsinline></video>
+    <!-- "Interior wiped down" gloved hand wiping the centre console -->
+    <video id="rc-s5" class="clip shot" src="assets/footage/r5-console-wipe.mp4" data-start="9.4666" data-duration="1.7687" data-media-start="0" data-track-index="0" muted playsinline></video>
+    <!-- "Ceramic spray wax" spray wax misting onto the hood -->
+    <video id="rc-s6" class="clip shot" src="assets/footage/s08-spray-hood.mp4" data-start="11.2333" data-duration="1.7687" data-media-start="0.2" data-track-index="0" muted playsinline></video>
   </div>
   <script>
     (function () {
