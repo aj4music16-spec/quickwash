@@ -142,3 +142,7 @@ caption/handle zone (> 1330 px) and the right action rail, so the footage's subj
 7. Write `CREDITS.md` in the project (footage, music, logo, fonts).
 
 Proven on `reel-timeline/` (QuickWash, 8 clips, 128 BPM, 14.03 s).
+
+## Client preference (QuickWash, 2026-11-19)
+
+The client liked the clip / black-beat rhythm but asked for the on-screen editor timeline (strip, playhead, duration label) to be removed. For QuickWash, build this style WITHOUT the overlay unless asked: after running `build_timeline.py`, delete the `<div id="timeline" ...>` mount from `index.html` (leave `compositions/timeline.html` unmounted).
