@@ -1,0 +1,172 @@
+{
+ "fps": 30,
+ "segments": [
+  {
+   "id": "c1",
+   "kind": "clip",
+   "src": "../reel-hp/assets/footage/h4-dirty-door.mp4",
+   "in": 0.0,
+   "label": "before",
+   "note": "dirty grey SUV door, locked-off medium (the before)",
+   "start": 0.0,
+   "end": 0.9333,
+   "file": "assets/footage/c1.mp4",
+   "thumb": "assets/thumbs/c1.jpg"
+  },
+  {
+   "id": "g1",
+   "kind": "gap",
+   "label": null,
+   "start": 0.9333,
+   "end": 1.4
+  },
+  {
+   "id": "c2",
+   "kind": "clip",
+   "src": "../reel-hp/assets/footage/o1-van-logo.mp4",
+   "in": 0.3,
+   "label": null,
+   "note": "the QuickWash van arrives (logo on the side)",
+   "start": 1.4,
+   "end": 2.3333,
+   "file": "assets/footage/c2.mp4",
+   "thumb": "assets/thumbs/c2.jpg"
+  },
+  {
+   "id": "g2",
+   "kind": "gap",
+   "label": null,
+   "start": 2.3333,
+   "end": 2.8
+  },
+  {
+   "id": "c3",
+   "kind": "clip",
+   "src": "../reel-race/assets/footage/r1w-foam-street.mp4",
+   "in": 0.3,
+   "label": null,
+   "note": "wide street, foam cannon on the SUV",
+   "start": 2.8,
+   "end": 3.7333,
+   "file": "assets/footage/c3.mp4",
+   "thumb": "assets/thumbs/c3.jpg"
+  },
+  {
+   "id": "g3",
+   "kind": "gap",
+   "label": null,
+   "start": 3.7333,
+   "end": 4.2
+  },
+  {
+   "id": "c4",
+   "kind": "clip",
+   "src": "../reel-race/assets/footage/r3w-durango-rinse.mp4",
+   "in": 0.4,
+   "label": null,
+   "note": "wide rooftop rinse, skyline (plate blurred)",
+   "start": 4.2,
+   "end": 5.1333,
+   "file": "assets/footage/c4.mp4",
+   "thumb": "assets/thumbs/c4.jpg"
+  },
+  {
+   "id": "g4",
+   "kind": "gap",
+   "label": null,
+   "start": 5.1333,
+   "end": 5.6
+  },
+  {
+   "id": "c5",
+   "kind": "clip",
+   "src": "../reel-race/assets/footage/r4w-wheel-scrub.mp4",
+   "in": 1.2,
+   "label": null,
+   "note": "medium, wheel scrub",
+   "start": 5.6,
+   "end": 6.5333,
+   "file": "assets/footage/c5.mp4",
+   "thumb": "assets/thumbs/c5.jpg"
+  },
+  {
+   "id": "g5",
+   "kind": "gap",
+   "label": null,
+   "start": 6.5333,
+   "end": 7.0
+  },
+  {
+   "id": "c6",
+   "kind": "clip",
+   "src": "../reel-hp/assets/footage/s05-windshield-rinse.mp4",
+   "in": 0.4,
+   "label": null,
+   "note": "windshield rinse (plate blurred)",
+   "start": 7.0,
+   "end": 7.9333,
+   "file": "assets/footage/c6.mp4",
+   "thumb": "assets/thumbs/c6.jpg"
+  },
+  {
+   "id": "g6",
+   "kind": "gap",
+   "label": null,
+   "start": 7.9333,
+   "end": 8.4
+  },
+  {
+   "id": "c7",
+   "kind": "clip",
+   "src": "../reel-hp/assets/footage/s07-clean-dash.mp4",
+   "in": 0.4,
+   "label": null,
+   "note": "door open on the clean interior",
+   "start": 8.4,
+   "end": 9.3333,
+   "file": "assets/footage/c7.mp4",
+   "thumb": "assets/thumbs/c7.jpg"
+  },
+  {
+   "id": "g7",
+   "kind": "gap",
+   "label": null,
+   "start": 9.3333,
+   "end": 9.8
+  },
+  {
+   "id": "c8",
+   "kind": "clip",
+   "src": "../reel-hp/assets/footage/s09-hero-side.mp4",
+   "in": 0.5,
+   "label": "after",
+   "note": "the finished car, side (the after)",
+   "start": 9.8,
+   "end": 11.2,
+   "file": "assets/footage/c8.mp4",
+   "thumb": "assets/thumbs/c8.jpg"
+  },
+  {
+   "id": "end",
+   "kind": "end",
+   "label": "QuickWash",
+   "labelColor": "#000099",
+   "tileColor": "#ffffff",
+   "start": 11.2,
+   "end": 14.0333
+  }
+ ],
+ "total": 14.0333,
+ "footageEnd": 11.2,
+ "music": {
+  "period": 0.4673,
+  "bpm": 128.397,
+  "start_in_file": 1.834,
+  "detected": {
+   "bpm": 128.4,
+   "phase": 0.002
+  },
+  "lufs": -14.1,
+  "true_peak": -3.5
+ }
+}

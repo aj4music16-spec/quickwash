@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="assets/vendor/gsap.min.js"></script>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #000; font-family: Inter, sans-serif; }
+      #stage { position: absolute; inset: 0; background: #000; }
+      .shot { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+    </style>
+  </head>
+  <body>
+    <!-- QuickWash - the wash, shown while it plays (timeline-edit reel demo): built by .claude/skills/timeline-edit-reel/scripts/build_timeline.py from timeline.spec.json.
+         1080x1920, 30 fps, 14.033 s (421 frames). Footage clips separated by black beats; the editor-timeline overlay on top.
+         schedule: c1 0.000-0.933 | g1 0.933-1.400 | c2 1.400-2.333 | g2 2.333-2.800 | c3 2.800-3.733 | g3 3.733-4.200 | c4 4.200-5.133 | g4 5.133-5.600 | c5 5.600-6.533 | g5 6.533-7.000 | c6 7.000-7.933 | g6 7.933-8.400 | c7 8.400-9.333 | g7 9.333-9.800 | c8 9.800-11.200 | end 11.200-14.033 -->
+    <div id="root" data-composition-id="main" data-start="0" data-duration="14.0333" data-width="1080" data-height="1920">
+      <div id="stage" data-layout-ignore></div>
+      <!-- c1: dirty grey SUV door, locked-off medium (the before) -->
+      <video id="v-c1" class="clip shot" src="assets/footage/c1.mp4" data-start="0.0" data-duration="0.9333" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <!-- c2: the QuickWash van arrives (logo on the side) -->
+      <video id="v-c2" class="clip shot" src="assets/footage/c2.mp4" data-start="1.4" data-duration="0.9333" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <!-- c3: wide street, foam cannon on the SUV -->
+      <video id="v-c3" class="clip shot" src="assets/footage/c3.mp4" data-start="2.8" data-duration="0.9333" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <!-- c4: wide rooftop rinse, skyline (plate blurred) -->
+      <video id="v-c4" class="clip shot" src="assets/footage/c4.mp4" data-start="4.2" data-duration="0.9333" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <!-- c5: medium, wheel scrub -->
+      <video id="v-c5" class="clip shot" src="assets/footage/c5.mp4" data-start="5.6" data-duration="0.9333" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <!-- c6: windshield rinse (plate blurred) -->
+      <video id="v-c6" class="clip shot" src="assets/footage/c6.mp4" data-start="7.0" data-duration="0.9333" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <!-- c7: door open on the clean interior -->
+      <video id="v-c7" class="clip shot" src="assets/footage/c7.mp4" data-start="8.4" data-duration="0.9333" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <!-- c8: the finished car, side (the after) -->
+      <video id="v-c8" class="clip shot" src="assets/footage/c8.mp4" data-start="9.8" data-duration="1.4" data-media-start="0" data-track-index="0" muted playsinline></video>
+      <div id="end" data-composition-id="end" data-composition-src="compositions/end.html" data-start="11.2" data-duration="2.8333"
+        data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 5"></div>
+      <!-- the editor timeline: label, scrolling filmstrip, handles, "+", fixed playhead (same segment list as the clips above) -->
+      <div id="timeline" data-composition-id="timeline" data-composition-src="compositions/timeline.html" data-start="0" data-duration="14.0333"
+        data-track-index="2" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 10"></div>
+      <!-- music: ../reel-race/assets/audio/music/bed2.mp3 from 1.834s (a beat), -14.1 LUFS / -3.5 dBTP (build_timeline.py) -->
+      <audio id="music" class="clip" data-start="0" data-duration="14.0333" data-track-index="3" data-volume="1" src="assets/audio/music.m4a"></audio>
+    </div>
+    <script>
+      window.__timelines = window.__timelines || {};
+      window.__timelines["main"] = gsap.timeline({ paused: true });
+    </script>
+  </body>
+</html>

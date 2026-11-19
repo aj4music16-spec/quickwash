@@ -1,0 +1,381 @@
+{
+  "ok": false,
+  "strict": false,
+  "browserSkipped": false,
+  "lint": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "filesScanned": 3
+  },
+  "runtime": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "layout": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "duration": 14.0333,
+    "samples": [
+      0.78,
+      2.339,
+      3.898,
+      5.457,
+      7.017,
+      8.576,
+      10.135,
+      11.694,
+      13.254
+    ],
+    "transitionSamples": [],
+    "transitionSamplesDropped": 0,
+    "tolerance": 2,
+    "totalIssueCount": 0,
+    "truncated": false
+  },
+  "motion": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [],
+    "enabled": false,
+    "samples": 0
+  },
+  "contrast": {
+    "ok": false,
+    "errorCount": 2,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.84:1; WCAG AA requires 3:1.",
+        "text": "you.",
+        "fg": "rgb(255,102,0)",
+        "bg": "rgb(251,251,254)",
+        "ratio": 2.84,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(248,99,0)",
+        "large": true,
+        "selector": "div > div:nth-of-type(2) > div > div:nth-of-type(3) > span:nth-of-type(2) > em",
+        "dataAttributes": {},
+        "sourceFile": "compositions/end.html",
+        "bbox": {
+          "x": 637.546875,
+          "y": 1139.078125,
+          "width": 159.984375,
+          "height": 107
+        },
+        "time": 13.254,
+        "times": [
+          13.254
+        ]
+      },
+      {
+        "code": "contrast_aa_failure",
+        "severity": "error",
+        "message": "Contrast is 2.94:1; WCAG AA requires 3:1.",
+        "text": "Book in the QuickWash app",
+        "fg": "rgb(255,102,0)",
+        "bg": "rgb(255,255,255)",
+        "ratio": 2.94,
+        "requiredRatio": 3,
+        "suggestedColor": "rgb(251,100,0)",
+        "large": true,
+        "selector": "#ec-sub",
+        "dataAttributes": {
+          "data-start": "0",
+          "data-duration": "1.9",
+          "data-track-index": "3"
+        },
+        "sourceFile": "compositions/end.html",
+        "bbox": {
+          "x": 0,
+          "y": 1262,
+          "width": 1080,
+          "height": 51
+        },
+        "time": 13.254,
+        "times": [
+          13.254
+        ]
+      }
+    ],
+    "enabled": true,
+    "samples": [
+      0.78,
+      3.898,
+      7.017,
+      10.135,
+      13.254
+    ],
+    "checked": 4,
+    "passed": 2
+  },
+  "craft": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 3,
+    "infoCount": 0,
+    "findings": [
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "The film's last line \"The car wash that\" (4 words) is on screen 1.73 s (±0.01 s), under the 2.00 s a closing line needs: hold it about 0.5 s + 0.3 s a word and at least 2 s before the film ends; see references/motion.md.",
+        "text": "The car wash that",
+        "selector": "#ec-h > span:nth-of-type(1)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/end.html",
+        "bbox": {
+          "x": 210.88,
+          "y": 1059.53,
+          "width": 658.25,
+          "height": 107
+        },
+        "time": 12.303,
+        "words": 4,
+        "seconds": 1.734,
+        "floorSeconds": 2,
+        "measured": [
+          {
+            "time": 12.046,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.17,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.295,
+            "opacity": 0.2,
+            "heightPx": 107
+          },
+          {
+            "time": 12.419,
+            "opacity": 0.92,
+            "heightPx": 107
+          },
+          {
+            "time": 12.543,
+            "opacity": 1,
+            "heightPx": 107
+          },
+          {
+            "time": 12.667,
+            "opacity": 1,
+            "heightPx": 107
+          },
+          {
+            "time": 12.791,
+            "opacity": 1,
+            "heightPx": 107
+          },
+          {
+            "time": 13.661,
+            "opacity": 1,
+            "heightPx": 107
+          },
+          {
+            "time": 13.785,
+            "opacity": 1,
+            "heightPx": 107
+          },
+          {
+            "time": 13.909,
+            "opacity": 1,
+            "heightPx": 107
+          },
+          {
+            "time": 14.033,
+            "opacity": 1,
+            "heightPx": 107
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "The film's last line \"comes to you.\" (3 words) is on screen 1.63 s (±0.01 s), under the 2.00 s a closing line needs: hold it about 0.5 s + 0.3 s a word and at least 2 s before the film ends; see references/motion.md.",
+        "text": "comes to you.",
+        "selector": "#ec-h > span:nth-of-type(2)",
+        "dataAttributes": {},
+        "sourceFile": "compositions/end.html",
+        "bbox": {
+          "x": 282.47,
+          "y": 1149.16,
+          "width": 515.06,
+          "height": 107
+        },
+        "time": 12.404,
+        "words": 3,
+        "seconds": 1.634,
+        "floorSeconds": 2,
+        "measured": [
+          {
+            "time": 12.046,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.17,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.295,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.419,
+            "opacity": 0.66,
+            "heightPx": 107
+          },
+          {
+            "time": 12.543,
+            "opacity": 0.97,
+            "heightPx": 107
+          },
+          {
+            "time": 12.667,
+            "opacity": 1,
+            "heightPx": 107
+          },
+          {
+            "time": 12.791,
+            "opacity": 1,
+            "heightPx": 107
+          },
+          {
+            "time": 13.661,
+            "opacity": 1,
+            "heightPx": 107
+          },
+          {
+            "time": 13.785,
+            "opacity": 1,
+            "heightPx": 107
+          },
+          {
+            "time": 13.909,
+            "opacity": 1,
+            "heightPx": 107
+          },
+          {
+            "time": 14.033,
+            "opacity": 1,
+            "heightPx": 107
+          }
+        ]
+      },
+      {
+        "code": "line_unread",
+        "severity": "warning",
+        "message": "The film's last line \"BOOK IN THE QUICKWASH APP\" (5 words) is on screen 1.33 s (±0.01 s), under the 2.00 s a closing line needs: hold it about 0.5 s + 0.3 s a word and at least 2 s before the film ends; see references/motion.md.",
+        "text": "BOOK IN THE QUICKWASH APP",
+        "selector": "#ec-sub",
+        "dataAttributes": {},
+        "sourceFile": "compositions/end.html",
+        "bbox": {
+          "x": 233.09,
+          "y": 1264.14,
+          "width": 613.82,
+          "height": 48
+        },
+        "time": 12.706,
+        "words": 5,
+        "seconds": 1.331,
+        "floorSeconds": 2,
+        "measured": [
+          {
+            "time": 12.419,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.543,
+            "opacity": null,
+            "heightPx": null
+          },
+          {
+            "time": 12.667,
+            "opacity": 0.47,
+            "heightPx": 48
+          },
+          {
+            "time": 12.791,
+            "opacity": 0.93,
+            "heightPx": 48
+          },
+          {
+            "time": 12.916,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 13.04,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 13.164,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 13.661,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 13.785,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 13.909,
+            "opacity": 1,
+            "heightPx": 48
+          },
+          {
+            "time": 14.033,
+            "opacity": 1,
+            "heightPx": 48
+          }
+        ]
+      }
+    ],
+    "enabled": true,
+    "step": 0.12400000000000055,
+    "samples": 114
+  },
+  "audio": {
+    "ok": true,
+    "errorCount": 0,
+    "warningCount": 0,
+    "infoCount": 0,
+    "findings": []
+  },
+  "hdr": {
+    "autoPromotion": null,
+    "inspection": "available"
+  },
+  "snapshots": {
+    "enabled": false,
+    "files": [],
+    "times": [],
+    "findingFiles": []
+  }
+}

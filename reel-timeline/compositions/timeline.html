@@ -1,0 +1,232 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: transparent; font-family: Inter, sans-serif; }
+    /* soft top scrim so the white label reads over bright footage (plain gradient, not a filter on the footage) */
+    #tl-scrim { position: absolute; left: 0; top: 0; width: 1080px; height: 640px; opacity: 0;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0.34) 0%, rgba(0, 0, 0, 0.18) 55%, rgba(0, 0, 0, 0) 100%); }
+    #tl-ui { position: absolute; inset: 0; }
+    #tl-labels { position: absolute; left: 0; top: 0; width: 1080px; height: 0; }
+    .tl-label { position: absolute; left: 0; width: 1080px; text-align: center; color: #fff; opacity: 0;
+      font-weight: 700; font-size: 64px; line-height: 1; letter-spacing: -0.01em; white-space: nowrap;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.35); font-variant-numeric: tabular-nums; }
+    #tl-panel { position: absolute; overflow: hidden; background: #111113; border-radius: 12px; }
+    #tl-strip { position: absolute; left: 0; top: 0; height: 100%; width: 1px; }
+    .tl-tile { position: absolute; border-radius: 10px; overflow: hidden; background-color: #2a2a2e;
+      background-repeat: no-repeat; background-position: left center; background-size: auto 100%; }
+    .tl-tile.gap { background-color: #0d0b12; }
+    /* the end-card tile repeats the logo like a filmstrip of the card */
+    .tl-tile.end { background-position: left center; background-size: auto 80%; background-repeat: space no-repeat; }
+    .tl-handle { position: absolute; width: 43px; height: 44px; border-radius: 12px; background: #fff;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35); }
+    .tl-handle::after { content: ""; position: absolute; left: 19px; top: 12px; width: 5px; height: 20px; border-radius: 3px; background: #111; }
+    #tl-plus { position: absolute; width: 71px; height: 71px; border-radius: 16px; background: #fff; box-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); }
+    #tl-plus::before, #tl-plus::after { content: ""; position: absolute; left: 20px; top: 32px; width: 31px; height: 7px; border-radius: 3px; background: #111; }
+    #tl-plus::after { transform: rotate(90deg); }
+    #tl-playhead { position: absolute; width: 8px; border-radius: 4px; background: #fff; box-shadow: 0 0 6px rgba(0, 0, 0, 0.45); }
+  </style>
+  <div id="root" data-composition-id="timeline" data-width="1080" data-height="1920">
+    <div id="tl-scrimclip" class="clip" data-start="0" data-tl-span="footage" data-duration="11.2" data-track-index="0" style="position: absolute; inset: 0" data-layout-ignore><div id="tl-scrim"></div></div>
+    <div id="tl-ui" class="clip" data-start="0" data-tl-span="all" data-duration="14.0333" data-track-index="1" data-layout-ignore>
+      <div id="tl-labels"></div>
+      <div id="tl-panel"><div id="tl-strip"></div></div>
+      <div id="tl-plus"></div>
+      <div id="tl-playhead"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // ---- the declared segment list (build_timeline.py rewrites everything between the markers) ----
+      const SPEC = /*SPEC*/ {
+         "decimal": ".",
+         "pxPerSecond": 372,
+         "total": 14.0333,
+         "footageEnd": 11.2,
+         "segments": [
+          {
+           "id": "c1",
+           "kind": "clip",
+           "start": 0.0,
+           "end": 0.9333,
+           "label": "before",
+           "thumb": "assets/thumbs/c1.jpg"
+          },
+          {
+           "id": "g1",
+           "kind": "gap",
+           "start": 0.9333,
+           "end": 1.4,
+           "label": null
+          },
+          {
+           "id": "c2",
+           "kind": "clip",
+           "start": 1.4,
+           "end": 2.3333,
+           "label": null,
+           "thumb": "assets/thumbs/c2.jpg"
+          },
+          {
+           "id": "g2",
+           "kind": "gap",
+           "start": 2.3333,
+           "end": 2.8,
+           "label": null
+          },
+          {
+           "id": "c3",
+           "kind": "clip",
+           "start": 2.8,
+           "end": 3.7333,
+           "label": null,
+           "thumb": "assets/thumbs/c3.jpg"
+          },
+          {
+           "id": "g3",
+           "kind": "gap",
+           "start": 3.7333,
+           "end": 4.2,
+           "label": null
+          },
+          {
+           "id": "c4",
+           "kind": "clip",
+           "start": 4.2,
+           "end": 5.1333,
+           "label": null,
+           "thumb": "assets/thumbs/c4.jpg"
+          },
+          {
+           "id": "g4",
+           "kind": "gap",
+           "start": 5.1333,
+           "end": 5.6,
+           "label": null
+          },
+          {
+           "id": "c5",
+           "kind": "clip",
+           "start": 5.6,
+           "end": 6.5333,
+           "label": null,
+           "thumb": "assets/thumbs/c5.jpg"
+          },
+          {
+           "id": "g5",
+           "kind": "gap",
+           "start": 6.5333,
+           "end": 7.0,
+           "label": null
+          },
+          {
+           "id": "c6",
+           "kind": "clip",
+           "start": 7.0,
+           "end": 7.9333,
+           "label": null,
+           "thumb": "assets/thumbs/c6.jpg"
+          },
+          {
+           "id": "g6",
+           "kind": "gap",
+           "start": 7.9333,
+           "end": 8.4,
+           "label": null
+          },
+          {
+           "id": "c7",
+           "kind": "clip",
+           "start": 8.4,
+           "end": 9.3333,
+           "label": null,
+           "thumb": "assets/thumbs/c7.jpg"
+          },
+          {
+           "id": "g7",
+           "kind": "gap",
+           "start": 9.3333,
+           "end": 9.8,
+           "label": null
+          },
+          {
+           "id": "c8",
+           "kind": "clip",
+           "start": 9.8,
+           "end": 11.2,
+           "label": "after",
+           "thumb": "assets/thumbs/c8.jpg"
+          },
+          {
+           "id": "end",
+           "kind": "end",
+           "start": 11.2,
+           "end": 14.0333,
+           "label": "QuickWash",
+           "labelColor": "#000099",
+           "tileColor": "#ffffff",
+           "thumb": "assets/brand/logo.png"
+          }
+         ]
+        } /*ENDSPEC*/;
+      // geometry, 1080x1920 (reference proportions: strip 81% of width, centred on the playhead; see measurements.md)
+      const G = { labelTop: 208, panelX: 102, panelY: 372, panelW: 876, panelH: 154, tileInset: 10, tileGap: 3,
+                  plusRight: 10, playheadOver: 5 };
+      window.__timelineEdit = SPEC;
+
+      const fmt = (s) => {
+        const v = (Math.round(s * 10) / 10).toFixed(1);
+        return (SPEC.decimal === "," ? v.replace(".", ",") : v) + "s";
+      };
+      const panel = document.getElementById("tl-panel");
+      const strip = document.getElementById("tl-strip");
+      const labels = document.getElementById("tl-labels");
+      Object.assign(panel.style, { left: G.panelX + "px", top: G.panelY + "px", width: G.panelW + "px", height: G.panelH + "px" });
+      const ph = document.getElementById("tl-playhead");
+      Object.assign(ph.style, { left: 540 - 4 + "px", top: G.panelY - G.playheadOver + "px", height: G.panelH + 2 * G.playheadOver + "px" });
+      const plus = document.getElementById("tl-plus");
+      Object.assign(plus.style, { left: G.panelX + G.panelW - G.plusRight - 71 + "px", top: G.panelY + (G.panelH - 71) / 2 + "px" });
+
+      // tiles: segment start s sits at the playhead when the film is at time s
+      const P = SPEC.pxPerSecond, head = 540 - G.panelX, th = G.panelH - 2 * G.tileInset;
+      const segs = SPEC.segments;
+      segs.forEach((sg, i) => {
+        const t = document.createElement("div");
+        t.className = "tl-tile " + sg.kind;
+        t.id = "tl-tile-" + sg.id;
+        const x0 = head + sg.start * P + G.tileGap, x1 = head + sg.end * P - G.tileGap;
+        Object.assign(t.style, { left: x0 + "px", top: G.tileInset + "px", width: Math.max(4, x1 - x0) + "px", height: th + "px" });
+        if (sg.thumb) t.style.backgroundImage = "url(" + sg.thumb + ")";
+        if (sg.tileColor) t.style.backgroundColor = sg.tileColor;
+        strip.appendChild(t);
+        if (sg.kind === "clip") {
+          // trim-handle grips at both ends of every footage clip, straddling the edge like the editor's
+          [x0 - 8, x1 - 35].forEach((hx, k) => {
+            const h = document.createElement("div");
+            h.className = "tl-handle";
+            h.id = "tl-h-" + sg.id + "-" + k;
+            Object.assign(h.style, { left: hx + "px", top: (G.panelH - 44) / 2 + "px" });
+            strip.appendChild(h);
+          });
+        }
+        const l = document.createElement("div");
+        l.className = "tl-label";
+        l.id = "tl-label-" + sg.id;
+        l.textContent = sg.label || fmt(sg.end - sg.start);
+        l.style.top = G.labelTop + "px";
+        if (sg.labelColor) { l.style.color = sg.labelColor; l.style.textShadow = "none"; }
+        labels.appendChild(l);
+      });
+
+      const tl = gsap.timeline({ paused: true });
+      // the strip scrolls right -> left at a constant px per second of timeline under the fixed playhead
+      tl.fromTo(strip, { x: 0 }, { x: -SPEC.total * P, duration: SPEC.total, ease: "none" }, 0);
+      tl.set("#tl-scrim", { opacity: 1 }, 0);
+      // the label is static per segment and swaps on the boundary (hard, like the cut)
+      segs.forEach((sg, i) => {
+        tl.set("#tl-label-" + sg.id, { opacity: 1 }, sg.start);
+        if (i < segs.length - 1) tl.set("#tl-label-" + sg.id, { opacity: 0 }, sg.end);
+      });
+      window.__timelines = window.__timelines || {};
+      window.__timelines["timeline"] = tl;
+    })();
+  </script>
+</template>

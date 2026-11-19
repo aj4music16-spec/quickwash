@@ -1,0 +1,89 @@
+{
+  "title": "QuickWash - the wash, shown while it plays (timeline-edit reel demo)",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "decimal": ".",
+  "music": {
+    "file": "../reel-race/assets/audio/music/bed2.mp3",
+    "start": "auto",
+    "min_start": 1.0,
+    "lufs": -14,
+    "true_peak": -1.5,
+    "fade_out": 0.9
+  },
+  "grid": {
+    "clip_beats": 2,
+    "gap_beats": 1
+  },
+  "overlay": {
+    "px_per_s": 372
+  },
+  "clips": [
+    {
+      "id": "c1",
+      "file": "../reel-hp/assets/footage/h4-dirty-door.mp4",
+      "in": 0.0,
+      "beats": 2,
+      "label": "before",
+      "note": "dirty grey SUV door, locked-off medium (the before)"
+    },
+    {
+      "id": "c2",
+      "file": "../reel-hp/assets/footage/o1-van-logo.mp4",
+      "in": 0.3,
+      "note": "the QuickWash van arrives (logo on the side)"
+    },
+    {
+      "id": "c3",
+      "file": "../reel-race/assets/footage/r1w-foam-street.mp4",
+      "in": 0.3,
+      "note": "wide street, foam cannon on the SUV"
+    },
+    {
+      "id": "c4",
+      "file": "../reel-race/assets/footage/r3w-durango-rinse.mp4",
+      "in": 0.4,
+      "note": "wide rooftop rinse, skyline (plate blurred)"
+    },
+    {
+      "id": "c5",
+      "file": "../reel-race/assets/footage/r4w-wheel-scrub.mp4",
+      "in": 1.2,
+      "note": "medium, wheel scrub"
+    },
+    {
+      "id": "c6",
+      "file": "../reel-hp/assets/footage/s05-windshield-rinse.mp4",
+      "in": 0.4,
+      "note": "windshield rinse (plate blurred)"
+    },
+    {
+      "id": "c7",
+      "file": "../reel-hp/assets/footage/s07-clean-dash.mp4",
+      "in": 0.4,
+      "note": "door open on the clean interior"
+    },
+    {
+      "id": "c8",
+      "file": "../reel-hp/assets/footage/s09-hero-side.mp4",
+      "in": 0.5,
+      "beats": 3,
+      "label": "after",
+      "note": "the finished car, side (the after)"
+    }
+  ],
+  "end_card": {
+    "beats": 6,
+    "label": "QuickWash",
+    "logo": "../reel-race/assets/app/logo.png",
+    "brand": "QuickWash",
+    "line": "The car wash that|comes to you.",
+    "accent_word": "you.",
+    "sub": "Book in the QuickWash app",
+    "navy": "#000099",
+    "accent": "#FF6600",
+    "sub_at": 0.16,
+    "accent_text": "#E85D00"
+  }
+}

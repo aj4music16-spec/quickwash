@@ -1,0 +1,36 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #ffffff; font-family: Poppins, sans-serif; }
+    #ec-bg { position: absolute; inset: 0;
+      background-image: radial-gradient(circle at 50% 46%, rgba(0, 0, 153, 0.08) 0%, rgba(0, 0, 0, 0) 38%),
+        linear-gradient(rgba(0, 0, 153, 0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 153, 0.045) 1px, transparent 1px);
+      background-size: 100% 100%, 60px 60px, 60px 60px; background-position: 0 0, 30px 30px, 30px 30px; }
+    #ec-logo { position: absolute; left: 330px; top: 620px; width: 420px; height: 420px; }
+    #ec-logo img { width: 420px; height: 420px; display: block; }
+    #ec-h { position: absolute; left: 60px; width: 960px; top: 1070px; text-align: center; color: #000099; font-weight: 700;
+      font-size: 76px; line-height: 1.08; letter-spacing: -0.03em; }
+    #ec-h span { display: block; white-space: nowrap; }
+    #ec-h em { font-style: normal; color: #E85D00; }
+    #ec-sub { position: absolute; left: 0; width: 1080px; top: 1262px; text-align: center; color: #E85D00; font-weight: 700;
+      font-size: 34px; letter-spacing: 0.12em; text-transform: uppercase; }
+  </style>
+  <div id="root" data-composition-id="end" data-width="1080" data-height="1920">
+    <div id="ec-bgclip" class="clip" data-start="0" data-duration="2.8333" data-track-index="0" style="position: absolute; inset: 0" data-layout-ignore><div id="ec-bg"></div></div>
+    <div id="ec-logoclip" class="clip" data-start="0" data-duration="2.8333" data-track-index="1" style="position: absolute; inset: 0" data-layout-ignore>
+      <div id="ec-logo"><img src="assets/brand/logo.png" alt="QuickWash" /></div>
+    </div>
+    <div id="ec-h" class="clip" data-start="0" data-duration="2.8333" data-track-index="2"><span>The car wash that</span><span>comes to <em>you.</em></span></div>
+    <div id="ec-sub" class="clip" data-start="0" data-duration="2.8333" data-track-index="3">Book in the QuickWash app</div>
+  </div>
+  <script>
+    (function () {
+      // the card hard-cuts in on the beat (like every cut in the reel); only its contents move, briefly
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#ec-logo", { scale: 0.86, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.4, ease: "expo.out" }, 0);
+      tl.fromTo("#ec-h > span", { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.34, ease: "expo.out", stagger: 0.06 }, 0.06);
+      tl.fromTo("#ec-sub", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.3, ease: "expo.out" }, 0.16);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["end"] = tl;
+    })();
+  </script>
+</template>

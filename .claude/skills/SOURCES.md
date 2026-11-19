@@ -15,6 +15,7 @@ Each was scanned for risky patterns before install. Notes are listed beside each
 | text-to-speech, sound-effects, music, speech-to-text, dubbing, voice-changer, voice-isolator, agents, realtime, speech-engine, onboarding, setup-api-key | github.com/elevenlabs/skills | MIT |
 | seedance-storyboard-generator | github.com/liangdabiao/Seedance2-Storyboard-Generator | none in repo |
 | short-drama, short-drama-* (12) | github.com/zenstory-ai/drama-skills | MIT |
+| timeline-edit-reel | authored in-house (QuickWash), from a client-supplied reference reel; measurements only, no third-party footage, audio or UI assets kept (bundles GSAP 3.15, GreenSock standard license, as in the reel projects) | project-internal |
 
 Not installed: github.com/bitwize-music-studio/claude-ai-music-skills (53 skills, CC0). It is a
 full Suno album workflow whose generic names (help, setup, test, resume, rename, configure)
