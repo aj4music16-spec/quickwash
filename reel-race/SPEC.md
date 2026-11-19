@@ -1,12 +1,37 @@
 # QuickWash "The race": everything in a $99 QuickWash, faster than it takes to book it
 
-Main cut (v3, Liam): 1080x1920, 30 fps, 27.567 s (827 frames), `../dist/quickwash-race.mp4`.
+Main cut (v4, Liam): 1080x1920, 30 fps, 27.567 s (827 frames), `../dist/quickwash-race.mp4`. The v3 close-up race is kept as
+`../dist/quickwash-race-alt-closeups.mp4`.
 Superseded renders: `../dist/quickwash-race-alt-laura.mp4` (v2, Laura, no b4 line) and `../dist/quickwash-race-alt-liam.mp4`
 (v1, Liam, before the shot changes and the WashClub beat).
 v3 pipeline: `tools/cues_v3.py` (Liam's placed VO from tools/cues-liam.json + the mid-line cuts + the WashClub insert)
 -> `tools/apply_cues.py` -> `tools/mix.py` -> check -> render. `tools/verify_cues.py <mp4>` checks the result.
 
-## v3 (client feedback): every phrase over its own action, plus the WashClub beat
+## v4 (client feedback): wider shots, fewer and longer, no zoom feel
+
+The client asked for wide shots of the detailing even where they don't match the words, and no quick zoom cuts. The race is now
+five wide or medium shots on a steady camera. Each cut lands on the first word of an item (verified in the MP4); there are no
+mid-phrase splits. Nothing scales the footage: the payoff's 1.00->1.04 push on the hero car is removed. The remaining scale
+tweens act on text only. The bottom scrim is stronger (0.5 at 45%, 0.62 at the bottom) for the brighter wide frames.
+
+| items covered | frames | clip (source window) | on screen |
+|---|---|---|---|
+| Foam + hand wash | 143-202 (1.97 s) | r1w-foam-street: IMG_0012_1_14 4.5 s +2.1 | wide street: detailer in the QuickWash hoodie foam-cannons the SUV |
+| Vacuum | 202-298 (3.20 s) | r2w-interior: IMG_6439 0.1 s +3.35 | driver door open, slow move over the clean interior |
+| Glass | 298-359 (2.03 s) | r3w-durango-rinse: IMG_2046 0.8 s +2.25 (fixed blur on the static front plate) | wide rooftop: detailer (QuickWash hoodie) rinsing the windshield and roof |
+| Tire shine + jambs, Interior | 359-480 (4.03 s) | r4w-wheel-scrub: IMG_6383 8.4 s +4.2 | medium: detailer crouched scrubbing the foamed wheel and tyre, face away |
+| Ceramic spray wax | 480-533 (1.77 s) | s08-spray-hood (reel-hp, plate blurred) | detailer spraying wax on the hood |
+
+Rejected:
+- IMG_6397 / 6407 / 6408 / 6399 (wide Volvo wash): the 485 7752 plate is in frame on a moving camera and would need a new
+  tracked blur. 6406 and 6399 also show faces.
+- IMG_0012_1_13 / 1_12 (s02 / s10): the plate is tracked only for short windows. 1_15 (s11): a walking, handheld follow.
+- 1_18: whip and lunge. 1_16: the subject is small with a walk-on.
+- IMG_2041 and IMG_2040 POV: close and handheld.
+- The v3 macro shots: the client asked for wide shots.
+The wax shot stays 1.77 s: the only spray-wax footage (IMG_6393) is 2.27 s long.
+
+## v3 (client feedback): every phrase over its own action, plus the WashClub beat (superseded race shots; WashClub kept)
 
 | spoken (Liam) | frames | clip / source window | what is visible |
 |---|---|---|---|

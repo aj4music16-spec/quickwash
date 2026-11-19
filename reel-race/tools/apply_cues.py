@@ -35,8 +35,9 @@ def hook(t):
     for i in ("hk-v", "hk-h"): t = attr(t, i, 0, d(k["race"]))
     return const(t, r'(repeat: 1, transformOrigin: "0% 50%" \}, )[0-9.]+(\);)', s(q["Go"]))
 def race(t):
-    ids = ["rc-s1a", "rc-s1b", "rc-s2", "rc-s3", "rc-s4a", "rc-s4b", "rc-s5", "rc-s6"]
-    cuts = [q[w] for w in ("Foam", "hand", "Vacuum", "Glass", "Tire", "door", "Interior", "Ceramic")] + [k["payoff"]]
+    # v4: five wide shots, cut on the first word of an item; "Tire" holds through "Interior wiped down"
+    ids = ["rc-w1", "rc-w2", "rc-w3", "rc-w4", "rc-w5"]
+    cuts = [q[w] for w in ("Foam", "Vacuum", "Glass", "Tire", "Ceramic")] + [k["payoff"]]
     for i, el in enumerate(ids): t = attr(t, el, s(cuts[i] - k["race"]), d(cuts[i + 1] - cuts[i]))
     return t
 def checklist(t):
@@ -49,7 +50,6 @@ def timer(t):
 def payoff(t):
     d_ = d(k["washclub"] - k["payoff"])
     for i in ("pay-s9", "pay-price", "pay-line"): t = attr(t, i, 0, d_)
-    t = const(t, r'(\{ scale: 1.04, duration: )[0-9.]+(, ease: "power2.out" \}, 0\);)', d_)
     return const(t, r"(const DONE = )[0-9.]+(;)", s(q["Done"] - k["payoff"]))
 def washclub(t):
     d_ = d(k["book"] - k["washclub"])
