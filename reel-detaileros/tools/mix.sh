@@ -24,13 +24,13 @@ pop 12.38 0.45
 tap 12.95 0.8
 impact 13.42 0.9
 pop 15.18 0.45"
-args=(-i "$A/bed.mp3"); fc="[0:a]atrim=0:$DUR,asetpts=PTS-STARTPTS,volume=0.55,afade=t=in:d=0.15,afade=t=out:st=$((DUR-1)).2:d=0.8[bed];"
-i=1; labels="[bed]"
+args=(-i "$A/bed.mp3"); fc="[1:a]atrim=0:$DUR,asetpts=PTS-STARTPTS,volume=0.55,afade=t=in:d=0.15,afade=t=out:st=$((DUR-1)).2:d=0.8[bed];"
+i=2; n=1; labels="[bed]"
 while read -r name t g; do
   args+=(-i "$A/$name.wav"); ms=$(awk "BEGIN{printf \"%d\", $t*1000}")
-  fc+="[$i:a]aformat=channel_layouts=stereo,volume=$g,adelay=$ms|$ms[s$i];"; labels+="[s$i]"; i=$((i+1))
+  fc+="[$i:a]aformat=channel_layouts=stereo,volume=$g,adelay=$ms|$ms[s$i];"; labels+="[s$i]"; i=$((i+1)); n=$((n+1))
 done <<< "$CUES"
-fc+="${labels}amix=inputs=$i:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11,aresample=44100[a]"
+fc+="${labels}amix=inputs=$n:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11,aresample=44100[a]"
 ffmpeg -v error -y -framerate 30 -i "$FR/f%05d.jpg" "${args[@]}" -filter_complex "$fc" -map 0:v -map "[a]" \
   -c:v libx264 -preset slow -crf 17 -pix_fmt yuv420p -colorspace bt709 -color_primaries bt709 -color_trc bt709 \
   -c:a aac -b:a 192k -t $DUR -movflags +faststart "$OUT"
