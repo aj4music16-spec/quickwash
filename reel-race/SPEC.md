@@ -1,11 +1,63 @@
 # QuickWash "The race": everything in a $99 QuickWash, faster than it takes to book it
 
-1080x1920, 30 fps, 24.967 s (749 frames). Output `../dist/quickwash-race.mp4`.
+Main cut (v2, Laura): 1080x1920, 30 fps, 24.5 s (735 frames), `../dist/quickwash-race.mp4`.
+Alternate (v1, Liam): 24.967 s (749 frames), `../dist/quickwash-race-alt-liam.mp4`; its plan is `tools/cues-liam.json` and its
+premix is `assets/audio/mix-liam.m4a`. To re-render it, copy cues-liam.json to cues.json, run `tools/apply_cues.py`, point
+the `<audio>` at mix-liam.m4a, and restore the hook re-cut to IMG_0012 7.4 s +5.1 s.
 Render: `npx --yes hyperframes@0.9.27 render -o ../dist/quickwash-race.mp4 --quality delivery --max-bitrate 12M`
 (env `HYPERFRAMES_NO_TELEMETRY=1 DO_NOT_TRACK=1`).
 Pipeline: `tools/gen-audio.sh` (takes, bed, sfx) -> `tools/stt_words.sh` (Scribe word onsets) -> `tools/vo_plan.py`
 (places the VO, writes `tools/cues.json`) -> `tools/apply_cues.py` (writes the frame-snapped cue times into index.html and
 compositions) -> `tools/mix.py` -> check -> render. Footage: `tools/trim.sh`.
+
+## v2: Laura (main cut)
+
+Voice: Laura FGY2WhTYpPnrIDTdsKH5, eleven_v3, stability 0.5 (`VOICE=laura tools/gen-audio.sh vo 4`, `assets/audio/vo-laura`).
+The lines are the same as Liam's, with speed-run tags and "!":
+- b1 `[excited] ... book one! Ready? Go!`
+- b2 `[speaking fast] Foam and a hand wash! ... Ceramic spray wax!`
+- b3 `[excited] Ninety-nine bucks. Done, with time to spare!`
+- b5 `[playful] QuickWash. Grab the app!`
+
+Takes, picked by pitch spread and pace:
+- b1_t2: 11.3 st, the tightest "Ready? Go!"
+- b2_t3: 15.1 st, the liveliest of four; she reads the list in 10.0 s, Liam took 12.9 s.
+- b3_t1: the only b3 take.
+- b5_t4: the only b5 take.
+
+The ElevenLabs credit quota ran out partway through the batch. Only b1 t1-t4, b2 t1-t4, b3_t1 and b5_t4 were generated, and
+**b4 ("Booking it? Twenty seconds.") could not be generated, so the booking beat has no voice in this cut.** Its picture keeps
+the Liam rhythm: the tap 0.3 s in, "Booked ✓" + "20 seconds." 1.07 s in, a 1.9 s beat. Scribe was blocked by the same quota.
+Phrase onsets therefore come from the audio (`tools/vo_plan_laura.py`): a speech segment is where the 10 ms envelope is above
+-38 dB, and eleven_v3's alignment picks the segment each phrase starts in. Every cue word starts a phrase.
+
+Pauses:
+- b2: gaps between items are evened to at least 0.35 s, because she ran two items together at 0.15 s. This adds silence only.
+- Hook: gaps are capped at 0.3 s.
+- "Go" -> "Foam" and "wax" -> "Ninety-nine": 0.55 s.
+- No time-stretch.
+
+The timer stops at 13.20 s and reads 0:13. The hook foam is re-cut longer (IMG_0012 6.8 s +5.7 s) for the 5.6 s hook.
+"With time to spare." is now white Poppins 700 64 px with the soft shadow, on a slightly stronger top scrim.
+
+| cue | voice onset / visual (frames) | event |
+|---|---|---|
+| Go | 142 / 142 | timer starts |
+| Foam / Vacuum / Glass / Tire / Interior / Ceramic | 168, 212, 290, 341, 401, 448 / same | race cuts + rows |
+| Ninety-nine | 500 / 500 | payoff cut + $99 |
+| Done | 538 / 538 | timer stops at 0:13, ding |
+| (Booking) | no VO / 596 | tap on Book This Slot |
+| (Twenty) | no VO / 619 | Booked ✓ + "20 seconds." |
+| QuickWash | 653 / 653 | logo |
+| Grab | 679 / 679 | badges |
+
+Beat cuts: race f168, payoff f500, book f587, end f644, end f735 (end card 3.03 s).
+Voice onsets are measured on a VO stem rebuilt exactly as the mix places it (`tools/verify_cues.py`). The cut frames were
+detected in the rendered MP4 itself. Every cue is 0 frames off by this acoustic measure. With Liam, Scribe's word starts ran
+0-2 frames later than the acoustic onset, and Scribe could not be run on this render.
+Mix: -14.1 LUFS, true peak -2.1 dBFS. There are 13 ticks, one per timer second.
+
+## v1: Liam (alternate cut). The sections below describe it.
 
 ## Concept
 A race against the booking timer. Booking in the app takes 20 seconds, so a timer pill runs in real time from the word

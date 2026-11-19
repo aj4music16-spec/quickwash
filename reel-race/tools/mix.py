@@ -1,19 +1,19 @@
-"""reel-race premix: ElevenLabs bed (bed2, ~128 BPM, two bars repeated by tools/extend_bed.py) + eleven_v3 VO placed from
+"""reel-race premix (main cut: Laura, tools/vo_plan_laura.py; the Liam alt used tools/cues-liam.json -> mix-liam.m4a): ElevenLabs bed (bed2, ~128 BPM, two bars repeated by tools/extend_bed.py) + eleven_v3 VO placed from
 tools/cues.json + UI sounds: a soft tick on every second of the race timer (Go + 1 s ... until it stops), a ding on "Done",
 whooshes into each beat, a tap on "Booking" and a success chime on "Twenty". Music side-chain ducked under the VO;
 loudnorm -14 LUFS, limiter, AAC.  (The hook foam and the wheel rinse keep their own clip sound at 0.12 in the video
-elements, as in reel-hp.)  Usage: python3 -I tools/mix.py [out.m4a]"""
+elements, as in reel-hp.)  Usage: python3 -I tools/mix.py [out.m4a] [cues.json]"""
 import json, math, os, subprocess, sys
 os.chdir(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
 out = sys.argv[1] if len(sys.argv) > 1 else "assets/audio/mix.m4a"
-C = json.load(open("tools/cues.json")); FILM = C["film_end"]; q = C["cues"]; cuts = C["cuts"]
+C = json.load(open(sys.argv[2] if len(sys.argv) > 2 else "tools/cues.json")); FILM = C["film_end"]; q = C["cues"]; cuts = C["cuts"]
 SFX = [("tick", q["Go"] + n, -2) for n in range(1, math.floor(C["timer_stop"]) + 1)]
 SFX += [("ding", q["Done"], -10), ("tap", q["Booking"], -4), ("success", q["Twenty"] + 0.03, -14)]
 SFX += [("whoosh", t - 0.05, -18) for t in (cuts["payoff"], cuts["book"], cuts["end"])]
 TRIM = "silenceremove=start_periods=1:start_threshold=-50dB"
 ins = ["-i", "assets/audio/music/bed2_ext.wav"]; fc = []; vo = []; fx = []; n = 1
 for p in C["segments"]:
-    ins += ["-i", f"assets/audio/vo/{p['file']}.mp3"]; d = round(p["src_to"] - p["src_from"], 3); ms = int(round(p["at"] * 1000))
+    ins += ["-i", f"{p.get('dir', 'assets/audio/vo')}/{p['file']}.mp3"]; d = round(p["src_to"] - p["src_from"], 3); ms = int(round(p["at"] * 1000))
     fc.append(f"[{n}]aformat=sample_rates=48000:channel_layouts=stereo,atrim={p['src_from']}:{p['src_to']},asetpts=PTS-STARTPTS,"
               f"afade=t=in:d=0.015,afade=t=out:st={max(0, d - 0.03):.3f}:d=0.03,adelay={ms}|{ms}[v{n}]"); vo.append(f"[v{n}]"); n += 1
 for f, t, g in SFX:

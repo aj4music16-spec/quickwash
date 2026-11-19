@@ -12,7 +12,7 @@ cut() { # name src in dur extra-vf
     -c:a aac -b:a 128k -movflags +faststart "$OUT/$1.mp4"
   echo "$1 $(ffprobe -v error -show_entries format=duration -of csv=p=0 "$OUT/$1.mp4") s"
 }
-cut s01-foam-long    "$PA/IMG_0012.mp4" 7.4 5.1               # hook: foam sheeting down the side (reel-hp s01 is 10.2-12.0 of this)
+cut s01-foam-long    "$PA/IMG_0012.mp4" 6.8 5.7               # hook: foam sheeting down the side (reel-hp s01 is 10.2-12.0 of this)
 cut s06-wheel-long   "$PA/IMG_6386.mp4" 4.4 2.6 # tires: pressure rinse blasts foam off the wheel (reel-hp s06 is 4.8-6.0)
 # vacuum: the only vacuum shot (fresh vacuum lines, IMG_2059, 3.0 s in all) is a little short of its line: played at 0.91x (3.3 s)
 ffmpeg -hide_banner -loglevel error -y -i "$PB/IMG_2059.mp4" -an -vf "$G,setpts=PTS*1.1,fps=30,format=yuv420p" -c:v libx264 -preset slow -crf 18 \

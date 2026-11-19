@@ -12,7 +12,7 @@
   </style>
   <div id="root" data-composition-id="checklist" data-width="1080" data-height="1920">
     <!-- mounted at film 4.867 (the race cut); leaves with the booking cut at 20.067 -->
-    <div id="ck-clip" class="clip" data-start="0" data-duration="15.302" data-layout-allow-overflow>
+    <div id="ck-clip" class="clip" data-start="0" data-duration="13.9687" data-layout-allow-overflow>
       <div id="ck-r1" class="ck-row" style="top: 890px"><div class="ck-badge"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.5 3.5 6.5-7" /></svg></div><div class="ck-label">Foam + hand wash</div></div>
       <div id="ck-r2" class="ck-row" style="top: 960px"><div class="ck-badge"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.5 3.5 6.5-7" /></svg></div><div class="ck-label">Vacuum: seats, floors, trunk</div></div>
       <div id="ck-r3" class="ck-row" style="top: 1030px"><div class="ck-badge"><svg viewBox="0 0 24 24"><path d="M7 12.5l3.5 3.5 6.5-7" /></svg></div><div class="ck-label">Glass, in + out</div></div>
@@ -25,7 +25,7 @@
     (function () {
       // Row N lands on the first frame of race shot N = its item's first spoken word (local = film - 4.867):
       // Foam 0, Vacuum 1.9667, Glass 5.2, Tire 7.2333, Interior 9.5, Ceramic 11.2667; payoff cut ("Ninety-nine") 12.8667.
-      const F = (f) => f / 30, ROW = [0, 1.9667, 5.1667, 7.2, 9.4667, 11.2333], PAYOFF = 13;
+      const F = (f) => f / 30, ROW = [0, 1.4667, 4.0667, 5.7667, 7.7667, 9.3333], PAYOFF = 11.0667;
       const tl = gsap.timeline({ paused: true });
       ROW.forEach((t, i) => {
         const n = i + 1, r = `#ck-r${n}`;

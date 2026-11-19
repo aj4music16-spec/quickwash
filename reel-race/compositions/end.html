@@ -18,14 +18,14 @@
     #en-badges img { height: 112px; display: block; }
   </style>
   <div id="root" data-composition-id="end" data-width="1080" data-height="1920">
-    <div id="en-bgclip" class="clip" data-start="0" data-duration="3" data-track-index="0" style="position: absolute; inset: 0" data-layout-ignore><div id="en-bg"></div></div>
-    <div id="en-ringclip" class="clip" data-start="0" data-duration="3" data-track-index="1" style="position: absolute; inset: 0" data-layout-ignore><div id="en-ring"></div></div>
-    <div id="en-logoclip" class="clip" data-start="0" data-duration="3" data-track-index="2" style="position: absolute; inset: 0" data-layout-ignore>
+    <div id="en-bgclip" class="clip" data-start="0" data-duration="3.0333" data-track-index="0" style="position: absolute; inset: 0" data-layout-ignore><div id="en-bg"></div></div>
+    <div id="en-ringclip" class="clip" data-start="0" data-duration="3.0333" data-track-index="1" style="position: absolute; inset: 0" data-layout-ignore><div id="en-ring"></div></div>
+    <div id="en-logoclip" class="clip" data-start="0" data-duration="3.0333" data-track-index="2" style="position: absolute; inset: 0" data-layout-ignore>
       <div id="en-logo"><img src="assets/app/logo.png" alt="QuickWash" /></div>
     </div>
-    <div id="en-h" class="clip" data-start="0" data-duration="3" data-track-index="3"><span>The car wash that</span><span>comes to <span style="display: inline; color: var(--accent, #ff6600)">you.</span></span></div>
-    <div id="en-dl" class="clip" data-start="0" data-duration="3" data-track-index="4">Download QuickWash</div>
-    <div id="en-badges" class="clip" data-start="0" data-duration="3" data-track-index="5">
+    <div id="en-h" class="clip" data-start="0" data-duration="3.0333" data-track-index="3"><span>The car wash that</span><span>comes to <span style="display: inline; color: var(--accent, #ff6600)">you.</span></span></div>
+    <div id="en-dl" class="clip" data-start="0" data-duration="3.0333" data-track-index="4">Download QuickWash</div>
+    <div id="en-badges" class="clip" data-start="0" data-duration="3.0333" data-track-index="5">
       <img id="en-ios" src="assets/app/app-store-badge.svg" alt="Download on the App Store" />
       <img id="en-and" src="assets/app/google-play-badge.svg" alt="Get it on Google Play" />
     </div>
@@ -37,8 +37,8 @@
       tl.fromTo("#en-logo", { scale: 0.55, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.6, ease: "back.out(1.6)" }, 0.3);
       tl.fromTo("#en-ring", { scale: 0.6, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.9, ease: "expo.out" }, 0.36);
       tl.fromTo("#en-h > span", { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out", stagger: 0.1 }, 0.55);
-      tl.fromTo("#en-dl", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 0.9667);
-      tl.fromTo(["#en-ios", "#en-and"], { opacity: 0, y: 40, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.5)", stagger: 0.08 }, 1.2667);
+      tl.fromTo("#en-dl", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.4, ease: "expo.out" }, 0.8667);
+      tl.fromTo(["#en-ios", "#en-and"], { opacity: 0, y: 40, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.5)", stagger: 0.08 }, 1.1667);
       window.__timelines = window.__timelines || {};
       window.__timelines["end"] = tl;
     })();
