@@ -8,7 +8,7 @@ whoosh 2.50 0.7
 pop 3.05 0.35
 pop 3.42 0.4
 whoosh 3.45 0.35
-tap 5.35 0.8
+tap 5.35 1.6
 whoosh 6.00 0.75
 pop 6.38 0.45
 tick 7.27 0.6
@@ -21,16 +21,19 @@ tick 11.45 0.55
 tick 11.75 0.55
 tick 12.05 0.55
 pop 12.38 0.45
-tap 12.95 0.8
+tap 12.95 1.6
 impact 13.42 0.9
 pop 15.18 0.45"
-args=(-i "$A/bed.mp3"); fc="[1:a]atrim=0:$DUR,asetpts=PTS-STARTPTS,volume=0.55,afade=t=in:d=0.15,afade=t=out:st=$((DUR-1)).2:d=0.8[bed];"
-i=2; n=1; labels="[bed]"
+args=(-i "$A/music.mp3"); fc="[1:a]atrim=0:$DUR,asetpts=PTS-STARTPTS,volume=0.7,afade=t=in:d=0.15,afade=t=out:st=$((DUR-1)).2:d=0.8[bed];"
+i=2; n=0; labels=""
 while read -r name t g; do
   args+=(-i "$A/$name.wav"); ms=$(awk "BEGIN{printf \"%d\", $t*1000}")
   fc+="[$i:a]aformat=channel_layouts=stereo,volume=$g,adelay=$ms|$ms[s$i];"; labels+="[s$i]"; i=$((i+1)); n=$((n+1))
 done <<< "$CUES"
-fc+="${labels}amix=inputs=$n:normalize=0:duration=first,loudnorm=I=-14:TP=-1.5:LRA=11,aresample=44100[a]"
+# effects bus ducks the music briefly so every hit reads, then both are mixed
+fc+="${labels}amix=inputs=$n:normalize=0:duration=longest,apad=whole_dur=$DUR,volume=1.3,asplit[sfx][sc];"
+fc+="[bed][sc]sidechaincompress=threshold=0.03:ratio=5:attack=4:release=220[bd];"
+fc+="[bd][sfx]amix=inputs=2:normalize=0:duration=first,alimiter=limit=0.7,loudnorm=I=-14:TP=-1.5:LRA=11,aresample=44100[a]"
 ffmpeg -v error -y -framerate 30 -i "$FR/f%05d.jpg" "${args[@]}" -filter_complex "$fc" -map 0:v -map "[a]" \
   -c:v libx264 -preset slow -crf 17 -pix_fmt yuv420p -colorspace bt709 -color_primaries bt709 -color_trc bt709 \
   -c:a aac -b:a 192k -t $DUR -movflags +faststart "$OUT"
