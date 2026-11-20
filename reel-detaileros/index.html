@@ -20,7 +20,7 @@
 <div id="stage"></div>
 <script>
 // Source images are 941x1672; every layer keeps its source position and the stage scales by K.
-const K = 1080/941, FPS = 30, DUR = 21.5;
+const K = 1080/941, FPS = 30, DUR = 20.5;
 const META = {"1":{"notif":[26,700,890,232]},"2":{"logo":[266,90,406,104],"h1":[75,226,447,126],"h2":[522,226,360,136],"phone":[82,372,744,1140]},"3":{"logo":[290,94,358,92],"head":[108,220,724,168],"sub":[148,403,644,99],"card":[242,546,464,466],"paid":[356,894,234,84],"check":[404,648,136,96]},"4":{"logo":[243,205,455,117],"h1":[62,374,826,90],"h2":[234,466,474,150],"phones":[34,628,878,610],"row":[110,1274,720,54],"cta":[62,1376,816,148]},"5":{"logo":[98,213,744,139],"t1":[84,444,802,108],"t2":[88,552,794,118],"t3":[88,670,794,136],"btn":[66,852,808,246],"search":[98,1098,749,56],"walk":[108,1253,724,139]}};
 const ORDER = {1:["notif"],2:["logo","h1","h2","phone"],3:["logo","head","sub","card","check","paid"],4:["logo","h1","h2","phones","row","cta"],5:["logo","t1","t2","t3","btn","search","walk"]};
 
@@ -109,15 +109,15 @@ window.seek=function(t){
     if (w>0) S[2].sc.style.filter='url(#mbx)';
   }
 
-  // ===== Scene 3: From "How much?" to paid (6.0 – 9.95) =====
-  if (t>=6.0 && t<9.95){
+  // ===== Scene 3: From "How much?" to paid (6.0 – 12.35) =====
+  if (t>=6.0 && t<12.35){
     show(3,true);
     const w=prog(t,6.0,0.45); const we=inOutCubic(w);
     let x=1080*(1-we), y=0, filter=w<1?'url(#mbx)':'';
-    const up=prog(t,9.5,0.45); const ue=inOutCubic(up);
+    const up=prog(t,11.9,0.45); const ue=inOutCubic(up);
     if (up>0){ y=-1920*ue; filter='url(#mby)'; mby.setAttribute('stdDeviation',`0 ${Math.sin(Math.PI*up)*70}`);}
     sceneXf(3,{x,y,filter});
-    camSet(3,lerp(1.1,1.0,outCubic(prog(t,6.0,3.9))),471,836);
+    camSet(3,lerp(1.12,1.0,outCubic(prog(t,6.0,6.3))),471,836);
     const lg=enter(t,6.3,0.45,-45,.9); lay(3,'logo',{y:lg.y,op:lg.op,sc:lg.sc});
     const hd=enter(t,6.4,0.5,60); lay(3,'head',{y:hd.y,op:hd.op});
     const sb=enter(t,6.65,0.45,30); lay(3,'sub',{y:sb.y,op:sb.op});
@@ -125,43 +125,43 @@ window.seek=function(t){
     const cardY=lerp(120,0,outCubic(c))+Math.sin(cf*2)*5;
     lay(3,'card',{y:cardY,sc:lerp(.72,1,outBack(c,1.4)),op:clamp(c*3)});
     L[3].card.style.filter='drop-shadow(0 22px 40px rgba(0,0,0,.30))';
-    const ck=prog(t,7.25,0.4); lay(3,'check',{y:cardY,sc:lerp(0,1,outBack(ck,2.4)),op:clamp(ck*4),rot:lerp(-40,0,outCubic(ck))});
-    const pd=prog(t,7.85,0.32); lay(3,'paid',{y:cardY,sc:lerp(2.3,1,outBack(pd,1.2)),op:clamp(pd*3),rot:lerp(-10,-0,outCubic(pd))});
+    const ck=prog(t,10.45,0.4); lay(3,'check',{y:cardY,sc:lerp(0,1,outBack(ck,2.4)),op:clamp(ck*4),rot:lerp(-40,0,outCubic(ck))});
+    const pd=prog(t,10.85,0.32); lay(3,'paid',{y:cardY,sc:lerp(2.3,1,outBack(pd,1.2)),op:clamp(pd*3),rot:lerp(-10,-0,outCubic(pd))});
   }
 
-  // ===== Scene 4: Quote · Book · Invoice (9.5 – 14.75) =====
-  if (t>=9.5 && t<14.75){
+  // ===== Scene 4: Quote · Book · Invoice (11.9 – 17.05) =====
+  if (t>=11.9 && t<17.05){
     show(4,true);
-    const up=prog(t,9.5,0.45); const ue=inOutCubic(up);
+    const up=prog(t,11.9,0.45); const ue=inOutCubic(up);
     let y=1920*(1-ue), sc=1, op=1, filter=up<1?'url(#mby)':'';
-    const out=prog(t,14.3,0.45); if (out>0){ sc=lerp(1,1.7,inCubic(out)); op=1-clamp((out-0.35)/0.65); filter=`blur(${out*8}px)`; }
+    const out=prog(t,16.6,0.45); if (out>0){ sc=lerp(1,1.7,inCubic(out)); op=1-clamp((out-0.35)/0.65); filter=`blur(${out*8}px)`; }
     sceneXf(4,{y,sc,op,filter});
-    camSet(4,lerp(1.05,1.0,outCubic(prog(t,9.6,3.8))),471,900);
-    const lg=enter(t,9.9,0.45,-45,.9); lay(4,'logo',{y:lg.y,op:lg.op,sc:lg.sc});
-    const a=enter(t,10.0,0.45,60); lay(4,'h1',{y:a.y,op:a.op});
-    const b=prog(t,10.25,0.5); lay(4,'h2',{sc:lerp(1.45,1,outBack(b,2)),op:clamp(b*3)});
-    const ph=prog(t,10.4,0.85); const fl=Math.max(0,t-11.25);
+    camSet(4,lerp(1.05,1.0,outCubic(prog(t,12.0,4.6))),471,900);
+    const lg=enter(t,12.3,0.45,-45,.9); lay(4,'logo',{y:lg.y,op:lg.op,sc:lg.sc});
+    const a=enter(t,12.4,0.45,60); lay(4,'h1',{y:a.y,op:a.op});
+    const b=prog(t,12.65,0.5); lay(4,'h2',{sc:lerp(1.45,1,outBack(b,2)),op:clamp(b*3)});
+    const ph=prog(t,12.8,0.85); const fl=Math.max(0,t-13.65);
     lay(4,'phones',{y:lerp(700,0,outCubic(ph))+Math.sin(fl*2)*6,sc:lerp(.86,1,outCubic(ph)),op:clamp(ph*4)});
     // Quote — Book — Invoice wipes on left to right
-    // reveal each word as the voiceover says it: Quote 10.85, Book 11.62, Invoice 12.31
-    const seg=(t0,a,b)=>a+(b-a)*outCubic(prog(t,t0,0.28)); const rv=t<11.62?seg(10.8,0,36):t<12.31?seg(11.57,36,67):seg(12.26,67,100);
-    L[4].row.style.clipPath=`inset(0 ${100-rv}% 0 0)`; lay(4,'row',{op:t>=10.8?1:0});
-    const ct=prog(t,12.6,0.45); const pulse=Math.sin(Math.PI*clamp((t-13.2)/0.3));
+    // reveal Quote, Book, Invoice one after another (13.45, 13.85, 14.25)
+    const seg=(t0,a,b)=>a+(b-a)*outCubic(prog(t,t0,0.28)); const rv=t<13.85?seg(13.4,0,36):t<14.25?seg(13.8,36,67):seg(14.2,67,100);
+    L[4].row.style.clipPath=`inset(0 ${100-rv}% 0 0)`; lay(4,'row',{op:t>=13.4?1:0});
+    const ct=prog(t,14.9,0.45); const pulse=Math.sin(Math.PI*clamp((t-15.6)/0.3));
     lay(4,'cta',{sc:lerp(.6,1,outBack(ct,1.8))+pulse*0.05,op:clamp(ct*3)});
-    const r=prog(t,13.2,0.5); Object.assign(rip4.style,{left:'470px',top:'1450px',width:lerp(40,240,outCubic(r))+'px',height:lerp(40,240,outCubic(r))+'px',opacity:r>0&&r<1?(1-r)*0.9:0});
+    const r=prog(t,15.6,0.5); Object.assign(rip4.style,{left:'470px',top:'1450px',width:lerp(40,240,outCubic(r))+'px',height:lerp(40,240,outCubic(r))+'px',opacity:r>0&&r<1?(1-r)*0.9:0});
   }
 
-  // ===== Scene 5: end card (14.3 – 21.5) =====
-  if (t>=14.3){
+  // ===== Scene 5: end card (16.6 – 20.5) =====
+  if (t>=16.6){
     show(5,true);
-    const inn=prog(t,14.3,0.5); sceneXf(5,{sc:lerp(1.35,1,outCubic(inn)),op:clamp(inn*1.6)});
-    camSet(5,lerp(1.08,1.0,outCubic(prog(t,14.3,7.2))),471,836);
-    const lg=prog(t,14.6,0.55); lay(5,'logo',{sc:lerp(1.18,1,outCubic(lg)),op:clamp(lg*2),blur:(1-outCubic(lg))*14});
-    [['t1',16.25],['t2',17.5],['t3',18.55]].forEach(([n,t0])=>{const p=prog(t,t0,0.45); lay(5,n,{y:lerp(36,0,outCubic(p)),op:clamp(p*2.4),blur:(1-p)*6});});
-    const bt=prog(t,19.4,0.5); const glow=t>19.95?(Math.sin((t-19.95)*3.2)*0.5+0.5):0;
+    const inn=prog(t,16.6,0.5); sceneXf(5,{sc:lerp(1.35,1,outCubic(inn)),op:clamp(inn*1.6)});
+    camSet(5,lerp(1.08,1.0,outCubic(prog(t,16.6,3.9))),471,836);
+    const lg=prog(t,16.85,0.5); lay(5,'logo',{sc:lerp(1.18,1,outCubic(lg)),op:clamp(lg*2),blur:(1-outCubic(lg))*14});
+    [['t1',17.25],['t2',17.45],['t3',17.65]].forEach(([n,t0])=>{const p=prog(t,t0,0.45); lay(5,n,{y:lerp(36,0,outCubic(p)),op:clamp(p*2.4),blur:(1-p)*6});});
+    const bt=prog(t,17.95,0.5); const glow=t>18.5?(Math.sin((t-18.5)*3.2)*0.5+0.5):0;
     lay(5,'btn',{sc:lerp(.65,1,outBack(bt,1.8))+glow*0.018,op:clamp(bt*3),bright:1+glow*0.12});
-    const se=enter(t,19.95,0.4,20); lay(5,'search',{y:se.y,op:se.op});
-    const wk=enter(t,20.25,0.45,24); lay(5,'walk',{y:wk.y,op:wk.op});
+    const se=enter(t,18.95,0.4,20); lay(5,'search',{y:se.y,op:se.op});
+    const wk=enter(t,17.85,0.45,24); lay(5,'walk',{y:wk.y,op:wk.op});
   }
 };
 window.DURATION=DUR; window.FPS=FPS;

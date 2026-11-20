@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # usage: tools/mix.sh <frames_dir> <out.mp4>   (run from reel-detaileros/)
-# Layers: music bed (ducks under effects and voice) + sound effects + voiceover (ElevenLabs "Liam").
+# Layers: music bed (ducks under effects and voice) + sound effects + voiceover (ElevenLabs "Chris", first-person detailer story).
 set -euo pipefail
-FR=$1; OUT=$2; A=assets/audio; DUR=21.5
+FR=$1; OUT=$2; A=assets/audio; DUR=20.5
 # sound effects: name  time(s)  gain
-CUES="ding 0.42 0.9
+CUES="buzz 0.30 1.0
 whoosh 2.50 0.7
 pop 3.05 0.35
 pop 3.42 0.4
@@ -12,26 +12,26 @@ whoosh 3.45 0.35
 tap 5.35 1.6
 whoosh 6.00 0.75
 pop 6.38 0.45
-tick 7.27 0.6
-kaching 7.85 0.6
-whoosh 9.50 0.75
-pop 9.92 0.35
-pop 10.27 0.4
-whoosh 10.40 0.35
-tick 10.85 0.55
-tick 11.62 0.55
-tick 12.31 0.55
-pop 12.62 0.45
-tap 13.20 1.6
-impact 14.32 0.9
-pop 19.42 0.45"
+tick 10.47 0.6
+kaching 10.85 0.6
+whoosh 11.90 0.75
+pop 12.32 0.35
+pop 12.67 0.4
+whoosh 12.80 0.35
+tick 13.45 0.55
+tick 13.85 0.55
+tick 14.25 0.55
+pop 14.92 0.45
+tap 15.60 1.6
+impact 16.62 0.9
+pop 17.97 0.45"
 # voiceover lines: file  time(s)
-VO="vo1 0.45
-vo2 3.45
-vo3 6.15
-vo4 10.85
-vo5 14.70
-vo6 19.50"
+VO="v1 1.25
+v2 3.50
+v3 6.40
+v4 9.75
+v5 12.55
+v6 17.15"
 
 args=(-i "$A/music22.mp3")
 FADE=$(awk "BEGIN{print $DUR-0.9}")
@@ -44,7 +44,7 @@ done <<< "$CUES"
 fc+="${labels}amix=inputs=$n:normalize=0:duration=longest,apad=whole_dur=$DUR,volume=1.3,asplit[sfx][sc];"
 v=0; vlabels=""
 while read -r name t; do
-  args+=(-i "$A/vo/$name.wav"); ms=$(awk "BEGIN{printf \"%d\", $t*1000}")
+  args+=(-i "$A/vo_story/$name.wav"); ms=$(awk "BEGIN{printf \"%d\", $t*1000}")
   fc+="[$i:a]aformat=channel_layouts=stereo,adelay=$ms|$ms[v$i];"; vlabels+="[v$i]"; i=$((i+1)); v=$((v+1))
 done <<< "$VO"
 fc+="${vlabels}amix=inputs=$v:normalize=0:duration=longest,apad=whole_dur=$DUR,highpass=f=80,acompressor=threshold=0.1:ratio=3:attack=5:release=120,volume=2.2,asplit[vo][vsc];"
