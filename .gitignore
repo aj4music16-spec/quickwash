@@ -10,3 +10,5 @@ reel-nj/.hyperframes/
 reel-nj/renders/
 reel-hp/.hyperframes/
 reel-hp/renders/
+
+__pycache__/
