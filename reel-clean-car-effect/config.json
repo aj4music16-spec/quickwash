@@ -1,0 +1,8 @@
+{"fps": 30,
+ "scenes": [
+  {"name": "mess",   "dur": 2.9, "vo": "m1", "in": "none"},
+  {"name": "mind",   "dur": 2.6, "vo": "m2", "in": "whip"},
+  {"name": "reset",  "dur": 2.4, "vo": "m3", "in": "zoom"},
+  {"name": "effect", "dur": 2.6, "vo": "m5", "in": "up"},
+  {"name": "fresh",  "dur": 5.2, "vo": "m6", "in": "zoom"}
+ ]}

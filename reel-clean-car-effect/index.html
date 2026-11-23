@@ -1,0 +1,51 @@
+<!doctype html><html><head><meta charset="utf-8"><title>The Clean-Car Effect</title>
+<style>
+ html,body{margin:0;background:#000}
+ #stage{position:relative;width:1080px;height:1920px;overflow:hidden;background:#7b2fb5}
+ .scene{position:absolute;inset:0;overflow:hidden;display:none}
+ .cam{position:absolute;left:0;top:0;width:941px;height:1672px;transform-origin:0 0}
+ .cam img{position:absolute;display:block}
+ .plate{left:0;top:0;width:941px;height:1672px}
+ #flash{position:absolute;inset:0;background:#fff;opacity:0}
+</style></head><body>
+<svg width="0" height="0" style="position:absolute"><filter id="mbx" x="-20%" y="-5%" width="140%" height="110%"><feGaussianBlur id="mbx-b" stdDeviation="0 0"/></filter>
+<filter id="mby" x="-5%" y="-20%" width="110%" height="140%"><feGaussianBlur id="mby-b" stdDeviation="0 0"/></filter></svg>
+<div id="stage"><div id="flash"></div></div>
+<script>
+// Stills are 941x1672; layers keep their source position and the stage scales by K.
+const K=1080/941, TR=0.42;
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x)), prog=(t,t0,d)=>clamp((t-t0)/d), lerp=(a,b,p)=>a+(b-a)*p;
+const outCubic=p=>1-Math.pow(1-p,3), inCubic=p=>p*p*p, inOut=p=>p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2;
+const outBack=(p,s=1.8)=>1+(s+1)*Math.pow(p-1,3)+s*Math.pow(p-1,2);
+// camera focus (source px) and push per scene: [from scale, to scale, focus x, focus y]
+const CAM={mess:[1.0,1.06,470,520],mind:[1.07,1.0,470,520],reset:[1.0,1.06,470,520],better:[1.07,1.0,470,520],effect:[1.06,1.0,470,520],fresh:[1.0,1.045,470,520]};
+let S=[],META={},stage=document.getElementById('stage'),flash=document.getElementById('flash');
+window.init=function(cfg,meta){META=meta;let t=0;
+  cfg.scenes.forEach(sc=>{const el=document.createElement('div');el.className='scene';const cam=document.createElement('div');cam.className='cam';
+    const pl=document.createElement('img');pl.className='plate';pl.src=`assets/layers/${sc.name}_plate.jpg`;cam.appendChild(pl);const L={};
+    for(const n of Object.keys(meta[sc.name])){const [x,y,w,h]=meta[sc.name][n];const im=document.createElement('img');im.src=`assets/layers/${sc.name}_${n}.png`;
+      Object.assign(im.style,{left:x+'px',top:y+'px',width:w+'px',height:h+'px'});cam.appendChild(im);L[n]=im;}
+    el.appendChild(cam);stage.insertBefore(el,flash);S.push({...sc,t0:t,t1:t+sc.dur,el,cam,L});t+=sc.dur;});
+  window.DURATION=t;window.FPS=cfg.fps;};
+function lay(e,{x=0,y=0,sc=1,rot=0,op=1}={}){e.style.transform=`translate(${x}px,${y}px) rotate(${rot}deg) scale(${sc})`;e.style.opacity=op;}
+window.seek=function(t){
+  document.getElementById('mbx-b').setAttribute('stdDeviation','0 0');document.getElementById('mby-b').setAttribute('stdDeviation','0 0');flash.style.opacity=0;
+  S.forEach((s,i)=>{const nxt=S[i+1];const vis=t>=s.t0-1e-6&&t<(nxt?s.t1+TR:s.t1+1);s.el.style.display=vis?'block':'none';if(!vis)return;
+    s.el.style.zIndex=i;let x=0,y=0,sc=1,op=1,filter='';
+    // incoming transition (this scene) and outgoing (driven by the next scene's type)
+    const pin=s.in==='none'?1:prog(t,s.t0,TR), e=inOut(pin);
+    if(pin<1){ if(s.in==='whip'){x=1080*(1-e);filter='url(#mbx)';document.getElementById('mbx-b').setAttribute('stdDeviation',`${Math.sin(Math.PI*pin)*60} 0`);}
+               if(s.in==='up'){y=1920*(1-e);filter='url(#mby)';document.getElementById('mby-b').setAttribute('stdDeviation',`0 ${Math.sin(Math.PI*pin)*70}`);}
+               if(s.in==='zoom'){sc=lerp(1.35,1,outCubic(pin));op=clamp(pin*1.8);} }
+    if(nxt&&t>=nxt.t0){const po=prog(t,nxt.t0,TR),eo=inOut(po);
+      if(nxt.in==='whip'){x=-1080*eo;filter='url(#mbx)';} if(nxt.in==='up'){y=-1920*eo;filter='url(#mby)';}
+      if(nxt.in==='zoom'){sc=lerp(1,1.6,inCubic(po));filter=`blur(${po*8}px)`;} }
+    s.el.style.transform=`translate(${x}px,${y}px) scale(${sc})`;s.el.style.opacity=op;s.el.style.filter=filter;
+    const [c0,c1,fx,fy]=CAM[s.name];const cs=lerp(c0,c1,outCubic(prog(t,s.t0,s.dur+TR)));
+    s.cam.style.transform=`scale(${K}) translate(${fx}px,${fy}px) scale(${cs}) translate(${-fx}px,${-fy}px)`;
+    // headline: line 1 drops in, line 2 slams
+    const a=prog(t,s.t0+0.22,0.4);lay(s.L.h1,{y:lerp(-70,0,outCubic(a)),sc:lerp(.85,1,outBack(a)),op:clamp(a*2.5),rot:lerp(-3,0,outCubic(a))});
+    const b=prog(t,s.t0+0.5,0.42);lay(s.L.h2,{sc:lerp(1.6,1,outBack(b,2.2)),op:clamp(b*3),rot:lerp(4,0,outCubic(b))});
+    if(s.L.badge){const c=prog(t,s.t0+1.9,0.5);const pulse=t>s.t0+2.6?Math.sin((t-s.t0-2.6)*3.4)*0.5+0.5:0;lay(s.L.badge,{y:lerp(120,0,outCubic(c)),sc:lerp(.6,1,outBack(c,1.8))+pulse*0.025,op:clamp(c*3)});}
+  });};
+</script></body></html>
