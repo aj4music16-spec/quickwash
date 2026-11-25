@@ -12,7 +12,11 @@ if [ "$VOICE" = laura ]; then VID=FGY2WhTYpPnrIDTdsKH5; VD=$A/vo-laura; else VID
 tts() { # text out
   local f=$2; [ -s "$f.mp3" ] && return 0
   local body; body=$(python3 -I -c 'import json,sys; print(json.dumps({"text": sys.argv[1], "model_id": "eleven_v3", "voice_settings": {"stability": 0.5}}))' "$1")
-  local code; code=$(curl -sS -o "$f.resp" -w '%{http_code}' -X POST "$API/text-to-speech/$VID/with-timestamps?output_format=mp3_44100_128" -H 'Content-Type: application/json' --data "$body")
+  local code n=0
+  while :; do   # the account is shared: on HTTP 429 wait 20 s and retry (up to 6 times)
+    code=$(curl -sS -o "$f.resp" -w '%{http_code}' -X POST "$API/text-to-speech/$VID/with-timestamps?output_format=mp3_44100_128" -H 'Content-Type: application/json' --data "$body")
+    [ "$code" = 429 ] && [ $n -lt 6 ] && { n=$((n+1)); echo "429, waiting 20 s"; sleep 20; continue; }; break
+  done
   if [ "$code" != 200 ]; then echo "ERR $code $f: $(head -c 300 "$f.resp")"; rm -f "$f.resp"; return 1; fi
   python3 -I -c 'import json,base64,sys; d=json.load(open(sys.argv[1])); open(sys.argv[2]+".mp3","wb").write(base64.b64decode(d["audio_base64"])); json.dump(d["alignment"], open(sys.argv[2]+".json","w"))' "$f.resp" "$f" && rm -f "$f.resp"; echo "ok  $f.mp3"
 }

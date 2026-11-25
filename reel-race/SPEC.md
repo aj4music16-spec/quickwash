@@ -1,6 +1,6 @@
 # QuickWash "The race": everything in a $99 QuickWash, faster than it takes to book it
 
-Main cut (v4, Liam): 1080x1920, 30 fps, 27.567 s (827 frames), `../dist/quickwash-race.mp4`. The v3 close-up race is kept as
+Main cut (v5, Liam, with the WashClub line): 1080x1920, 30 fps, 27.967 s (839 frames), `../dist/quickwash-race.mp4`. The v3 close-up race is kept as
 `../dist/quickwash-race-alt-closeups.mp4`.
 Superseded renders: `../dist/quickwash-race-alt-laura.mp4` (v2, Laura, no b4 line) and `../dist/quickwash-race-alt-liam.mp4`
 (v1, Liam, before the shot changes and the WashClub beat).
@@ -66,7 +66,17 @@ frames from their cues. Two exceptions:
 Scribe on Liam's v1 render put every cue word 0-2 frames after its visual; the placement is unchanged, and b4/b5 are shifted
 whole. Mix: -13.8 LUFS, true peak -1.6 dBFS (limiter now 4x oversampled).
 
-### Pickup lines (ElevenLabs credits were 0)
+### v5: the WashClub line is in
+- Take: b3b_t2, chosen from 3 takes. It has the widest pitch spread (18.9 st, against 16.8 and 17.4 for the other two) and the
+  tightest read; Liam's neighbouring lines run 14-15 st.
+- Placement: `B3B=b3b_t2 python3 -I tools/cues_v3.py`. The line starts 0.2 s into the WashClub beat, and the pause before
+  "sixty-nine" is shortened in the silence from 0.48 to 0.35 s.
+- Picture cue: "$69" lands on its "Sixty" at f652; the badge and the $4.99 line follow 4-6 frames later.
+- Beat length: 3.0 s, up from 2.6 s, the least that keeps "$69" and the badge up 1.3 s. The line ends 0.67 s before "Booking it?".
+- Scribe on the render hears "And if you join Wash Club, 69."; "69" starts at f653.
+- Mix: -14.0 LUFS, true peak -1.5 dBTP.
+
+### Pickup lines (as documented while credits were 0)
 Reserved: b3b "And if you join WashClub? Sixty-nine." (Liam), first word 0.2 s into the WashClub beat; its "Sixty" becomes
 the $69 cue. When credits return:
 

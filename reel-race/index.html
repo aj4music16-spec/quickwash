@@ -20,7 +20,7 @@
   <body>
     <!-- "The race": everything in a $99 QuickWash, faster than it takes to book it. 1080x1920, 30 fps, 24.5 s (735 frames).
          Every cut and reveal sits on a VO word onset (tools/cues.json, frame-snapped). -->
-    <div id="root" data-composition-id="main" data-start="0" data-duration="27.5666" data-width="1080" data-height="1920">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="27.9666" data-width="1080" data-height="1920">
       <div id="stage" data-layout-ignore></div>
 
       <!-- 1. HOOK: foam sheeting down the side; "Ready? Go." starts the timer -->
@@ -39,17 +39,17 @@
       <div id="timer" data-composition-id="timer" data-composition-src="compositions/timer.html" data-start="0" data-duration="20.0687"
         data-track-index="3" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 7"></div>
       <!-- 3b. WASHCLUB: "$99" struck -> "$69 with WashClub" + the client's WashClub badge (5% corrected); VO slot b3b reserved -->
-      <div id="washclub" data-composition-id="washclub" data-composition-src="compositions/washclub.html" data-start="20.0666" data-duration="2.602"
+      <div id="washclub" data-composition-id="washclub" data-composition-src="compositions/washclub.html" data-start="20.0666" data-duration="3.002"
         data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 8"></div>
       <!-- 4. BOOK (scene times: tools/apply_cues.py) -->
-      <div id="book" data-composition-id="book" data-composition-src="compositions/book.html" data-start="22.6666" data-duration="1.902"
+      <div id="book" data-composition-id="book" data-composition-src="compositions/book.html" data-start="23.0666" data-duration="1.902"
         data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 9"></div>
       <!-- 5. END (3.0 s) -->
-      <div id="end" data-composition-id="end" data-composition-src="compositions/end.html" data-start="24.5666" data-duration="3"
+      <div id="end" data-composition-id="end" data-composition-src="compositions/end.html" data-start="24.9666" data-duration="3"
         data-track-index="1" data-track-kind="graphics" data-width="1080" data-height="1920" style="z-index: 10"></div>
 
       <!-- premix: ElevenLabs bed + eleven_v3 VO (Liam) + ticks/ding/UI sounds, ducked, -14 LUFS (tools/mix.py, tools/cues.json) -->
-      <audio id="mix" class="clip" data-start="0" data-duration="27.5666" data-track-index="4" data-volume="1" src="assets/audio/mix.m4a"></audio>
+      <audio id="mix" class="clip" data-start="0" data-duration="27.9666" data-track-index="4" data-volume="1" src="assets/audio/mix.m4a"></audio>
     </div>
     <script>
       window.__timelines = window.__timelines || {};
