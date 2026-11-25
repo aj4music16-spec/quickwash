@@ -1,0 +1,24 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; }
+    #end-clip { position: absolute; inset: 0; }
+    /* the client's lead-form card (Davenport design, pill repainted ORLANDO, FLORIDA by tools/endcard_pill.py); wipes up, then holds */
+    #end-wipe { position: absolute; inset: 0; clip-path: inset(100% 0 0 0); background: #000099; }
+    #end-img { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; display: block; }
+  </style>
+  <div id="root" data-composition-id="end" data-width="1080" data-height="1920">
+    <div id="end-clip" class="clip" data-start="0" data-duration="3.002" data-layout-allow-overflow data-layout-ignore>
+      <div id="end-wipe"><img id="end-img" src="assets/app/endcard-orlando.jpg" alt="QuickWash, Orlando, Florida. Clean car. Zero hassle. We come to you. $99 QuickWash, standard-size vehicle. Get My $99 QuickWash. Fill out the form below to get started." /></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      // starts on "Drop" (film 12.667): wipe up in 12 frames (as reel-glendale), then still
+      const F = (f) => f / 30;
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#end-wipe", { clipPath: "inset(100% 0% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: F(12), ease: "power3.inOut" }, 0);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["end"] = tl;
+    })();
+  </script>
+</template>
