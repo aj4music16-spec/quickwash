@@ -1,0 +1,43 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #000; }
+    .shot { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+    /* legibility without a slab: gentle gradient scrims (divs over the footage) + a soft text shadow */
+    .tscrim { position: absolute; left: 0; top: 0; width: 1080px; height: 960px; z-index: 2;
+      background: linear-gradient(180deg, rgba(0, 0, 20, 0.55) 0%, rgba(0, 0, 20, 0.38) 55%, rgba(0, 0, 20, 0) 100%); }
+    .bscrim { position: absolute; left: 0; top: 780px; width: 1080px; height: 1140px; z-index: 2;
+      background: linear-gradient(180deg, rgba(0, 0, 20, 0) 0%, rgba(0, 0, 20, 0.45) 30%, rgba(0, 0, 20, 0.55) 60%, rgba(0, 0, 20, 0.5) 100%); }
+    .txt { position: absolute; z-index: 3; font-family: Poppins, sans-serif; color: #ffffff;
+      text-shadow: 0 3px 18px rgba(0, 0, 10, 0.55), 0 1px 2px rgba(0, 0, 10, 0.5); }
+    .txt span { display: block; white-space: nowrap; }
+  </style>
+  <div id="root" data-composition-id="service" data-width="1080" data-height="1920">
+    <!-- s03: detailer foam-cannons the hood and windshield (IMG_6394) -->
+    <video id="s03" class="clip shot" src="assets/footage/s03-foam-hood.mp4" data-start="0" data-duration="1.6353" data-media-start="0" data-track-index="0" playsinline data-has-audio="true" data-volume="0.12"></video>
+    <!-- s04: hand wash: mitt along the foamed door and roof (IMG_6405) -->
+    <video id="s04" class="clip shot" src="assets/footage/s04-mitt-door.mp4" data-start="1.6333" data-duration="1.6353" data-media-start="0" data-track-index="0" muted playsinline></video>
+    <!-- s05: hand wash: green mitt on the lower door, wash buckets (IMG_0012_1_22) -->
+    <video id="s05" class="clip shot" src="assets/footage/s05-mitt-rocker.mp4" data-start="3.2666" data-duration="1.6353" data-media-start="0" data-track-index="0" muted playsinline></video>
+    <!-- s06: detailer (QuickWash hoodie) working inside through the open driver door (IMG_2032) -->
+    <video id="s06" class="clip shot" src="assets/footage/s06-inside-door.mp4" data-start="4.9" data-duration="2.7353" data-media-start="0" data-track-index="0" muted playsinline></video>
+    <!-- s07: mitt on the door and side window (IMG_6408; bucket print blurred) -->
+    <video id="s07" class="clip shot" src="assets/footage/s07-mitt-window.mp4" data-start="7.6333" data-duration="1.6353" data-media-start="0" data-track-index="0" muted playsinline></video>
+    <!-- s08: brush scrubbing the foamed wheel and tyre (IMG_6382) -->
+    <video id="s08" class="clip shot" src="assets/footage/s08-wheel-brush.mp4" data-start="9.2666" data-duration="1.6353" data-media-start="0" data-track-index="0" muted playsinline></video>
+    <!-- s09: rear door opened, detailer rinses and works the door jamb (IMG_6402) -->
+    <video id="s09" class="clip shot" src="assets/footage/s09-door-jamb.mp4" data-start="10.9" data-duration="1.6353" data-media-start="0" data-track-index="0" playsinline data-has-audio="true" data-volume="0.1"></video>
+    <!-- s10: gloved hand wiping the centre console (IMG_2034) -->
+    <video id="s10" class="clip shot" src="assets/footage/s10-console-wipe.mp4" data-start="12.5333" data-duration="1.6353" data-media-start="0" data-track-index="0" muted playsinline></video>
+    <!-- s11: spray wax misted along the side (IMG_6392) -->
+    <video id="s11" class="clip shot" src="assets/footage/s11-spray-wax.mp4" data-start="14.1666" data-duration="2.202" data-media-start="0" data-track-index="0" muted playsinline></video>
+    <div id="sv-scrim" class="bscrim" data-layout-ignore></div>
+  </div>
+  <script>
+    (function () {
+      const F = (f) => f / 30;
+      const tl = gsap.timeline({ paused: true });
+      window.__timelines = window.__timelines || {};
+      window.__timelines["service"] = tl;
+    })();
+  </script>
+</template>

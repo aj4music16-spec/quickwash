@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 # ElevenLabs audio for reel-orlando (the proxy injects the API key: no auth header; one request at a time; mp3_44100_128;
-# on HTTP 429 wait 20 s and retry). Credit budget: <= 2 takes per beat (3 for b3), one music generation (+1 retry).
-# Usage: tools/gen-audio.sh vo <beat 1-5> <take>   -> assets/audio/vo/b<beat>_t<take>.mp3 (+ .json alignment, .cost)
+# on HTTP 429 wait 20 s and retry). Credit budget: <= 2 takes per line (3 for the list), one music generation (+1 retry).
+# Usage: tools/gen-audio.sh vo <line 1-4> <take>   -> assets/audio/vo/<open|list|price|cta>_t<take>.mp3
+#   line 1 = b1 open, 2 = b2-b7 the service list as one take, 3 = b8 price, 4 = b9 CTA (+ .json alignment, .cost)
 #        tools/gen-audio.sh music <n>               -> assets/audio/music/bed<n>.mp3
 #        tools/gen-audio.sh stt <path-without-ext>  -> <path>.words.json (Scribe word timings)
 set -uo pipefail
 cd "$(dirname "$0")/.."
 A=assets/audio; API=https://api.elevenlabs.io/v1; VID=TX3LPaxmHKxFdv7VOQHJ   # Liam
 LINES=(
-  "[curious] Orlando, still burning your Saturday in a car wash line?"
-  "[cheerful] QuickWash comes to your driveway instead. You don't even have to come outside."
-  "Foam and a hand wash, vacuum, glass, tires, interior wipe-down, spray wax."
-  "[excited] All of it. Ninety-nine bucks."
-  "Spots in Orlando are filling up this week. Drop your info below and grab yours."
+  "[cheerful] Orlando, this is the ninety-nine dollar QuickWash. And yeah, we come to you."
+  "Foam and a full hand wash. Vacuum: seats, floors, trunk. Glass, inside and out. Tire shine and door jambs. Interior wiped down. And a ceramic spray wax to finish."
+  "[excited] All of it, in your driveway. Ninety-nine bucks."
+  "Orlando spots are filling up this week. Drop your info below and grab yours."
 )
 post() { # out-file url body [content-type]  -> echoes the HTTP code; retries on 429
   local code
@@ -25,7 +25,7 @@ post() { # out-file url body [content-type]  -> echoes the HTTP code; retries on
 }
 case "$1" in
   vo)
-    f=$A/vo/b$2_t$3; [ -s "$f.mp3" ] && { echo "exists $f"; exit 0; }
+    N=(x open list price cta); f=$A/vo/${N[$2]}_t$3; [ -s "$f.mp3" ] && { echo "exists $f"; exit 0; }
     body=$(python3 -I -c 'import json,sys; print(json.dumps({"text": sys.argv[1], "model_id": "eleven_v3", "voice_settings": {"stability": 0.5}}))' "${LINES[$(($2-1))]}")
     code=$(post "$f.resp" "$API/text-to-speech/$VID/with-timestamps?output_format=mp3_44100_128" "$body")
     if [ "$code" != 200 ]; then echo "ERR $code $f: $(head -c 300 "$f.resp")"; rm -f "$f.resp"; exit 1; fi

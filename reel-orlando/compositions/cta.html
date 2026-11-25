@@ -1,0 +1,30 @@
+<template>
+  <style>
+    #root { position: absolute; inset: 0; overflow: hidden; background: #000; }
+    .shot { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; object-fit: cover; z-index: 1; }
+    /* legibility without a slab: gentle gradient scrims (divs over the footage) + a soft text shadow */
+    .tscrim { position: absolute; left: 0; top: 0; width: 1080px; height: 960px; z-index: 2;
+      background: linear-gradient(180deg, rgba(0, 0, 20, 0.55) 0%, rgba(0, 0, 20, 0.38) 55%, rgba(0, 0, 20, 0) 100%); }
+    .bscrim { position: absolute; left: 0; top: 780px; width: 1080px; height: 1140px; z-index: 2;
+      background: linear-gradient(180deg, rgba(0, 0, 20, 0) 0%, rgba(0, 0, 20, 0.45) 30%, rgba(0, 0, 20, 0.55) 60%, rgba(0, 0, 20, 0.5) 100%); }
+    .txt { position: absolute; z-index: 3; font-family: Poppins, sans-serif; color: #ffffff;
+      text-shadow: 0 3px 18px rgba(0, 0, 10, 0.55), 0 1px 2px rgba(0, 0, 10, 0.5); }
+    .txt span { display: block; white-space: nowrap; }
+    #ct-h { left: 72px; top: 300px; width: 860px; font-weight: 700; font-size: 84px; line-height: 1.1; letter-spacing: -0.015em; }
+  </style>
+  <div id="root" data-composition-id="cta" data-width="1080" data-height="1920">
+    <!-- s14: detailer rinsing the roof, wide (IMG_6400) -->
+    <video id="s14" class="clip shot" src="assets/footage/s14-rinse-roof.mp4" data-start="0" data-duration="2.5687" data-media-start="0" data-track-index="0" playsinline data-has-audio="true" data-volume="0.12"></video>
+    <div id="ct-scrim" class="tscrim" data-layout-ignore></div>
+    <div id="ct-h" class="clip txt" data-start="0" data-duration="2.1687" data-track-index="1"><span>Orlando spots are</span><span>filling up this week.</span></div>
+  </div>
+  <script>
+    (function () {
+      const F = (f) => f / 30;
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#ct-h", { y: 24 }, { y: 0, duration: F(5), ease: "power4.out" }, 0);
+      window.__timelines = window.__timelines || {};
+      window.__timelines["cta"] = tl;
+    })();
+  </script>
+</template>

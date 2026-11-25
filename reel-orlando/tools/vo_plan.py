@@ -1,20 +1,39 @@
-"""Place the Orlando voiceover on the film timeline from Scribe word onsets and write tools/cues.json (the picture's cue
-sheet).  Usage: python3 -I tools/vo_plan.py
-Each beat's take plays as spoken, except that pauses between phrases longer than the cap are shortened inside the silence
-(never a time-stretch). Phrase-first onsets are refined to the acoustic onset (10 ms envelope crossing -40 dB) but never
-earlier than 1 frame before Scribe's word start (as reel-race/tools/vo_plan.py). Cues are floored to the frame grid."""
+"""Cue sheet for "The $99 QuickWash, Orlando": place Liam's takes on the music's beat grid and write tools/cues.json.
+Usage: python3 -I tools/vo_plan.py
+
+The bed (assets/audio/music/bed1_ext.wav) is 110 BPM with beat 0 at 0.130 s (measured from its onset envelope). Every
+picture cut sits on a beat (snapped to the 30 fps frame grid). Each section's line is placed so that its first word's onset
+lands on the section's first cut; inside a line the pauses are kept or shortened inside the silence (never time-stretched).
+Word onsets: ElevenLabs Scribe (<take>.words.json); a phrase-first word's onset is refined to the acoustic onset (10 ms
+envelope crossing -40 dB), but never earlier than 1 frame before Scribe's start (as reel-race/tools/vo_plan.py)."""
 import json, math, os, re, subprocess
 import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__)); D = os.path.join(HERE, "..", "assets", "audio", "vo")
-TAKES = ["b1_t1", "b2_t2", "b3_t1", "b4_t1", "b5_t1"]
-# phrases (first word, last word) as Scribe word indices; CAP = longest pause kept before each phrase
-PHRASES = [[(0, 0), (1, 9)],                                   # Orlando. / Still burning ... line?
-           [(0, 6), (7, 13)],                                  # QuickWash ... instead. / You don't even have to come outside.
-           [(0, 4), (5, 5), (6, 6), (7, 7), (8, 10), (11, 12)],  # Foam and a hand wash / vacuum / glass / tires / interior wipe-down / spray wax
-           [(0, 2), (3, 4)],                                   # All of it. / Ninety-nine bucks.
-           [(0, 7), (8, 14)]]                                  # Spots ... week. / Drop your info below and grab yours.
-CAP = [[0, 0.3], [0, 0.3], [0, 0.55, 0.5, 0.5, 0.5, 0.5], [0, 0.35], [0, 0.34]]
-GAP = [0.2, 0.35, 0.4, 0.35, 0.45]   # b1: first word at 0.2 s; then the pause before each beat's first word
+BPM, PHASE = 110.0, 0.130
+beat = lambda k: PHASE + k * 60 / BPM
+snap = lambda t: round(t * 30) / 30
+# shots: (id, first beat); the next shot starts where this one ends. END = beat of the end-card wipe.
+SHOTS = [("s01", 0), ("s02", 5), ("s03", 8), ("s04", 11), ("s05", 14), ("s06", 17), ("s07", 22), ("s08", 25), ("s09", 28),
+         ("s10", 31), ("s11", 34), ("s12", 38), ("s13", 41), ("s14", 44), ("end", 48)]
+END_HOLD = 4.0
+# phrases: (take, first word idx, last word idx, anchor) where anchor = beat number (first word's onset lands there) or
+# ("cap", s) = follow the previous phrase with its natural pause, shortened to at most s.
+PHRASES = [
+    ("open_t2", 0, 7, 0),             # Orlando, this is the ninety-nine dollar QuickWash.   (s01)
+    ("open_t2", 8, 13, 5),            # And yeah, we come to you.                           (s02 cut on "And")
+    ("list_t2", 0, 5, 8),             # Foam and a full hand wash.                          (foam section)
+    ("list_t2", 6, 6, 17),            # Vacuum:                                             (vacuum section)
+    ("list_t2", 7, 9, ("cap", 0.30)),  # seats, floors, trunk.
+    ("list_t2", 10, 10, 22),          # Glass,                                              (glass section)
+    ("list_t2", 11, 13, ("cap", 0.12)),  # inside and out.
+    ("list_t2", 14, 18, 25),          # Tire shine and door jambs.                          (tires section)
+    ("list_t2", 19, 21, 31),          # Interior wiped down.                                (interior section)
+    ("list_t2", 22, 28, 34),          # And a ceramic spray wax to finish.                  (wax section)
+    ("price_t1", 0, 5, 38, -1 / 30),  # All of it, in your driveway,  (result; 1 frame early: Scribe on the v1 render heard "All" 2.2 f after the cut)
+    ("price_t1", 6, 7, 41),           # ninety-nine bucks.                                  (price shot, "$99")
+    ("cta_t1", 0, 6, 44),             # Orlando spots are filling up this week.             (CTA)
+    ("cta_t1", 7, 13, 48),            # Drop your info below and grab yours.                (end card)
+]
 
 def envelope(take):
     raw = subprocess.run(["ffmpeg", "-v", "error", "-i", os.path.join(D, f"{take}.mp3"), "-ac", "1", "-ar", "16000", "-f", "f32le", "-"],
@@ -22,47 +41,50 @@ def envelope(take):
     x = np.frombuffer(raw, np.float32); h = 160
     return np.array([20 * np.log10(np.sqrt((x[i:i + h] ** 2).mean()) + 1e-9) for i in range(0, len(x) - h, h)])
 
-def words(take, firsts=()):
+def words(take):
     d = json.load(open(os.path.join(D, f"{take}.words.json")))
-    ws = [[re.sub(r"[^\w']", "", w["text"]), w["start"], w["end"]] for w in d["words"] if w.get("type") == "word"]
-    e = envelope(take)
-    for i in firsts:
-        k = int(ws[i][1] * 100); j = k
-        while j > 0 and e[j - 1] > -40 and k - j < 30: j -= 1
-        while e[j] <= -40 and j - k < 20: j += 1
-        ws[i][1] = j / 100
-    return [tuple(w) for w in ws]
+    return [[re.sub(r"[^\w']", "", w["text"]), w["start"], w["end"]] for w in d["words"] if w.get("type") == "word"]
 
-segs = []; T = {}; wordt = []; t_end = 0
-for b, take in enumerate(TAKES):
-    ws = words(take, [a for a, z in PHRASES[b]]); raw = words(take)
-    t = GAP[b] if b == 0 else t_end + GAP[b]
-    for k, (a, z) in enumerate(PHRASES[b]):
-        if k: t = t_last + min(ws[a][1] - ws[PHRASES[b][k - 1][1]][2], CAP[b][k])
-        off = t - ws[a][1]
-        gi = ws[a][1] - ws[PHRASES[b][k - 1][1]][2] if k else 0.2
-        go = ws[PHRASES[b][k + 1][0]][1] - ws[z][2] if k + 1 < len(PHRASES[b]) else 0.3
-        sf, st = max(0, ws[a][1] - min(0.04, gi / 2)), ws[z][2] + min(0.12, go / 2)
-        segs.append({"beat": b + 1, "file": take, "src_from": round(sf, 3), "src_to": round(st, 3), "at": round(sf + off, 3)})
-        for i, w in enumerate(ws[a:z + 1]):
-            t0 = w[1] + off
-            if i == 0: t0 = max(t0, raw[a][1] + off - 1 / 30)
-            else: t0 = raw[a + i][1] + off
-            wordt.append((b + 1, w[0], round(t0, 3), round(w[2] + off, 3)))
-        t_last = ws[z][2] + off
-    t_end = t_last; T[f"b{b+1}_end"] = round(t_end, 3)
+def acoustic_onset(take, t):
+    e = envelope(take); k = int(t * 100); j = k
+    while j > 0 and e[j - 1] > -40 and k - j < 30: j -= 1
+    while e[j] <= -40 and j - k < 20: j += 1
+    return max(j / 100, t - 1 / 30)
 
-fl = lambda t: round(math.floor(t * 30 + 1e-6) / 30, 4)
-def at(word, beat):
-    return fl(next(w[2] for w in wordt if w[0] == beat and w[1].lower() == word.lower()))
-cues = {"Orlando": at("Orlando", 1), "Quick": at("Quick", 2), "instead": at("instead", 2), "dont": at("don't", 2),
-        "Foam": at("Foam", 3), "vacuum": at("vacuum", 3), "glass": at("glass", 3), "tires": at("tires", 3),
-        "interior": at("interior", 3), "spray": at("spray", 3), "All": at("All", 4), "Ninety": at("99", 4),
-        "Spots": at("Spots", 5), "Drop": at("Drop", 5)}
-film_end = round(math.ceil((cues["Drop"] + 4.1) * 30 - 1e-6) / 30, 4)
-out = {"cues": cues, "film_end": film_end, "speech_end": T, "segments": segs, "words": wordt}
+segs, wordt, prev = [], [], None
+for n, (take, a, z, anchor, *nudge) in enumerate(PHRASES):
+    ws = words(take); on = acoustic_onset(take, ws[a][1])
+    if isinstance(anchor, tuple):
+        gap = ws[a][1] - prev[1][prev[3]][2]
+        t = prev[2] + min(gap, anchor[1])
+    else:
+        t = snap(beat(anchor)) + (nudge[0] if nudge else 0)
+    off = t - on                                              # film time = source time + off
+    before = ws[a - 1][2] if a > 0 else 0.0
+    after = ws[z + 1][1] if z + 1 < len(ws) else ws[z][2] + 0.4
+    sf = max(before + 0.5 * (on - before), on - 0.06) if a > 0 else max(0.0, on - 0.06)
+    st = min(ws[z][2] + 0.12, ws[z][2] + 0.5 * (after - ws[z][2]))
+    segs.append({"phrase": n, "file": take, "src_from": round(sf, 3), "src_to": round(st, 3), "at": round(sf + off, 3)})
+    for i in range(a, z + 1):
+        wordt.append((n, take, ws[i][0], round((on if i == a else ws[i][1]) + off, 3), round(ws[i][2] + off, 3)))
+    prev = (take, ws, ws[z][2] + off, z)
+    if n and isinstance(anchor, tuple) and segs[-2]["at"] + segs[-2]["src_to"] - segs[-2]["src_from"] > segs[-1]["at"]:
+        segs[-2]["src_to"] = round(segs[-2]["src_from"] + segs[-1]["at"] - segs[-2]["at"], 3)   # butt-join inside the pause
+    if n and segs[-2]["at"] + segs[-2]["src_to"] - segs[-2]["src_from"] > segs[-1]["at"] + 0.02:
+        raise SystemExit(f"phrase {n} overlaps the previous one: {segs[-2]} {segs[-1]}")
+
+cuts = {sid: snap(beat(k)) for sid, k in SHOTS}
+film_end = round(cuts["end"] + END_HOLD, 4)
+def cue(word, take, nth=1):
+    hits = [w for w in wordt if w[1] == take and w[2].lower() == word.lower()]
+    return hits[nth - 1][3]
+cues = {"Orlando": cue("Orlando", "open_t2"), "And": cue("And", "open_t2"), "we": cue("we", "open_t2"),
+        "Foam": cue("Foam", "list_t2"), "Vacuum": cue("Vacuum", "list_t2"), "Glass": cue("Glass", "list_t2"),
+        "Tire": cue("Tire", "list_t2"), "Interior": cue("Interior", "list_t2"), "And_wax": next(w[3] for w in wordt if w[0] == 9),
+        "All": cue("All", "price_t1"), "Ninety": cue("99", "price_t1"), "Orlando_cta": cue("Orlando", "cta_t1"),
+        "Drop": cue("Drop", "cta_t1")}
+out = {"bpm": BPM, "phase": PHASE, "cuts": cuts, "cues": cues, "film_end": film_end, "segments": segs, "words": wordt}
 json.dump(out, open(os.path.join(HERE, "cues.json"), "w"), indent=1)
-for k, v in cues.items(): print(f"{k:9s} {v:6.3f}  f{round(v * 30)}")
-print("end", film_end, f"f{round(film_end * 30)}", "speech ends", T)
-c = [cues[k] for k in ("Quick", "instead", "Foam", "vacuum", "tires", "spray", "Spots", "Drop")] + [film_end]
-print("shot lengths", [round(b - a, 2) for a, b in zip(c, c[1:])])
+for k, v in cuts.items(): print(f"cut {k:4s} {v:7.3f} f{round(v * 30)}")
+for k, v in cues.items(): print(f"cue {k:11s} {v:7.3f} f{v * 30:6.1f}")
+print("film end", film_end, f"f{round(film_end * 30)}; speech ends", round(max(w[4] for w in wordt), 3))
